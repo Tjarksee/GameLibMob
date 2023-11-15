@@ -43,11 +43,14 @@ class _SignInScreenState extends State<SignInScreen> {
                     height: 20,
                   ),
                   const SizedBox(
-                    height: 20,
+                    height: 5,
                   ),
                   Text(
                     showError ? errorMessage : '',
                     style: TextStyle(color: Colors.red),
+                  ),
+                  const SizedBox(
+                    height: 10,
                   ),
                   firebaseUIButton(context, "Login", () async {
                     try {
