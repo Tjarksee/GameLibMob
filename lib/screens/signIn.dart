@@ -42,15 +42,6 @@ class _SignInScreenState extends State<SignInScreen> {
                   const SizedBox(
                     height: 20,
                   ),
-                  TextFormField(
-                    autocorrect: false,
-                    validator: (value) {
-                      if (value!.isEmpty) {
-                        return errorMessage;
-                      }
-                      return null;
-                    },
-                  ),
                   const SizedBox(
                     height: 20,
                   ),
