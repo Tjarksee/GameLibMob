@@ -7,9 +7,9 @@ import 'package:gamelib_mob/helpers/helpers.dart';
 import 'package:gamelib_mob/api/idgb_token.dart';
 
 class AddGameScreen extends StatefulWidget {
-  final MainList favList;
+  final MainList favouriteGameList;
 
-  const AddGameScreen({super.key, required this.favList});
+  const AddGameScreen({super.key, required this.favouriteGameList});
 
   @override
   State<AddGameScreen> createState() => _AddGameScreenState();
@@ -23,11 +23,11 @@ class _AddGameScreenState extends State<AddGameScreen> {
     token = fetchIGDBToken();
   }
 
-  late MainList favedList1 = widget.favList;
+  late MainList favouriteGameList = widget.favouriteGameList;
   @override
   Widget build(BuildContext context) {
     TextEditingController _searchInfo = TextEditingController();
-    Future<List<GameInfo>> gameList1;
+    Future<List<GameInfo>> searchResultList;
     return Scaffold(
         appBar: AppBar(
           title: const Text('Add a Game'),
@@ -35,10 +35,10 @@ class _AddGameScreenState extends State<AddGameScreen> {
         body: Container(
             decoration: const BoxDecoration(
                 gradient: LinearGradient(colors: [
-                  Color.fromARGB(249, 50, 48, 50),
-                  Color.fromARGB(249, 108, 106, 108),
-                  Color.fromARGB(249, 50, 48, 50)
-                ], begin: Alignment.bottomRight, end: Alignment.topLeft)),
+              Color.fromARGB(249, 50, 48, 50),
+              Color.fromARGB(249, 108, 106, 108),
+              Color.fromARGB(249, 50, 48, 50)
+            ], begin: Alignment.bottomRight, end: Alignment.topLeft)),
             child: FutureBuilder<IGDBToken>(
                 future: token,
                 builder: (context, snapshot) {
@@ -48,10 +48,10 @@ class _AddGameScreenState extends State<AddGameScreen> {
                             decoration: const BoxDecoration(
                                 gradient: LinearGradient(
                                     colors: [
-                                      Color.fromARGB(249, 50, 48, 50),
-                                      Color.fromARGB(249, 108, 106, 108),
-                                      Color.fromARGB(249, 50, 48, 50)
-                                    ],
+                                  Color.fromARGB(249, 50, 48, 50),
+                                  Color.fromARGB(249, 108, 106, 108),
+                                  Color.fromARGB(249, 50, 48, 50)
+                                ],
                                     begin: Alignment.bottomRight,
                                     end: Alignment.topLeft)),
                             child: Padding(
@@ -61,11 +61,11 @@ class _AddGameScreenState extends State<AddGameScreen> {
                                     20,
                                     0),
                                 child: Column(children: <Widget>[
-                                  reusableTextField("Search Gameß", Icons.games,
+                                  reusableTextField("Game Name", Icons.games,
                                       false, _searchInfo),
                                   firebaseUIButton(context, "search", () {
-                                    gameList1 = getGameInfo(
-                                        snapshot.data!.access_token,
+                                    searchResultList = getGameInfo(
+                                        snapshot.data!.accessToken,
                                         _searchInfo.text);
 
                                     Navigator.push(
@@ -73,8 +73,9 @@ class _AddGameScreenState extends State<AddGameScreen> {
                                         MaterialPageRoute(
                                             builder: (context) =>
                                                 AddGameListScreen(
-                                                    gameList: gameList1,
-                                                    favList: favedList1)));
+                                                    gameList: searchResultList,
+                                                    favouriteGameList:
+                                                        favouriteGameList)));
                                   })
                                 ]))));
                   } else if (snapshot.hasError) {

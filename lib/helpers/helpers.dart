@@ -1,6 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:gamelib_mob/screens/signIn.dart';
+import 'package:gamelib_mob/screens/sign_in.dart';
 
 TextField reusableTextField(String text, IconData icon, bool isPasswordType,
     TextEditingController controller) {
@@ -76,10 +76,10 @@ Widget profilePage(BuildContext context, String name, List<String> stats) {
       height: height,
       decoration: const BoxDecoration(
           gradient: LinearGradient(colors: [
-            Color.fromARGB(249, 50, 48, 50),
-            Color.fromARGB(249, 108, 106, 108),
-            Color.fromARGB(249, 50, 48, 50)
-          ], begin: Alignment.bottomRight, end: Alignment.topLeft)),
+        Color.fromARGB(249, 50, 48, 50),
+        Color.fromARGB(249, 108, 106, 108),
+        Color.fromARGB(249, 50, 48, 50)
+      ], begin: Alignment.bottomRight, end: Alignment.topLeft)),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
@@ -109,9 +109,9 @@ Widget profilePage(BuildContext context, String name, List<String> stats) {
                   decoration: BoxDecoration(
                       border: Border(
                           right: BorderSide(
-                            color: Colors.black,
-                            width: 3.0,
-                          ))),
+                    color: Colors.black,
+                    width: 3.0,
+                  ))),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -142,9 +142,9 @@ Widget profilePage(BuildContext context, String name, List<String> stats) {
                   decoration: BoxDecoration(
                       border: Border(
                           right: BorderSide(
-                            color: Colors.black,
-                            width: 3.0,
-                          ))),
+                    color: Colors.black,
+                    width: 3.0,
+                  ))),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
