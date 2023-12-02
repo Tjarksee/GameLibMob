@@ -17,10 +17,7 @@ import 'package:flutter/foundation.dart'
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-      throw UnsupportedError(
-        'DefaultFirebaseOptions have not been configured for web - '
-        'you can reconfigure this by running the FlutterFire CLI again.',
-      );
+      return web;
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
@@ -28,10 +25,7 @@ class DefaultFirebaseOptions {
       case TargetPlatform.iOS:
         return ios;
       case TargetPlatform.macOS:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for macos - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return macos;
       case TargetPlatform.windows:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for windows - '
@@ -49,6 +43,16 @@ class DefaultFirebaseOptions {
     }
   }
 
+  static const FirebaseOptions web = FirebaseOptions(
+    apiKey: 'AIzaSyBd3T-UaZh6gQ9gPgvFcj5Er5hZcDrYSRU',
+    appId: '1:469981828189:web:58f36b08aa568c508aa9b4',
+    messagingSenderId: '469981828189',
+    projectId: 'gamelistmob',
+    authDomain: 'gamelistmob.firebaseapp.com',
+    storageBucket: 'gamelistmob.appspot.com',
+    measurementId: 'G-CJ8EEF483G',
+  );
+
   static const FirebaseOptions android = FirebaseOptions(
     apiKey: 'AIzaSyAh75r1ICBjo50VMaiBm-2Wbr5LaDiXXBU',
     appId: '1:469981828189:android:d0fa2074a7dbcd678aa9b4',
@@ -64,5 +68,14 @@ class DefaultFirebaseOptions {
     projectId: 'gamelistmob',
     storageBucket: 'gamelistmob.appspot.com',
     iosBundleId: 'com.example.gamelibMob',
+  );
+
+  static const FirebaseOptions macos = FirebaseOptions(
+    apiKey: 'AIzaSyAo8sjauzFTQTUbiUMKQcws_cRAbCfKK38',
+    appId: '1:469981828189:ios:6d046a4e611f27518aa9b4',
+    messagingSenderId: '469981828189',
+    projectId: 'gamelistmob',
+    storageBucket: 'gamelistmob.appspot.com',
+    iosBundleId: 'com.example.gamelibMob.RunnerTests',
   );
 }

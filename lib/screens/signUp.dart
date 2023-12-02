@@ -67,7 +67,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 firebaseUIButton(context, "Sign Up", () async {
                   try {
                     await FirebaseAuth.instance
-                        .signInWithEmailAndPassword(
+                        .createUserWithEmailAndPassword(
                             email: _emailTextController.text,
                             password: _passwordTextController.text)
                         .then((value) {

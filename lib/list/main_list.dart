@@ -1,4 +1,5 @@
 import 'package:gamelib_mob/list/list_class.dart';
+import 'package:gamelib_mob/firebase_traffic.dart';
 
 class MainList {
   List<GameItem> favList = [];
@@ -17,12 +18,16 @@ class MainList {
     GameItem fav = favGameItem;
     favList.removeWhere(
             (element) => element.gameItemInfo.gameID == fav.gameItemInfo.gameID);
+    //Push to DB
+    pushFirebase();
   }
 
   void addFav(favGameItem) {
     GameItem fav = favGameItem;
 
     favList.add(fav);
+    //Push to DB
+    pushFirebase();
   }
 
   List<GameItem> getFavList() {

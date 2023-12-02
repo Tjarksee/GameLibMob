@@ -6,6 +6,7 @@ import 'package:gamelib_mob/screens/add_game.dart';
 import 'package:gamelib_mob/screens/game_page.dart';
 import 'package:gamelib_mob/screens/signIn.dart';
 import 'package:gamelib_mob/helpers/helpers.dart';
+import 'package:gamelib_mob/firebase_traffic.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -29,6 +30,12 @@ class _HomeScreenState extends State<HomeScreen> {
     mainLists = items.favList;
   }
 
+  void initState(){
+    super.initState();
+    //Load from DB
+    pullFirebase();
+  }
+
   void createListWidget() {
     widgetOptions = <Widget>[
       _buildMainList(),
@@ -37,6 +44,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _buildMainList() {
+
     update(favedList1);
     return ListView.builder(
       itemCount: mainLists.length,
