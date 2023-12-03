@@ -3,20 +3,20 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class IGDBToken {
-  final String access_token;
-  final int expires_in;
-  final String token_type;
+  final String accessToken;
+  final int expiresIn;
+  final String tokenType;
 
   IGDBToken({
-    required this.access_token,
-    required this.expires_in,
-    required this.token_type,
+    required this.accessToken,
+    required this.expiresIn,
+    required this.tokenType,
   });
   factory IGDBToken.fromJson(Map<String, dynamic> json) {
     return IGDBToken(
-      access_token: json['access_token'],
-      expires_in: json['expires_in'] as int,
-      token_type: json['token_type'],
+      accessToken: json['access_token'],
+      expiresIn: json['expires_in'] as int,
+      tokenType: json['token_type'],
     );
   }
 }
@@ -24,7 +24,6 @@ class IGDBToken {
 Future<IGDBToken> fetchIGDBToken() async {
   final response = await http.post(Uri.parse(
       'https://id.twitch.tv/oauth2/token?client_id=jatk8moav95uswe6bq3zmcy3fokdnw&client_secret=asnff9vhzacquorptuea7q91yabcio&grant_type=client_credentials'));
-  print(response.body);
 
   if (response.statusCode == 200) {
     // If the server did return a 200 OK response,

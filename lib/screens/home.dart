@@ -4,7 +4,7 @@ import 'package:gamelib_mob/list/list_class.dart';
 import 'package:gamelib_mob/list/main_list.dart';
 import 'package:gamelib_mob/screens/add_game.dart';
 import 'package:gamelib_mob/screens/game_page.dart';
-import 'package:gamelib_mob/screens/signIn.dart';
+import 'package:gamelib_mob/screens/sign_in.dart';
 import 'package:gamelib_mob/helpers/helpers.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -16,17 +16,17 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
-  MainList favedList1 = MainList();
+  MainList favouriteGameList = MainList();
   late List<Widget> widgetOptions;
   void changeIndex(int newIndex) {
     setState(() => _selectedIndex = newIndex);
   }
 
- List<GameItem> mainLists = [];
+  List<GameItem> mainLists = [];
 
-  update(favList) {
-    MainList items = favList;
-    mainLists = items.favList;
+  update(favouriteGameList) {
+    MainList items = favouriteGameList;
+    mainLists = items.favouriteGameList;
   }
 
   void createListWidget() {
@@ -37,7 +37,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _buildMainList() {
-    update(favedList1);
+    update(favouriteGameList);
     return ListView.builder(
       itemCount: mainLists.length,
       itemBuilder: (BuildContext content, int index) {
@@ -71,9 +71,9 @@ class _HomeScreenState extends State<HomeScreen> {
             theme: ThemeData.dark(),
             home: Scaffold(
                 appBar: AppBar(
-                  title: Text('title'),
+                  title: const Text('Your Game List'),
                   actions: [
-                    IconButton(
+                    const IconButton(
                         onPressed: (null),
                         icon: Icon(Icons.filter_alt_rounded)),
                     IconButton(
@@ -81,53 +81,52 @@ class _HomeScreenState extends State<HomeScreen> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) =>
-                                      AddGameScreen(favList: favedList1)))
-                              .then((_) {
+                                  builder: (context) => AddGameScreen(
+                                      favouriteGameList:
+                                          favouriteGameList))).then((_) {
                             setState(() {});
                           });
                         },
-                        icon: Icon(Icons.search)),
-                    IconButton(
+                        icon: const Icon(Icons.search)),
+                    const IconButton(
                         onPressed: (null),
                         icon: Icon(Icons.format_list_bulleted_sharp))
                   ],
                 ),
                 drawer: Drawer(
                     child: ListView(
-                      children: [
-                        const SizedBox(
-                          height: 64.0,
-                          child: DrawerHeader(
-                              margin: EdgeInsets.all(0.0),
-                              padding: EdgeInsets.all(0.0),
-                              decoration: BoxDecoration(
-                                  color: Color.fromARGB(255, 113, 113, 113)),
-                              child: Center(
-                                child: Text("menu", textAlign: TextAlign.center),
-                              )),
-                        ),
-                        ListTile(
-                          title: const Text(
-                            'Logout',
-                            textAlign: TextAlign.center,
-                          ),
-                          onTap: () {
-                            FirebaseAuth.instance.signOut().then((value) {
-                              print("Signed Out");
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => SignInScreen()));
-                            });
-                          },
-                        ),
-                        ListTile(
-                          title: const Text('Item 2', textAlign: TextAlign.center),
-                          onTap: () {},
-                        )
-                      ],
-                    )),
+                  children: [
+                    const SizedBox(
+                      height: 64.0,
+                      child: DrawerHeader(
+                          margin: EdgeInsets.all(0.0),
+                          padding: EdgeInsets.all(0.0),
+                          decoration: BoxDecoration(
+                              color: Color.fromARGB(255, 113, 113, 113)),
+                          child: Center(
+                            child: Text("menu", textAlign: TextAlign.center),
+                          )),
+                    ),
+                    ListTile(
+                      title: const Text(
+                        'Logout',
+                        textAlign: TextAlign.center,
+                      ),
+                      onTap: () {
+                        FirebaseAuth.instance.signOut().then((value) {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => SignInScreen()));
+                        });
+                      },
+                    ),
+                    ListTile(
+                      title: const Text('Item 2', textAlign: TextAlign.center),
+                      onTap: () {},
+                    )
+                  ],
+                )),
                 body: Center(
                   child: widgetOptions.elementAt(_selectedIndex),
                 ),

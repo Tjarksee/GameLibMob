@@ -4,21 +4,21 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:gamelib_mob/helpers/game_class.dart';
 
-Future<List<GameInfo>> getGameInfo(token1, search) async {
-  String token = token1;
+Future<List<GameInfo>> getGameInfo(apiToken, search) async {
+  String token = apiToken;
   String searchInfo = search;
   List<dynamic> ids;
   List<dynamic> gameNamesTemp;
   List<dynamic> gameCoverTemp;
-  List<GameInfo> gameNames = [];
+  List<GameInfo> gameInfo = [];
 
-  final response1 = await http.post(Uri.parse('https://api.igdb.com/v4/games'),
+  final responseIds = await http.post(Uri.parse('https://api.igdb.com/v4/games'),
       headers: {
         "Client-ID": "jatk8moav95uswe6bq3zmcy3fokdnw",
         "Authorization": "Bearer $token"
       },
       body: ('search "$searchInfo"; limit 10;'));
-  ids = jsonDecode(response1.body);
+  ids = jsonDecode(responseIds.body);
 
   if (ids.isEmpty) {
     throw Exception('No Games Found');
@@ -41,16 +41,14 @@ Future<List<GameInfo>> getGameInfo(token1, search) async {
       body: ('fields url; where game = ($id);'));
   gameCoverTemp = jsonDecode(responseCover.body);
 
-  final response = await http.post(Uri.parse('https://api.igdb.com/v4/games'),
+  final responseName = await http.post(Uri.parse('https://api.igdb.com/v4/games'),
       headers: {
         "Client-ID": "jatk8moav95uswe6bq3zmcy3fokdnw",
         "Authorization": "Bearer $token"
       },
       body: ('fields name; where id = ($id);'));
-  gameNames.clear();
-  gameNamesTemp = jsonDecode(response.body);
-  print(gameCoverTemp.length);
-  print(gameNamesTemp.length);
+  gameInfo.clear();
+  gameNamesTemp = jsonDecode(responseName.body);
   for (var i = 0; i < gameNamesTemp.length; i++) {
     GameInfo createdGame = GameInfo(
       gameID: '',
@@ -65,9 +63,8 @@ Future<List<GameInfo>> getGameInfo(token1, search) async {
 
     createdGame.name = mapNames['name'];
     createdGame.gameID = mapNames['id'].toString();
-    gameNames.add(createdGame);
-    print(gameNames.length);
+    gameInfo.add(createdGame);
   }
 
-  return gameNames;
+  return gameInfo;
 }
