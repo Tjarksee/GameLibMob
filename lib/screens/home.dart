@@ -5,7 +5,7 @@ import 'package:gamelib_mob/list/main_list.dart';
 import 'package:gamelib_mob/screens/add_game.dart';
 import 'package:gamelib_mob/screens/game_page.dart';
 import 'package:gamelib_mob/screens/sign_in.dart';
-import 'package:gamelib_mob/helpers/helpers.dart';
+import 'package:gamelib_mob/screens/profile_page.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
