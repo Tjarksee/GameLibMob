@@ -32,7 +32,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void createListWidget() {
     widgetOptions = <Widget>[
       _buildMainList(),
-      profilePage(context, "tefdsf", ['1', '2', '3']),
+      ProfileScreen(),
     ];
   }
 
@@ -73,9 +73,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 appBar: AppBar(
                   title: const Text('Your Game List'),
                   actions: [
-                    const IconButton(
-                        onPressed: (null),
-                        icon: Icon(Icons.filter_alt_rounded)),
                     IconButton(
                         onPressed: () {
                           Navigator.push(
@@ -88,9 +85,6 @@ class _HomeScreenState extends State<HomeScreen> {
                           });
                         },
                         icon: const Icon(Icons.search)),
-                    const IconButton(
-                        onPressed: (null),
-                        icon: Icon(Icons.format_list_bulleted_sharp))
                   ],
                 ),
                 drawer: Drawer(
