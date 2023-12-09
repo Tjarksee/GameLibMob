@@ -19,11 +19,12 @@ Future<List<GameInfo>> getGameInfo(apiToken, search) async {
             "Authorization": "Bearer $token"
           },
           body: ('search "$searchInfo"; limit 10;'));
+  // TODO sometimes throws an error, that it does not work on maps?
   ids = jsonDecode(responseIds.body);
 
   if (ids.isEmpty) {
-    //TODO
-    print("HAHA KEIN ABSTURZ MEHR. ICH REPARIERE DINGE");
+    return Future.error(
+        'Exception: No Games Found', StackTrace.fromString("This is a Test"));
   }
   String id = '';
   for (var i = 0; i < ids.length; i++) {
