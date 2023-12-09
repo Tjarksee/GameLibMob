@@ -32,7 +32,9 @@ class GameItem implements ListItem {
 
   @override
   Widget buildLeading(BuildContext context) {
-    return gameItemInfo.cover;
+    //TODO
+    //return gameItemInfo.cover;
+    return const SizedBox.shrink();
   }
 
   @override

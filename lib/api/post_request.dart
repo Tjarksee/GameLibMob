@@ -1,6 +1,5 @@
 import 'dart:collection';
 import 'dart:convert';
-import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:gamelib_mob/helpers/game_class.dart';
 
@@ -9,16 +8,17 @@ Future<List<GameInfo>> getGameInfo(apiToken, search) async {
   String searchInfo = search;
   List<dynamic> ids;
   List<dynamic> dynamicInfos;
-  List<GameInfo> gameInfo = [];
+  List<GameInfo> gameInfos = [];
 
-  final responseIds = await http.post(Uri.parse('https://api.igdb.com/v4/games'),
-      headers: {
-        // TODO
-        // SICHERHEITSLÜCKE git secrets benutzen
-        "Client-ID": "jatk8moav95uswe6bq3zmcy3fokdnw",
-        "Authorization": "Bearer $token"
-      },
-      body: ('search "$searchInfo"; limit 10;'));
+  final responseIds =
+      await http.post(Uri.parse('https://api.igdb.com/v4/games'),
+          headers: {
+            // TODO
+            // SICHERHEITSLÜCKE git secrets benutzen
+            "Client-ID": "jatk8moav95uswe6bq3zmcy3fokdnw",
+            "Authorization": "Bearer $token"
+          },
+          body: ('search "$searchInfo"; limit 10;'));
   ids = jsonDecode(responseIds.body);
 
   if (ids.isEmpty) {
@@ -34,26 +34,69 @@ Future<List<GameInfo>> getGameInfo(apiToken, search) async {
   }
   id = id.substring(0, id.length - 1);
 
-  final response = await http.post(
-      Uri.parse('https://api.igdb.com/v4/games'),
+  final response = await http.post(Uri.parse('https://api.igdb.com/v4/games'),
       headers: {
         "Client-ID": "jatk8moav95uswe6bq3zmcy3fokdnw",
         "Authorization": "Bearer $token"
       },
-      body: ('fields age_ratings,cover,first_release_date,genres,name,platforms,rating,rating_count,summary,url; where id = ($id);'));
-      dynamicInfos = jsonDecode(response.body);
+      body:
+          ('fields age_ratings,cover,first_release_date,genres,name,platforms,rating,rating_count,summary,url; where id = ($id);'));
+  dynamicInfos = jsonDecode(response.body);
 
+  gameInfos.clear();
+  for (final game in dynamicInfos) {
+    // convert all ids to strings and rest to appropriate type
+    // might need to look for null first and then convert
+    final gameId = game["id"].toString();
+    List<String> ageRatings = [];
+    // might cause crashes when there is no value
+    if (game["age_ratings"] != null) {
+      for (final rating in game["age_ratings"]) {
+        ageRatings.add(rating.toString());
+      }
+    }
+    final coverId = game["cover"].toString();
+    final releaseDate = game["first_release_date"].toString();
+    List<String> genres = [];
+    if (game["genres"] != null) {
+      for (final genre in game["genres"]) {
+        genres.add(genre.toString());
+      }
+    }
+    final name = game["name"];
+    List<String> platforms = [];
+    if (game["platforms"] != null) {
+      for (final platform in game["platforms"]) {
+        platforms.add(platform.toString());
+      }
+    }
 
-  gameInfo.clear();
-  for(final game in dynamicInfos){
-    final GameInfo gameInfo = GameInfo(gameID: game["id"], ageRating: game["age_ratings"], coverId: game["cover"], releaseDateId: game["first_release_date"],genresId: game["genres"] , name: game["name"]);
-    gameInfo.add(GameInfo(gameID: game["id"], name: game[""]))
-    final id = game["id"];
-
-
+    var rating = 0.0;
+    if (game["rating"] != null) {
+      rating = game["rating"];
+    }
+    var ratingCount = 0;
+    if (game["rating_count"] != null) {
+      ratingCount = game["rating_count"];
+    }
+    final summary = game["summary"];
+    final url = game["url"];
+    final GameInfo gameInfo = GameInfo(
+        gameID: gameId,
+        ageRatings: ageRatings,
+        coverId: coverId,
+        releaseDateId: releaseDate,
+        genresIds: genres,
+        name: name,
+        platformsIds: platforms,
+        rating: rating,
+        ratingCount: ratingCount,
+        summary: summary,
+        url: url);
+    gameInfos.add(gameInfo);
   }
 
-  return gameInfo;
+  return gameInfos;
 }
 
 

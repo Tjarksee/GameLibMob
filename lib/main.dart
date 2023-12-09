@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:gamelib_mob/screens/home.dart';
 import 'firebase_options.dart';
 import 'package:gamelib_mob/screens/sign_in.dart';
 
@@ -23,6 +24,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: const SignInScreen());
+        //home: const SignInScreen());
+        home: const HomeScreen());
   }
 }

@@ -1,35 +1,33 @@
 import 'package:flutter/material.dart';
 
-enum Status {
-  wantToPlayThisFucker,
-  stillPlaying,
-  completed
-}
+enum Status { wantToPlayThisFucker, stillPlaying, completed }
 
 class GameInfo {
   String gameID;
-  double ageRating;
+  List<String> ageRatings;
   String coverId;
-  String genresId;
+  List<String> genresIds;
   String name;
   int ourScore;
-  String platformId;
+  List<String> platformsIds;
   double rating;
-  String releaseDatesId;
+  int ratingCount;
+  String releaseDateId;
   Status status;
   String summary;
   String url;
 
   GameInfo(
       {required this.gameID,
-      this.ageRating = 0,
+      this.ageRatings = const [],
       this.coverId = "",
-      this.genresId = "",
+      this.genresIds = const [],
       required this.name,
       this.ourScore = -1,
-      this.platformId = "",
+      this.platformsIds = const [],
       this.rating = -1,
-      this.releaseDatesId = "",
+      this.ratingCount = -1,
+      this.releaseDateId = "",
       this.status = Status.wantToPlayThisFucker,
       this.summary = "",
       this.url = ""});
