@@ -41,7 +41,7 @@ Future<List<GameInfo>> getGameInfo(apiToken, search) async {
         "Authorization": "Bearer $token"
       },
       body:
-          ('fields age_ratings,cover,first_release_date,genres,name,platforms,rating,rating_count,summary,url; where id = ($id);'));
+          ('fields cover,first_release_date,genres,name,platforms,rating,rating_count,summary,url; where id = ($id);'));
   dynamicInfos = jsonDecode(response.body);
 
   gameInfos.clear();
@@ -49,13 +49,6 @@ Future<List<GameInfo>> getGameInfo(apiToken, search) async {
     // convert all ids to strings and rest to appropriate type
     // might need to look for null first and then convert
     final gameId = game["id"].toString();
-    List<String> ageRatings = [];
-    // might cause crashes when there is no value
-    if (game["age_ratings"] != null) {
-      for (final rating in game["age_ratings"]) {
-        ageRatings.add(rating.toString());
-      }
-    }
     final coverId = game["cover"].toString();
     final releaseDate = game["first_release_date"].toString();
     List<String> genres = [];
@@ -84,7 +77,6 @@ Future<List<GameInfo>> getGameInfo(apiToken, search) async {
     final url = game["url"];
     final GameInfo gameInfo = GameInfo(
         gameID: gameId,
-        ageRatings: ageRatings,
         coverId: coverId,
         releaseDateId: releaseDate,
         genresIds: genres,
