@@ -8,12 +8,13 @@ Future<List<GameInfo>> getGameInfo(apiToken, search) async {
   String token = apiToken;
   String searchInfo = search;
   List<dynamic> ids;
-  List<dynamic> gameNamesTemp;
-  List<dynamic> gameCoverTemp;
+  List<dynamic> dynamicInfos;
   List<GameInfo> gameInfo = [];
 
   final responseIds = await http.post(Uri.parse('https://api.igdb.com/v4/games'),
       headers: {
+        // TODO
+        // SICHERHEITSLÜCKE git secrets benutzen
         "Client-ID": "jatk8moav95uswe6bq3zmcy3fokdnw",
         "Authorization": "Bearer $token"
       },
@@ -21,7 +22,8 @@ Future<List<GameInfo>> getGameInfo(apiToken, search) async {
   ids = jsonDecode(responseIds.body);
 
   if (ids.isEmpty) {
-    throw Exception('No Games Found');
+    //TODO
+    print("HAHA KEIN ABSTURZ MEHR. ICH REPARIERE DINGE");
   }
   String id = '';
   for (var i = 0; i < ids.length; i++) {
@@ -32,39 +34,39 @@ Future<List<GameInfo>> getGameInfo(apiToken, search) async {
   }
   id = id.substring(0, id.length - 1);
 
-  final responseCover = await http.post(
-      Uri.parse('https://api.igdb.com/v4/covers'),
+  final response = await http.post(
+      Uri.parse('https://api.igdb.com/v4/games'),
       headers: {
         "Client-ID": "jatk8moav95uswe6bq3zmcy3fokdnw",
         "Authorization": "Bearer $token"
       },
-      body: ('fields url; where game = ($id);'));
-  gameCoverTemp = jsonDecode(responseCover.body);
+      body: ('fields age_ratings,cover,first_release_date,genres,name,platforms,rating,rating_count,summary,url; where id = ($id);'));
+      dynamicInfos = jsonDecode(response.body);
 
-  final responseName = await http.post(Uri.parse('https://api.igdb.com/v4/games'),
-      headers: {
-        "Client-ID": "jatk8moav95uswe6bq3zmcy3fokdnw",
-        "Authorization": "Bearer $token"
-      },
-      body: ('fields name; where id = ($id);'));
+
   gameInfo.clear();
-  gameNamesTemp = jsonDecode(responseName.body);
-  for (var i = 0; i < gameNamesTemp.length; i++) {
-    GameInfo createdGame = GameInfo(
-      gameID: '',
-      name: "",
-      cover: Image.asset('assets/images/test.jpg'),
-    );
-    var mapNames = HashMap.from(gameNamesTemp[i]);
-    if (i < gameCoverTemp.length) {
-      var mapCovers = HashMap.from(gameCoverTemp[i]);
-      createdGame.cover = Image.network('https:' + mapCovers['url']);
-    }
+  for(final game in dynamicInfos){
+    final GameInfo gameInfo = GameInfo(gameID: game["id"], ageRating: game["age_ratings"], coverId: game["cover"], releaseDateId: game["first_release_date"],genresId: game["genres"] , name: game["name"]);
+    gameInfo.add(GameInfo(gameID: game["id"], name: game[""]))
+    final id = game["id"];
 
-    createdGame.name = mapNames['name'];
-    createdGame.gameID = mapNames['id'].toString();
-    gameInfo.add(createdGame);
+
   }
 
   return gameInfo;
 }
+
+
+// Future<List<ShortInfo>> getShortInfo(apiToken, gameInfos) async {
+//   // für jedes gameInfo, die cover IDs raussuchen und in eine Liste speichern
+//   final responseCover = await http.post(
+//       Uri.parse('https://api.igdb.com/v4/covers'),
+//       headers: {
+//         "Client-ID": "jatk8moav95uswe6bq3zmcy3fokdnw",
+//         "Authorization": "Bearer $token"
+//       },
+//       body: ('fields url; where id = ($cover_id);'));
+//   gameCoverTemp = jsonDecode(responseCover.body);
+//   // für jedes gameInfo, den namen raussuchen und in die selbe liste an shortinfos speichern?
+//   // liste an shortinfos rausgeben
+// }
