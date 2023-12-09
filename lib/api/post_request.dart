@@ -1,5 +1,6 @@
 import 'dart:collection';
 import 'dart:convert';
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:gamelib_mob/helpers/game_class.dart';
 
@@ -41,7 +42,7 @@ Future<List<GameInfo>> getGameInfo(apiToken, search) async {
         "Authorization": "Bearer $token"
       },
       body:
-          ('fields cover,first_release_date,genres,name,platforms,rating,rating_count,summary,url; where id = ($id);'));
+          ('fields cover,first_release_date,genres,name,platforms,rating,rating_count,summary,storyline,url; where id = ($id);'));
   dynamicInfos = jsonDecode(response.body);
 
   gameInfos.clear();
@@ -49,7 +50,22 @@ Future<List<GameInfo>> getGameInfo(apiToken, search) async {
     // convert all ids to strings and rest to appropriate type
     // might need to look for null first and then convert
     final gameId = game["id"].toString();
-    final coverId = game["cover"].toString();
+    var cover;
+    if (game["cover"] != null) {
+      final coverId = game["cover"].toString();
+      final responseCover = await http.post(
+          Uri.parse('https://api.igdb.com/v4/covers'),
+          headers: {
+            "Client-ID": "jatk8moav95uswe6bq3zmcy3fokdnw",
+            "Authorization": "Bearer $token"
+          },
+          body: ('fields url; where id = ($coverId);'));
+      final decodedCover = jsonDecode(responseCover.body);
+      cover = Image.network('https:' + decodedCover[0]['url']);
+    } else {
+      cover = Image.asset('assets/images/test.png');
+    }
+
     final releaseDate = game["first_release_date"].toString();
     List<String> genres = [];
     if (game["genres"] != null) {
@@ -74,10 +90,14 @@ Future<List<GameInfo>> getGameInfo(apiToken, search) async {
       ratingCount = game["rating_count"];
     }
     final summary = game["summary"];
+    var storyline = "";
+    if (game["storyline"] != null) {
+      storyline = game["storyline"];
+    }
     final url = game["url"];
     final GameInfo gameInfo = GameInfo(
         gameID: gameId,
-        coverId: coverId,
+        cover: cover,
         releaseDateId: releaseDate,
         genresIds: genres,
         name: name,
@@ -85,6 +105,7 @@ Future<List<GameInfo>> getGameInfo(apiToken, search) async {
         rating: rating,
         ratingCount: ratingCount,
         summary: summary,
+        storyline: storyline,
         url: url);
     gameInfos.add(gameInfo);
   }

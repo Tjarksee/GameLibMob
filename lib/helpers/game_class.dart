@@ -4,7 +4,7 @@ enum Status { wantToPlayThisFucker, stillPlaying, completed }
 
 class GameInfo {
   String gameID;
-  String coverId;
+  Image cover;
   List<String> genresIds;
   String name;
   int ourScore;
@@ -13,12 +13,13 @@ class GameInfo {
   int ratingCount;
   String releaseDateId;
   Status status;
+  String storyline;
   String summary;
   String url;
 
   GameInfo(
       {required this.gameID,
-      this.coverId = "",
+      required this.cover,
       this.genresIds = const [],
       required this.name,
       this.ourScore = -1,
@@ -28,5 +29,6 @@ class GameInfo {
       this.releaseDateId = "",
       this.status = Status.wantToPlayThisFucker,
       this.summary = "",
+      this.storyline = "",
       this.url = ""});
 }
