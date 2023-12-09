@@ -1,30 +1,36 @@
 import 'package:flutter/material.dart';
 
+enum Status {
+  wantToPlayThisFucker,
+  stillPlaying,
+  completed
+}
+
 class GameInfo {
   String gameID;
+  double ageRating;
+  String coverId;
+  String genresId;
   String name;
-  Image cover;
-  String desrciption;
-  String platform;
+  int ourScore;
+  String platformId;
+  double rating;
+  String releaseDatesId;
+  Status status;
+  String summary;
+  String url;
 
   GameInfo(
       {required this.gameID,
-        required this.name,
-        required this.cover,
-        this.desrciption = "",
-        this.platform = "Unknown"});
+      this.ageRating = 0,
+      this.coverId = "",
+      this.genresId = "",
+      required this.name,
+      this.ourScore = -1,
+      this.platformId = "",
+      this.rating = -1,
+      this.releaseDatesId = "",
+      this.status = Status.wantToPlayThisFucker,
+      this.summary = "",
+      this.url = ""});
 }
-
-final testGame1 = GameInfo(
-    gameID: '42',
-    name: "testGame",
-    cover: Image.asset('assets/images/test.jpg'),
-    desrciption: "desciption of test game",
-    platform: "Pc");
-
-final testGame2 = GameInfo(
-    gameID: '42',
-    name: "testGame2",
-    cover: Image.asset('assets/images/test.jpg'),
-    desrciption: "desciption of test game2",
-    platform: "Pc2");
