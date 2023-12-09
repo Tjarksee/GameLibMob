@@ -12,7 +12,8 @@ Future<List<GameInfo>> getGameInfo(apiToken, search) async {
   List<dynamic> gameCoverTemp;
   List<GameInfo> gameInfo = [];
 
-  final responseIds = await http.post(Uri.parse('https://api.igdb.com/v4/games'),
+  final responseIds = await http.post(
+      Uri.parse('https://api.igdb.com/v4/games'),
       headers: {
         "Client-ID": "jatk8moav95uswe6bq3zmcy3fokdnw",
         "Authorization": "Bearer $token"
@@ -41,7 +42,8 @@ Future<List<GameInfo>> getGameInfo(apiToken, search) async {
       body: ('fields url; where game = ($id);'));
   gameCoverTemp = jsonDecode(responseCover.body);
 
-  final responseName = await http.post(Uri.parse('https://api.igdb.com/v4/games'),
+  final responseName = await http.post(
+      Uri.parse('https://api.igdb.com/v4/games'),
       headers: {
         "Client-ID": "jatk8moav95uswe6bq3zmcy3fokdnw",
         "Authorization": "Bearer $token"
@@ -53,7 +55,7 @@ Future<List<GameInfo>> getGameInfo(apiToken, search) async {
     GameInfo createdGame = GameInfo(
       gameID: '',
       name: "",
-      cover: Image.asset('assets/images/test.jpg'),
+      cover: Image.asset('assets/not_found.jpg'),
     );
     var mapNames = HashMap.from(gameNamesTemp[i]);
     if (i < gameCoverTemp.length) {
