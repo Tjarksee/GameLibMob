@@ -1,11 +1,13 @@
 import 'dart:collection';
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:gamelib_mob/api/igdb_token.dart';
 import 'package:http/http.dart' as http;
 import 'package:gamelib_mob/helpers/game_class.dart';
+import 'package:provider/provider.dart';
 
 Future<List<GameInfo>> getGameInfo(apiToken, search) async {
-  String token = apiToken;
+  String token = (await apiToken).accessToken;
   String searchInfo = search;
   List<dynamic> ids;
   List<dynamic> dynamicInfos;
