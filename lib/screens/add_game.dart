@@ -5,6 +5,7 @@ import 'package:gamelib_mob/screens/add_game_list.dart';
 import 'package:gamelib_mob/helpers/game_class.dart';
 import 'package:gamelib_mob/helpers/helpers.dart';
 import 'package:gamelib_mob/api/igdb_token.dart';
+import 'package:provider/provider.dart';
 
 class AddGameScreen extends StatefulWidget {
   final MainList favouriteGameList;
@@ -65,8 +66,8 @@ class _AddGameScreenState extends State<AddGameScreen> {
                                       false, _searchInfo),
                                   firebaseUIButton(context, "search", () {
                                     searchResultList = getGameInfo(
-                                        snapshot.data!.accessToken,
-                                        _searchInfo.text);
+                                        Provider.of<Future<IGDBToken>>(context, listen:false),
+                                        _searchInfo.text,);
 
                                     Navigator.push(
                                         context,
