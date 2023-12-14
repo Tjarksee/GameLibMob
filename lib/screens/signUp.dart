@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gamelib_mob/screens/home.dart';
+import 'package:gamelib_mob/firebase_traffic.dart';
 import '../helpers/helpers.dart';
 
 class SignUpScreen extends StatefulWidget {
@@ -66,6 +67,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 ),
                 firebaseUIButton(context, "Sign Up", () async {
                   try {
+                    pushUserNameToFirebase(_userNameTextController.text);
                     await FirebaseAuth.instance
                         .createUserWithEmailAndPassword(
                             email: _emailTextController.text,

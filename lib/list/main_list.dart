@@ -19,7 +19,7 @@ class MainList {
     favList.removeWhere(
             (element) => element.gameItemInfo.gameID == fav.gameItemInfo.gameID);
     //Push to DB
-    pushFirebase();
+    pushGameListToFirebase();
   }
 
   void addFav(favGameItem) {
@@ -27,7 +27,7 @@ class MainList {
 
     favList.add(fav);
     //Push to DB
-    pushFirebase();
+    pushGameListToFirebase();
   }
 
   List<GameItem> getFavList() {
