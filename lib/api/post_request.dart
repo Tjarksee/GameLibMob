@@ -126,10 +126,10 @@ Future<List<GameInfo>> getGameInfo(apiToken, search) async {
     final GameInfo gameInfo = GameInfo(
         gameID: gameId,
         cover: cover,
-        releaseDateId: releaseDate,
-        genresIds: genres,
+        releaseDate: releaseDate,
+        genres: genres,
         name: name,
-        platformsIds: platforms,
+        platforms: platforms,
         rating: rating,
         ratingCount: ratingCount,
         summary: summary,
