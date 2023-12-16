@@ -27,6 +27,11 @@ class _SearchGameScreenState extends State<SearchGameScreen> {
   late MainList favouriteGameList = widget.favouriteGameList;
   @override
   Widget build(BuildContext context) {
+    const List<Color> backgroundColors = [
+       Color.fromARGB(249, 50, 48, 50),
+       Color.fromARGB(249, 108, 106, 108),
+       Color.fromARGB(249, 50, 48, 50),
+    ];
     TextEditingController searchInfo = TextEditingController();
     Future<List<GameItem>> searchResultList;
     return Scaffold(
@@ -34,31 +39,28 @@ class _SearchGameScreenState extends State<SearchGameScreen> {
           title: const Text('Add a Game'),
         ),
         body: Container(
-                decoration: const BoxDecoration(
-                    gradient: LinearGradient(colors: [
-                  Color.fromARGB(249, 50, 48, 50),
-                  Color.fromARGB(249, 108, 106, 108),
-                  Color.fromARGB(249, 50, 48, 50)
-                ], begin: Alignment.bottomRight, end: Alignment.topLeft)),
-                padding: EdgeInsets.fromLTRB(
-                        20, MediaQuery.of(context).size.height * 0.025, 20, 0),
-                child: Column(children: <Widget>[
-                      reusableTextField(
-                          "Game Name", Icons.games, false, searchInfo),
-                      firebaseUIButton(context, "search", () {
-                        searchResultList = getGameItem(
-                          Provider.of<Future<IGDBToken>>(context,
-                              listen: false),
-                          searchInfo.text,
-                        );
+            decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                    colors: backgroundColors,
+                    begin: Alignment.bottomRight,
+                    end: Alignment.topLeft)),
+            padding: EdgeInsets.fromLTRB(
+                20, MediaQuery.of(context).size.height * 0.025, 20, 0),
+            child: Column(children: <Widget>[
+              reusableTextField("Game Name", Icons.games, false, searchInfo),
+              firebaseUIButton(context, "search", () {
+                searchResultList = getGameItem(
+                  Provider.of<Future<IGDBToken>>(context, listen: false),
+                  searchInfo.text,
+                );
 
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => SearchResultScreen(
-                                    gameList: searchResultList,
-                                    favouriteGameList: favouriteGameList)));
-                      })
-                    ])));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => SearchResultScreen(
+                            gameList: searchResultList,
+                            favouriteGameList: favouriteGameList)));
+              })
+            ])));
   }
 }
