@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:gamelib_mob/list/main_list.dart';
 import 'package:gamelib_mob/helpers/game_info.dart';
 import 'package:gamelib_mob/list/list_class.dart';
-import 'package:gamelib_mob/screens/game_page.dart';
+import 'package:gamelib_mob/screens/game_detail.dart';
 
 class AddGameListScreen extends StatefulWidget {
   final Future<List<GameInfo>> gameList;
@@ -72,7 +72,7 @@ class _AddGameListScreenState extends State<AddGameListScreen> {
                               ),
                               onTap: () => Navigator.push(context,
                                       MaterialPageRoute(builder: (context) {
-                                    return const game_page();
+                                    return const GameDetailScreen();
                                   })));
                         },
                       ),

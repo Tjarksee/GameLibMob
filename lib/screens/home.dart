@@ -2,8 +2,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gamelib_mob/list/list_class.dart';
 import 'package:gamelib_mob/list/main_list.dart';
-import 'package:gamelib_mob/screens/add_game_screen.dart';
-import 'package:gamelib_mob/screens/game_page.dart';
+import 'package:gamelib_mob/screens/search_game.dart';
+import 'package:gamelib_mob/screens/game_detail.dart';
 import 'package:gamelib_mob/screens/sign_in.dart';
 import 'package:gamelib_mob/helpers/helpers.dart';
 
@@ -50,7 +50,7 @@ class _HomeScreenState extends State<HomeScreen> {
               trailing: Icon(Icons.chevron_right),
               onTap: () =>
                   Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    return game_page();
+                    return GameDetailScreen();
                   }))),
         );
       },
