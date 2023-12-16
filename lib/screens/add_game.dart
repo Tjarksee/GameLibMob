@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gamelib_mob/api/post_request.dart';
 import 'package:gamelib_mob/list/main_list.dart';
 import 'package:gamelib_mob/screens/add_game_list.dart';
-import 'package:gamelib_mob/helpers/game_class.dart';
+import 'package:gamelib_mob/helpers/game_info.dart';
 import 'package:gamelib_mob/helpers/helpers.dart';
 import 'package:gamelib_mob/api/igdb_token.dart';
 import 'package:provider/provider.dart';

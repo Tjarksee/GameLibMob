@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gamelib_mob/helpers/game_class.dart';
+import 'package:gamelib_mob/helpers/game_info.dart';
 
 abstract class ListItem {
   /// The title line to show in a list item.
@@ -13,6 +13,7 @@ abstract class ListItem {
   Widget buildTrailing(BuildContext context);
 }
 
+// TODO remove this from list class and add it to game info
 /// A ListItem that contains data to display a heading.
 class GameItem implements ListItem {
   GameInfo gameItemInfo;
