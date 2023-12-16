@@ -1,3 +1,4 @@
+import 'package:gamelib_mob/helpers/game_info.dart';
 import 'package:gamelib_mob/list/list_class.dart';
 
 class MainList {
@@ -27,5 +28,15 @@ class MainList {
 
   List<GameItem> getFavouriteList() {
     return favouriteGameList;
+  }
+
+  int getStatusAmount(Status chosenStatus) {
+    int counter = 0;
+    for (final game in favouriteGameList) {
+      if (game.gameItemInfo.status == chosenStatus) {
+        counter++;
+      }
+    }
+    return counter;
   }
 }

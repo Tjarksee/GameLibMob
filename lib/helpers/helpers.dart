@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
+String getEmail() {
+  return FirebaseAuth.instance.currentUser!.email.toString();
+}
 
 TextField reusableTextField(String text, IconData icon, bool isPasswordType,
     TextEditingController controller) {

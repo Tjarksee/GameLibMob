@@ -12,7 +12,12 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(Provider(create: (_) => fetchIGDBToken(), child: MyApp(),),);
+  runApp(
+    Provider(
+      create: (_) => fetchIGDBToken(),
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -28,6 +33,6 @@ class MyApp extends StatelessWidget {
           primarySwatch: Colors.blue,
         ),
         //home: const SignInScreen());
-        home: const HomeScreen());
+        home: const SignInScreen());
   }
 }

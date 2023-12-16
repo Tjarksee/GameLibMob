@@ -32,7 +32,9 @@ class _HomeScreenState extends State<HomeScreen> {
   void createListWidget() {
     widgetOptions = <Widget>[
       _buildMainList(),
-      ProfileScreen(),
+      ProfileScreen(
+        favouriteGameList: favouriteGameList,
+      ),
     ];
   }
 
@@ -79,48 +81,14 @@ class _HomeScreenState extends State<HomeScreen> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) => AddGameScreen(
-                                      favouriteGameList:
-                                          favouriteGameList))).then((_) {
+                                        favouriteGameList: favouriteGameList,
+                                      ))).then((_) {
                             setState(() {});
                           });
                         },
                         icon: const Icon(Icons.search)),
                   ],
                 ),
-                drawer: Drawer(
-                    child: ListView(
-                  children: [
-                    const SizedBox(
-                      height: 64.0,
-                      child: DrawerHeader(
-                          margin: EdgeInsets.all(0.0),
-                          padding: EdgeInsets.all(0.0),
-                          decoration: BoxDecoration(
-                              color: Color.fromARGB(255, 113, 113, 113)),
-                          child: Center(
-                            child: Text("menu", textAlign: TextAlign.center),
-                          )),
-                    ),
-                    ListTile(
-                      title: const Text(
-                        'Logout',
-                        textAlign: TextAlign.center,
-                      ),
-                      onTap: () {
-                        FirebaseAuth.instance.signOut().then((value) {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => SignInScreen()));
-                        });
-                      },
-                    ),
-                    ListTile(
-                      title: const Text('Item 2', textAlign: TextAlign.center),
-                      onTap: () {},
-                    )
-                  ],
-                )),
                 body: Center(
                   child: widgetOptions.elementAt(_selectedIndex),
                 ),
