@@ -6,18 +6,18 @@ import 'package:gamelib_mob/helpers/game_info.dart';
 import 'package:gamelib_mob/list/list_class.dart';
 import 'package:gamelib_mob/screens/game_detail.dart';
 
-class ShowGamesScreen extends StatefulWidget {
+class SearchResultScreen extends StatefulWidget {
   final Future<List<GameInfo>> gameList;
   final MainList favouriteGameList;
-  const ShowGamesScreen(
+  const SearchResultScreen(
       {Key? key, required this.gameList, required this.favouriteGameList})
       : super(key: key);
 
   @override
-  State<ShowGamesScreen> createState() => _ShowGamesScreenState();
+  State<SearchResultScreen> createState() => _SearchResultScreenState();
 }
 
-class _ShowGamesScreenState extends State<ShowGamesScreen> {
+class _SearchResultScreenState extends State<SearchResultScreen> {
   late Future<List<GameInfo>> token = widget.gameList;
   late MainList favouriteGameList = widget.favouriteGameList;
 
