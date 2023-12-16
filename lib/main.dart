@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:gamelib_mob/api/igdb_token.dart';
+import 'package:gamelib_mob/screens/home.dart';
 import 'package:gamelib_mob/screens/sign_in.dart';
 import 'package:provider/provider.dart';
 import 'firebase_options.dart';
@@ -30,7 +31,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: const SignInScreen());
-        //home: const HomeScreen());
+        //home: const SignInScreen());
+        home: const HomeScreen());
   }
 }

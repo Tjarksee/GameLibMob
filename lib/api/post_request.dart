@@ -1,15 +1,15 @@
 import 'dart:collection';
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:gamelib_mob/list/game_item.dart';
 import 'package:http/http.dart' as http;
-import 'package:gamelib_mob/helpers/game_info.dart';
 
-Future<List<GameInfo>> getGameInfo(apiToken, search) async {
+Future<List<GameItem>> getGameItem(apiToken, search) async {
   String token = (await apiToken).accessToken;
   String searchInfo = search;
   List<dynamic> ids;
   List<dynamic> dynamicInfos;
-  List<GameInfo> gameInfos = [];
+  List<GameItem> gameInfos = [];
 
   final responseIds =
       await http.post(Uri.parse('https://api.igdb.com/v4/games'),
@@ -120,7 +120,7 @@ Future<List<GameInfo>> getGameInfo(apiToken, search) async {
       storyline = game["storyline"];
     }
     final url = game["url"];
-    final GameInfo gameInfo = GameInfo(
+    final GameItem gameInfo = GameItem(
         gameID: gameId,
         cover: cover,
         releaseDate: releaseDate,

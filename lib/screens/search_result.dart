@@ -1,13 +1,12 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:gamelib_mob/list/game_item.dart';
 import 'package:gamelib_mob/list/main_list.dart';
-import 'package:gamelib_mob/helpers/game_info.dart';
-import 'package:gamelib_mob/list/list_item.dart';
 import 'package:gamelib_mob/screens/game_detail.dart';
 
 class SearchResultScreen extends StatefulWidget {
-  final Future<List<GameInfo>> gameList;
+  final Future<List<GameItem>> gameList;
   final MainList favouriteGameList;
   const SearchResultScreen(
       {Key? key, required this.gameList, required this.favouriteGameList})
@@ -18,7 +17,7 @@ class SearchResultScreen extends StatefulWidget {
 }
 
 class _SearchResultScreenState extends State<SearchResultScreen> {
-  late Future<List<GameInfo>> token = widget.gameList;
+  late Future<List<GameItem>> token = widget.gameList;
   late MainList favouriteGameList = widget.favouriteGameList;
 
   @override
@@ -34,13 +33,13 @@ class _SearchResultScreenState extends State<SearchResultScreen> {
               Color.fromARGB(249, 108, 106, 108),
               Color.fromARGB(249, 50, 48, 50)
             ], begin: Alignment.bottomRight, end: Alignment.topLeft)),
-            child: FutureBuilder<List<GameInfo>>(
+            child: FutureBuilder<List<GameItem>>(
                 future: token,
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
                     final listOfItems = List<GameItem>.generate(
                         snapshot.data!.length,
-                        (i) => GameItem(snapshot.data![i]));
+                        (i) => snapshot.data![i]);
                     return Scaffold(
                       body: ListView.builder(
                         itemCount: snapshot.data!.length,
