@@ -75,7 +75,7 @@ class _SearchGameScreenState extends State<SearchGameScreen> {
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) =>
-                                                AddGameListScreen(
+                                                ShowGamesScreen(
                                                     gameList: searchResultList,
                                                     favouriteGameList:
                                                         favouriteGameList)));
