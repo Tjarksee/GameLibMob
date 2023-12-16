@@ -17,7 +17,7 @@ class SearchResultScreen extends StatefulWidget {
 }
 
 class _SearchResultScreenState extends State<SearchResultScreen> {
-  late Future<List<GameItem>> token = widget.gameList;
+  late Future<List<GameItem>> gameList = widget.gameList;
   late MainList favouriteGameList = widget.favouriteGameList;
 
   @override
@@ -34,7 +34,7 @@ class _SearchResultScreenState extends State<SearchResultScreen> {
               Color.fromARGB(249, 50, 48, 50)
             ], begin: Alignment.bottomRight, end: Alignment.topLeft)),
             child: FutureBuilder<List<GameItem>>(
-                future: token,
+                future: gameList,
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
                     final listOfItems = List<GameItem>.generate(
