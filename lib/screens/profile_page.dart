@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -53,70 +54,49 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       Container(
-                        alignment: Alignment.center,
-                        width: width / 2,
-                        height: mainContainerHight / 3,
                         child: Row(
                           children: [
                             Text(
                               'Profile Name:',
                               style: const TextStyle(
                                   color: Colors.white, fontSize: 15),
-                              textAlign: TextAlign.center,
                             ),
-                            IconButton(
-                              icon: const Icon(Icons.edit),
-                              tooltip: 'Change profile name',
-                              onPressed: () {
-                                changePopup(context, 'Profile Name');
-                              },
-                            )
                           ],
                         ),
                       ),
+                      // TODO get the profile name here
+                      Text(
+                        "jhhj",
+                      ),
                       Container(
-                        alignment: Alignment.center,
-                        width: width / 2,
-                        height: mainContainerHight / 3,
                         child: Row(
                           children: [
                             Text(
-                              'E-Mail: ',
+                              'Profile Name:',
                               style: const TextStyle(
                                   color: Colors.white, fontSize: 15),
-                              textAlign: TextAlign.center,
                             ),
-                            IconButton(
-                              icon: const Icon(Icons.edit),
-                              tooltip: 'Change E-Mail',
-                              onPressed: () {
-                                changePopup(context, 'E-Mail');
-                              },
-                            )
                           ],
                         ),
                       ),
+                      // TODO get the profile name here
+                      Text(
+                        "jhhj",
+                      ),
                       Container(
-                        alignment: Alignment.center,
-                        width: width / 2,
-                        height: mainContainerHight / 3,
                         child: Row(
                           children: [
-                            const Text(
-                              'Change Password',
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 15),
-                              textAlign: TextAlign.center,
+                            Text(
+                              'Profile Name:',
+                              style: const TextStyle(
+                                  color: Colors.white, fontSize: 15),
                             ),
-                            IconButton(
-                              icon: const Icon(Icons.edit),
-                              tooltip: 'Change Password',
-                              onPressed: () {
-                                changePopup(context, 'Password');
-                              },
-                            )
                           ],
                         ),
+                      ),
+                      // TODO get the profile name here
+                      Text(
+                        "jhhj",
                       )
                     ],
                   ),
