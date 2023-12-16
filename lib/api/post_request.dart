@@ -1,9 +1,10 @@
 import 'dart:collection';
 import 'dart:convert';
+import 'dart:ffi';
 import 'package:flutter/material.dart';
 import 'package:gamelib_mob/api/igdb_token.dart';
 import 'package:http/http.dart' as http;
-import 'package:gamelib_mob/helpers/game_class.dart';
+import 'package:gamelib_mob/helpers/game_info.dart';
 import 'package:provider/provider.dart';
 
 Future<List<GameInfo>> getGameInfo(apiToken, search) async {
@@ -68,18 +69,43 @@ Future<List<GameInfo>> getGameInfo(apiToken, search) async {
       cover = Image.asset('assets/images/test.png');
     }
 
-    final releaseDate = game["first_release_date"].toString();
+    String releaseDate = "";
+    if (game["first_release_date"] != null) {
+      int timestamp = game["first_release_date"];
+      final date = DateTime.fromMillisecondsSinceEpoch(timestamp * 1000);
+      releaseDate = date.toString();
+    }
     List<String> genres = [];
     if (game["genres"] != null) {
       for (final genre in game["genres"]) {
-        genres.add(genre.toString());
+        final genreId = genre.toString();
+        final genreResponse = await http.post(
+            Uri.parse('https://api.igdb.com/v4/genres'),
+            headers: {
+              "Client-ID": "jatk8moav95uswe6bq3zmcy3fokdnw",
+              "Authorization": "Bearer $token"
+            },
+            body: ('fields name; where id = ($genreId);'));
+        final decodedCover = jsonDecode(genreResponse.body);
+        String name = decodedCover[0]['name'];
+        genres.add(name);
       }
     }
     final name = game["name"];
     List<String> platforms = [];
     if (game["platforms"] != null) {
       for (final platform in game["platforms"]) {
-        platforms.add(platform.toString());
+        final platformId = platform.toString();
+        final platformResponse = await http.post(
+            Uri.parse('https://api.igdb.com/v4/platforms'),
+            headers: {
+              "Client-ID": "jatk8moav95uswe6bq3zmcy3fokdnw",
+              "Authorization": "Bearer $token"
+            },
+            body: ('fields name; where id = ($platformId);'));
+        final decodedCover = jsonDecode(platformResponse.body);
+        String name = decodedCover[0]['name'];
+        platforms.add(name);
       }
     }
 
