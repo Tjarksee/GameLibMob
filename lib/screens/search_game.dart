@@ -40,10 +40,9 @@ class _SearchGameScreenState extends State<SearchGameScreen> {
                   Color.fromARGB(249, 108, 106, 108),
                   Color.fromARGB(249, 50, 48, 50)
                 ], begin: Alignment.bottomRight, end: Alignment.topLeft)),
-                child: Padding(
-                    padding: EdgeInsets.fromLTRB(
+                padding: EdgeInsets.fromLTRB(
                         20, MediaQuery.of(context).size.height * 0.025, 20, 0),
-                    child: Column(children: <Widget>[
+                child: Column(children: <Widget>[
                       reusableTextField(
                           "Game Name", Icons.games, false, searchInfo),
                       firebaseUIButton(context, "search", () {
@@ -60,6 +59,6 @@ class _SearchGameScreenState extends State<SearchGameScreen> {
                                     gameList: searchResultList,
                                     favouriteGameList: favouriteGameList)));
                       })
-                    ]))));
+                    ])));
   }
 }
