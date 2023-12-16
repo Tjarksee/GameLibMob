@@ -7,16 +7,16 @@ import 'package:gamelib_mob/helpers/helpers.dart';
 import 'package:gamelib_mob/api/igdb_token.dart';
 import 'package:provider/provider.dart';
 
-class AddGameScreen extends StatefulWidget {
+class SearchGameScreen extends StatefulWidget {
   final MainList favouriteGameList;
 
-  const AddGameScreen({super.key, required this.favouriteGameList});
+  const SearchGameScreen({super.key, required this.favouriteGameList});
 
   @override
-  State<AddGameScreen> createState() => _AddGameScreenState();
+  State<SearchGameScreen> createState() => _SearchGameScreenState();
 }
 
-class _AddGameScreenState extends State<AddGameScreen> {
+class _SearchGameScreenState extends State<SearchGameScreen> {
   late Future<IGDBToken> token;
   @override
   void initState() {
@@ -66,8 +66,10 @@ class _AddGameScreenState extends State<AddGameScreen> {
                                       false, _searchInfo),
                                   firebaseUIButton(context, "search", () {
                                     searchResultList = getGameInfo(
-                                        Provider.of<Future<IGDBToken>>(context, listen:false),
-                                        _searchInfo.text,);
+                                      Provider.of<Future<IGDBToken>>(context,
+                                          listen: false),
+                                      _searchInfo.text,
+                                    );
 
                                     Navigator.push(
                                         context,
