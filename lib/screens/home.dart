@@ -29,11 +29,49 @@ class _HomeScreenState extends State<HomeScreen> {
     MainList items = favList;
     mainLists = items.favList;
   }
+  late Future<List<GameItem>> futureFavGameList;
 
-  void initState(){
+
+  void initState() {
     super.initState();
     //Load from DB
-    pullFirebase();
+    print("test");
+    futureFavGameList = FirebaseTraffic.pullFirebase();
+  }
+
+  Widget buildMainList() {
+    return FutureBuilder<List<GameItem>>(
+      future: futureFavGameList,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return CircularProgressIndicator();
+        } else if (snapshot.hasError) {
+          return Text('Error: ${snapshot.error}');
+        } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+          return Text('No data available.');
+        } else {
+          List<GameItem> mainLists = snapshot.data!;
+          return ListView.builder(
+            itemCount: mainLists.length,
+            itemBuilder: (BuildContext content, int index) {
+              return Container(
+                color: Colors.grey,
+                child: ListTile(
+                  leading: mainLists[index].buildLeading(context),
+                  title: mainLists[index].buildTitle(context),
+                  subtitle: mainLists[index].buildSubtitle(context),
+                  trailing: Icon(Icons.chevron_right),
+                  onTap: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => game_page()),
+                  ),
+                ),
+              );
+            },
+          );
+        }
+      },
+    );
   }
 
   void createListWidget() {

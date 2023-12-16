@@ -4,30 +4,26 @@ import 'package:gamelib_mob/firebase_traffic.dart';
 class MainList {
   List<GameItem> favList = [];
 
-  bool contains1(favGameItem) {
-    GameItem fav = favGameItem;
+
+  bool contains1(GameItem favGameItem) {
     final foundGames = favList.where(
-            (element) => element.gameItemInfo.gameID == fav.gameItemInfo.gameID);
-    if (foundGames.isNotEmpty) {
-      return true;
-    }
-    return false;
+          (element) => element.gameItemInfo.gameID == favGameItem.gameItemInfo.gameID,
+    );
+    return foundGames.isNotEmpty;
   }
-//dasdsa
-  void removeFav(favGameItem) {
-    GameItem fav = favGameItem;
+
+  void removeFav(GameItem favGameItem) {
     favList.removeWhere(
-            (element) => element.gameItemInfo.gameID == fav.gameItemInfo.gameID);
-    //Remove from DB
-    removeFromFirebase();
+          (element) => element.gameItemInfo.gameID == favGameItem.gameItemInfo.gameID,
+    );
+    // Remove from DB
+    FirebaseTraffic.removeFromFirebase();
   }
 
-  void addFav(favGameItem) {
-    GameItem fav = favGameItem;
-
-    favList.add(fav);
-    //Push to DB
-    pushGameListToFirebase();
+  void addFav(GameItem favGameItem) {
+    favList.add(favGameItem);
+    // Push to DB
+    FirebaseTraffic.pushGameListToFirebase(favList);
   }
 
   List<GameItem> getFavList() {
