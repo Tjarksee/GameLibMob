@@ -1,4 +1,4 @@
-import 'package:gamelib_mob/list/list_class.dart';
+import 'package:gamelib_mob/list/list_item.dart';
 
 class MainList {
   List<GameItem> favouriteGameList = [];

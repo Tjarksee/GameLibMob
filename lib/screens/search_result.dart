@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:gamelib_mob/list/main_list.dart';
 import 'package:gamelib_mob/helpers/game_info.dart';
-import 'package:gamelib_mob/list/list_class.dart';
+import 'package:gamelib_mob/list/list_item.dart';
 import 'package:gamelib_mob/screens/game_detail.dart';
 
 class SearchResultScreen extends StatefulWidget {
