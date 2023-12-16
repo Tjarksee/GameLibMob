@@ -33,53 +33,33 @@ class _SearchGameScreenState extends State<SearchGameScreen> {
         appBar: AppBar(
           title: const Text('Add a Game'),
         ),
-        body: FutureBuilder<IGDBToken>(
-            future: token,
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                return Scaffold(
-                    body: Container(
-                        decoration: const BoxDecoration(
-                            gradient: LinearGradient(
-                                colors: [
-                              Color.fromARGB(249, 50, 48, 50),
-                              Color.fromARGB(249, 108, 106, 108),
-                              Color.fromARGB(249, 50, 48, 50)
-                            ],
-                                begin: Alignment.bottomRight,
-                                end: Alignment.topLeft)),
-                        child: Padding(
-                            padding: EdgeInsets.fromLTRB(
-                                20,
-                                MediaQuery.of(context).size.height * 0.025,
-                                20,
-                                0),
-                            child: Column(children: <Widget>[
-                              reusableTextField("Game Name", Icons.games,
-                                  false, searchInfo),
-                              firebaseUIButton(context, "search", () {
-                                searchResultList = getGameItem(
-                                  Provider.of<Future<IGDBToken>>(context,
-                                      listen: false),
-                                  searchInfo.text,
-                                );
+        body: Container(
+                decoration: const BoxDecoration(
+                    gradient: LinearGradient(colors: [
+                  Color.fromARGB(249, 50, 48, 50),
+                  Color.fromARGB(249, 108, 106, 108),
+                  Color.fromARGB(249, 50, 48, 50)
+                ], begin: Alignment.bottomRight, end: Alignment.topLeft)),
+                child: Padding(
+                    padding: EdgeInsets.fromLTRB(
+                        20, MediaQuery.of(context).size.height * 0.025, 20, 0),
+                    child: Column(children: <Widget>[
+                      reusableTextField(
+                          "Game Name", Icons.games, false, searchInfo),
+                      firebaseUIButton(context, "search", () {
+                        searchResultList = getGameItem(
+                          Provider.of<Future<IGDBToken>>(context,
+                              listen: false),
+                          searchInfo.text,
+                        );
 
-                                Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            SearchResultScreen(
-                                                gameList: searchResultList,
-                                                favouriteGameList:
-                                                    favouriteGameList)));
-                              })
-                            ]))));
-              } else if (snapshot.hasError) {
-                return Text('${snapshot.error}');
-              }
-              return const Scaffold(
-                body: Center(child: CircularProgressIndicator()),
-              );
-            }));
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => SearchResultScreen(
+                                    gameList: searchResultList,
+                                    favouriteGameList: favouriteGameList)));
+                      })
+                    ]))));
   }
 }
