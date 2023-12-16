@@ -41,11 +41,6 @@ Container firebaseUIButton(BuildContext context, String title, Function onTap) {
       onPressed: () {
         onTap();
       },
-      child: Text(
-        title,
-        style: const TextStyle(
-            color: Colors.black87, fontWeight: FontWeight.bold, fontSize: 16),
-      ),
       style: ButtonStyle(
           backgroundColor: MaterialStateProperty.resolveWith((states) {
             if (states.contains(MaterialState.pressed)) {
@@ -55,6 +50,11 @@ Container firebaseUIButton(BuildContext context, String title, Function onTap) {
           }),
           shape: MaterialStateProperty.all<RoundedRectangleBorder>(
               RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)))),
+      child: Text(
+        title,
+        style: const TextStyle(
+            color: Colors.black87, fontWeight: FontWeight.bold, fontSize: 16),
+      ),
     ),
   );
 }
@@ -83,21 +83,21 @@ Widget profilePage(BuildContext context, String name, List<String> stats) {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
-          Container(
+          SizedBox(
             width: width,
             height: mainContainerHight,
             child: Container(
               alignment: Alignment.center,
               child: Text(
                 name,
-                style: TextStyle(
+                style: const TextStyle(
                   color: Colors.white,
                   fontSize: 40,
                 ),
               ),
             ),
           ),
-          Container(
+          SizedBox(
             width: width,
             height: mainContainerHight,
             child: Row(
@@ -106,7 +106,7 @@ Widget profilePage(BuildContext context, String name, List<String> stats) {
                 Container(
                   height: mainContainerHight,
                   width: width / 3,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                       border: Border(
                           right: BorderSide(
                     color: Colors.black,
@@ -119,7 +119,7 @@ Widget profilePage(BuildContext context, String name, List<String> stats) {
                         alignment: Alignment.center,
                         height: mainContainerHight / 2,
                         width: width / 3,
-                        child: Text(
+                        child: const Text(
                           'Games Played',
                           style: TextStyle(color: Colors.white, fontSize: 15),
                         ),
@@ -128,7 +128,7 @@ Widget profilePage(BuildContext context, String name, List<String> stats) {
                         alignment: Alignment.center,
                         height: mainContainerHight / 2,
                         width: width / 3,
-                        child: Text(
+                        child: const Text(
                           '0',
                           style: TextStyle(color: Colors.white, fontSize: 15),
                         ),
@@ -139,7 +139,7 @@ Widget profilePage(BuildContext context, String name, List<String> stats) {
                 Container(
                   height: mainContainerHight,
                   width: width / 3,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                       border: Border(
                           right: BorderSide(
                     color: Colors.black,
@@ -152,7 +152,7 @@ Widget profilePage(BuildContext context, String name, List<String> stats) {
                         alignment: Alignment.center,
                         height: mainContainerHight / 2,
                         width: width / 3,
-                        child: Text(
+                        child: const Text(
                           'Games Finished',
                           style: TextStyle(color: Colors.white, fontSize: 15),
                         ),
@@ -161,7 +161,7 @@ Widget profilePage(BuildContext context, String name, List<String> stats) {
                         alignment: Alignment.center,
                         height: mainContainerHight / 2,
                         width: width / 3,
-                        child: Text(
+                        child: const Text(
                           '0',
                           style: TextStyle(color: Colors.white, fontSize: 15),
                         ),
@@ -169,7 +169,7 @@ Widget profilePage(BuildContext context, String name, List<String> stats) {
                     ],
                   ),
                 ),
-                Container(
+                SizedBox(
                   height: mainContainerHight,
                   width: width / 3,
                   child: Column(
@@ -179,7 +179,7 @@ Widget profilePage(BuildContext context, String name, List<String> stats) {
                         alignment: Alignment.center,
                         height: mainContainerHight / 2,
                         width: width / 3,
-                        child: Text(
+                        child: const Text(
                           'Planed to Play',
                           style: TextStyle(color: Colors.white, fontSize: 15),
                         ),
@@ -188,7 +188,7 @@ Widget profilePage(BuildContext context, String name, List<String> stats) {
                         alignment: Alignment.center,
                         height: mainContainerHight / 2,
                         width: width / 3,
-                        child: Text(
+                        child: const Text(
                           '0',
                           style: TextStyle(color: Colors.white, fontSize: 15),
                         ),
@@ -199,7 +199,7 @@ Widget profilePage(BuildContext context, String name, List<String> stats) {
               ],
             ),
           ),
-          Container(
+          SizedBox(
               width: width,
               height: mainContainerHight,
               child: Container(
@@ -208,11 +208,10 @@ Widget profilePage(BuildContext context, String name, List<String> stats) {
                 width: width,
                 child: firebaseUIButton(context, "logout", () {
                   FirebaseAuth.instance.signOut().then((value) {
-                    print("Signed Out");
                     Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => SignInScreen()));
+                            builder: (context) => const SignInScreen()));
                   });
                 }),
               )),

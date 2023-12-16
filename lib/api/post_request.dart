@@ -1,11 +1,8 @@
 import 'dart:collection';
 import 'dart:convert';
-import 'dart:ffi';
 import 'package:flutter/material.dart';
-import 'package:gamelib_mob/api/igdb_token.dart';
 import 'package:http/http.dart' as http;
 import 'package:gamelib_mob/helpers/game_info.dart';
-import 'package:provider/provider.dart';
 
 Future<List<GameInfo>> getGameInfo(apiToken, search) async {
   String token = (await apiToken).accessToken;
@@ -23,7 +20,6 @@ Future<List<GameInfo>> getGameInfo(apiToken, search) async {
             "Authorization": "Bearer $token"
           },
           body: ('search "$searchInfo"; limit 10;'));
-  // TODO sometimes throws an error, that it does not work on maps?
   ids = jsonDecode(responseIds.body);
 
   if (ids.isEmpty) {
@@ -53,7 +49,7 @@ Future<List<GameInfo>> getGameInfo(apiToken, search) async {
     // convert all ids to strings and rest to appropriate type
     // might need to look for null first and then convert
     final gameId = game["id"].toString();
-    var cover;
+    Image cover;
     if (game["cover"] != null) {
       final coverId = game["cover"].toString();
       final responseCover = await http.post(
@@ -64,7 +60,8 @@ Future<List<GameInfo>> getGameInfo(apiToken, search) async {
           },
           body: ('fields url; where id = ($coverId);'));
       final decodedCover = jsonDecode(responseCover.body);
-      cover = Image.network('https:' + decodedCover[0]['url']);
+      final url = 'https:${decodedCover[0]["url"]}';
+      cover = Image.network(url);
     } else {
       cover = Image.asset('assets/images/test.png');
     }

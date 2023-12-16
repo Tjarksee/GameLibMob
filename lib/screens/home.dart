@@ -47,10 +47,10 @@ class _HomeScreenState extends State<HomeScreen> {
               leading: mainLists[index].buildLeading(context),
               title: mainLists[index].buildTitle(context),
               subtitle: mainLists[index].buildSubtitle(context),
-              trailing: Icon(Icons.chevron_right),
+              trailing: const Icon(Icons.chevron_right),
               onTap: () =>
                   Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    return GameDetailScreen();
+                    return const GameDetailScreen();
                   }))),
         );
       },
@@ -117,7 +117,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => SignInScreen()));
+                                  builder: (context) => const SignInScreen()));
                         });
                       },
                     ),
@@ -138,10 +138,11 @@ class _HomeScreenState extends State<HomeScreen> {
 }
 
 class _MyBottomNavigationBar extends StatelessWidget {
+  // ignore: prefer_typing_uninitialized_variables
   final updateIndex;
-  final currentIndex;
+  final int currentIndex;
 
-  const _MyBottomNavigationBar({this.updateIndex, this.currentIndex});
+  const _MyBottomNavigationBar({this.updateIndex, required this.currentIndex});
 
   @override
   Widget build(BuildContext context) {

@@ -27,7 +27,7 @@ class _SearchGameScreenState extends State<SearchGameScreen> {
   late MainList favouriteGameList = widget.favouriteGameList;
   @override
   Widget build(BuildContext context) {
-    TextEditingController _searchInfo = TextEditingController();
+    TextEditingController searchInfo = TextEditingController();
     Future<List<GameInfo>> searchResultList;
     return Scaffold(
         appBar: AppBar(
@@ -63,12 +63,12 @@ class _SearchGameScreenState extends State<SearchGameScreen> {
                                     0),
                                 child: Column(children: <Widget>[
                                   reusableTextField("Game Name", Icons.games,
-                                      false, _searchInfo),
+                                      false, searchInfo),
                                   firebaseUIButton(context, "search", () {
                                     searchResultList = getGameInfo(
                                       Provider.of<Future<IGDBToken>>(context,
                                           listen: false),
-                                      _searchInfo.text,
+                                      searchInfo.text,
                                     );
 
                                     Navigator.push(
@@ -84,8 +84,8 @@ class _SearchGameScreenState extends State<SearchGameScreen> {
                   } else if (snapshot.hasError) {
                     return Text('${snapshot.error}');
                   }
-                  return Scaffold(
-                    body: Center(child: const CircularProgressIndicator()),
+                  return const Scaffold(
+                    body: Center(child: CircularProgressIndicator()),
                   );
                 })));
   }
