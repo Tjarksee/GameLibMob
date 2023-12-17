@@ -7,7 +7,7 @@ class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
 
   @override
-  _SignUpScreenState createState() => _SignUpScreenState();
+  State<SignUpScreen> createState() => _SignUpScreenState();
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
@@ -62,7 +62,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 ),
                 Text(
                   showError ? errorMessage : '',
-                  style: TextStyle(color: Colors.red),
+                  style: const TextStyle(color: Colors.red),
                 ),
                 firebaseUIButton(context, "Sign Up", () async {
                   try {

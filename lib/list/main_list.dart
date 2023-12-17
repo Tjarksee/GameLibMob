@@ -1,4 +1,4 @@
-import 'package:gamelib_mob/list/list_class.dart';
+import 'package:gamelib_mob/list/game_item.dart';
 
 class MainList {
   List<GameItem> favouriteGameList = [];
@@ -6,7 +6,7 @@ class MainList {
   bool contains(favGameItem) {
     GameItem fav = favGameItem;
     final foundGames = favouriteGameList.where(
-        (element) => element.gameItemInfo.gameID == fav.gameItemInfo.gameID);
+        (element) => element.gameID == fav.gameID);
     if (foundGames.isNotEmpty) {
       return true;
     }
@@ -16,7 +16,7 @@ class MainList {
   void removeFavourite(favGameItem) {
     GameItem fav = favGameItem;
     favouriteGameList.removeWhere(
-        (element) => element.gameItemInfo.gameID == fav.gameItemInfo.gameID);
+        (element) => element.gameID == fav.gameID);
   }
 
   void addFavourite(favGameItem) {
