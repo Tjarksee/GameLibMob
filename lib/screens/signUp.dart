@@ -67,12 +67,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 ),
                 firebaseUIButton(context, "Sign Up", () async {
                   try {
-                    FirebaseTraffic.pushUserNameToFirebase(_userNameTextController.text);
                     await FirebaseAuth.instance
                         .createUserWithEmailAndPassword(
                             email: _emailTextController.text,
                             password: _passwordTextController.text)
                         .then((value) {
+                      FirebaseTraffic.pushUserNameToFirebase(_userNameTextController.text);
                       Navigator.push(
                           context,
                           MaterialPageRoute(

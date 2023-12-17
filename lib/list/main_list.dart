@@ -17,7 +17,7 @@ class MainList {
           (element) => element.gameItemInfo.gameID == favGameItem.gameItemInfo.gameID,
     );
     // Remove from DB
-    FirebaseTraffic.removeFromFirebase();
+    //FirebaseTraffic.removeFromFirebase();
   }
 
   void addFav(GameItem favGameItem) {
