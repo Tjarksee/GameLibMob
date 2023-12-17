@@ -1,5 +1,6 @@
 import 'dart:collection';
 import 'dart:convert';
+import 'package:flutter/material.dart';
 import 'package:gamelib_mob/api/igdb_token.dart';
 import 'package:gamelib_mob/list/game_item.dart';
 import 'package:http/http.dart' as http;
@@ -82,16 +83,6 @@ Future<List<GameItem>> getGameItem(IGDBToken apiToken, String search) async {
       for (final genre in game["genres"]) {
         final genreId = genre.toString();
         genreIds.add(genreId);
-        // final genreResponse = await http.post(
-        //     Uri.parse('https://api.igdb.com/v4/genres'),
-        //     headers: {
-        //       "Client-ID": "jatk8moav95uswe6bq3zmcy3fokdnw",
-        //       "Authorization": "Bearer $token"
-        //     },
-        //     body: ('fields name; where id = ($genreId);'));
-        // final decodedCover = jsonDecode(genreResponse.body);
-        // String genreName = decodedCover[0]['name'];
-        // genres.add(genreName);
       }
       gamesInfo.genreIds.add(genreIds);
     } else {
@@ -104,16 +95,6 @@ Future<List<GameItem>> getGameItem(IGDBToken apiToken, String search) async {
       for (final platform in game["platforms"]) {
         final platformId = platform.toString();
         platformIds.add(platformId);
-        // final platformResponse = await http.post(
-        //     Uri.parse('https://api.igdb.com/v4/platforms'),
-        //     headers: {
-        //       "Client-ID": "jatk8moav95uswe6bq3zmcy3fokdnw",
-        //       "Authorization": "Bearer $token"
-        //     },
-        //     body: ('fields name; where id = ($platformId);'));
-        // final decodedCover = jsonDecode(platformResponse.body);
-        // String name = decodedCover[0]['name'];
-        // platforms.add(name);
       }
       gamesInfo.platformIds.add(platformIds);
     } else {
@@ -165,4 +146,63 @@ Future<List<GameItem>> getGameItem(IGDBToken apiToken, String search) async {
     gameItems.add(gameInfo);
   }
   return gameItems;
+}
+
+Future<Image> getCover(String token, String coverId) async {
+  final responseCover = await http.post(
+      Uri.parse('https://api.igdb.com/v4/covers'),
+      headers: {
+        "Client-ID": "jatk8moav95uswe6bq3zmcy3fokdnw",
+        "Authorization": "Bearer $token"
+      },
+      body: ('fields url; where id = $coverId;'));
+  final decodedCover = jsonDecode(responseCover.body);
+  if (decodedCover[0]["url"] == null) {
+    return Image.asset("assets/not_found.jpg");
+  } else if (decodedCover[0]["url"] == null) {
+    return Image.asset("assets/not_found.jpg");
+  }
+  final url = 'https:${decodedCover[0]["url"]}';
+  try {
+  Image image = Image.network(url);
+    return image;
+  } catch (e) {
+    print(e);
+  }
+  return Image.network(url);
+}
+
+
+Future<List<String>> getPlatform(String token, List<String> platformId) async {
+  List<String> platforms = [];
+  for (String platformId in platformId){
+        final platformResponse = await http.post(
+            Uri.parse('https://api.igdb.com/v4/platforms'),
+            headers: {
+              "Client-ID": "jatk8moav95uswe6bq3zmcy3fokdnw",
+              "Authorization": "Bearer $token"
+            },
+            body: ('fields name; where id = ($platformId);'));
+        final decodedPlatform = jsonDecode(platformResponse.body);
+        String name = decodedPlatform[0]['name'];
+        platforms.add(name);
+  }
+  return platforms;
+}
+
+Future<List<String>> getGenres(String token, List<String> genreId) async {
+  List<String> genres = [];
+  for (String genreId in genreId){
+        final genreResponse = await http.post(
+            Uri.parse('https://api.igdb.com/v4/genres'),
+            headers: {
+              "Client-ID": "jatk8moav95uswe6bq3zmcy3fokdnw",
+              "Authorization": "Bearer $token"
+            },
+            body: ('fields name; where id = ($genreId);'));
+        final decodedgenre = jsonDecode(genreResponse.body);
+        String name = decodedgenre[0]['name'];
+        genres.add(name);
+  }
+  return genres;
 }
