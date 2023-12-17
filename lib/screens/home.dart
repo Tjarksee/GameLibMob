@@ -7,6 +7,7 @@ import 'package:gamelib_mob/screens/game_page.dart';
 import 'package:gamelib_mob/screens/signIn.dart';
 import 'package:gamelib_mob/helpers/helpers.dart';
 import 'package:gamelib_mob/firebase_traffic.dart';
+import 'package:gamelib_mob/list/main_list.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -17,7 +18,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
-  MainList favedList1 = MainList();
+  MainList favedList1 = MainList(userId: '');
   late List<Widget> widgetOptions;
   void changeIndex(int newIndex) {
     setState(() => _selectedIndex = newIndex);
