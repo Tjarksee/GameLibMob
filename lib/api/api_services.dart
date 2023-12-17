@@ -149,14 +149,23 @@ Future<List<GameItem>> getGameItem(IGDBToken apiToken, String search) async {
 }
 
 Future<Image> getCover(String token, String coverId) async {
-  final responseCover = await http.post(
+  dynamic decodedCover;
+  bool tooManyRequests = false;
+  do {
+  final coverResponse = await http.post(
       Uri.parse('https://api.igdb.com/v4/covers'),
       headers: {
         "Client-ID": "jatk8moav95uswe6bq3zmcy3fokdnw",
         "Authorization": "Bearer $token"
       },
       body: ('fields url; where id = $coverId;'));
-  final decodedCover = jsonDecode(responseCover.body);
+      if (coverResponse.body == '{"message":"Too Many Requests"}') {
+        tooManyRequests = true;
+      } else {
+        tooManyRequests = false;
+      }
+  decodedCover = jsonDecode(coverResponse.body);
+  } while (tooManyRequests);
   if (decodedCover[0]["url"] == null) {
     return Image.asset("assets/not_found.jpg");
   } else if (decodedCover[0]["url"] == null) {
@@ -164,7 +173,7 @@ Future<Image> getCover(String token, String coverId) async {
   }
   final url = 'https:${decodedCover[0]["url"]}';
   try {
-  Image image = Image.network(url);
+    Image image = Image.network(url);
     return image;
   } catch (e) {
     print(e);
@@ -172,37 +181,54 @@ Future<Image> getCover(String token, String coverId) async {
   return Image.network(url);
 }
 
-
-Future<List<String>> getPlatform(String token, List<String> platformId) async {
+Future<List<String>> getPlatforms(String token, List<String> platformId) async {
   List<String> platforms = [];
-  for (String platformId in platformId){
-        final platformResponse = await http.post(
-            Uri.parse('https://api.igdb.com/v4/platforms'),
-            headers: {
-              "Client-ID": "jatk8moav95uswe6bq3zmcy3fokdnw",
-              "Authorization": "Bearer $token"
-            },
-            body: ('fields name; where id = ($platformId);'));
-        final decodedPlatform = jsonDecode(platformResponse.body);
-        String name = decodedPlatform[0]['name'];
-        platforms.add(name);
+  for (String platformId in platformId) {
+    bool tooManyRequests = false;
+    dynamic decodedPlatform;
+    do {
+    final platformResponse = await http.post(
+        Uri.parse('https://api.igdb.com/v4/platforms'),
+        headers: {
+          "Client-ID": "jatk8moav95uswe6bq3zmcy3fokdnw",
+          "Authorization": "Bearer $token"
+        },
+        body: ('fields name; where id = ($platformId);'));
+      if (platformResponse.body == '{"message":"Too Many Requests"}') {
+        tooManyRequests = true;
+      } else {
+        tooManyRequests = false;
+      }
+      decodedPlatform = jsonDecode(platformResponse.body);
+    } while (tooManyRequests);
+    String name = decodedPlatform[0]['name'];
+    platforms.add(name);
   }
   return platforms;
 }
 
 Future<List<String>> getGenres(String token, List<String> genreId) async {
   List<String> genres = [];
-  for (String genreId in genreId){
-        final genreResponse = await http.post(
-            Uri.parse('https://api.igdb.com/v4/genres'),
-            headers: {
-              "Client-ID": "jatk8moav95uswe6bq3zmcy3fokdnw",
-              "Authorization": "Bearer $token"
-            },
-            body: ('fields name; where id = ($genreId);'));
-        final decodedgenre = jsonDecode(genreResponse.body);
-        String name = decodedgenre[0]['name'];
-        genres.add(name);
+  for (String genreId in genreId) {
+    bool tooManyRequests = false;
+    dynamic decodedGenre;
+    do  {
+      final genreResponse = await http.post(
+          Uri.parse('https://api.igdb.com/v4/genres'),
+          headers: {
+            "Client-ID": "jatk8moav95uswe6bq3zmcy3fokdnw",
+            "Authorization": "Bearer $token"
+          },
+          body: ('fields name; where id = ($genreId);'));
+      if (genreResponse.body == '{"message":"Too Many Requests"}') {
+        tooManyRequests = true;
+      } else {
+        tooManyRequests = false;
+      }
+      decodedGenre = jsonDecode(genreResponse.body);
+    } while(tooManyRequests);
+    String name = decodedGenre[0]['name'];
+    genres.add(name);
   }
   return genres;
 }

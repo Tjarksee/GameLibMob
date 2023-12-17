@@ -52,8 +52,8 @@ class GameItem implements ListItem {
   Widget buildSubtitle(BuildContext context) => const SizedBox.shrink();
 
   @override
-  Widget buildLeading(BuildContext context) {
-    if(cover == null){
+  Widget buildCover(BuildContext context) {
+    if (cover == null) {
       return const CircularProgressIndicator();
       //return Image.asset("asset/not_found.jpg");
     } else {

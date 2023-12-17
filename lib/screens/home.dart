@@ -40,7 +40,7 @@ class _HomeScreenState extends State<HomeScreen> {
         return Container(
           color: Colors.grey,
           child: ListTile(
-              leading: favouriteGameList[index].buildLeading(context),
+              leading: favouriteGameList[index].buildCover(context),
               title: favouriteGameList[index].buildTitle(context),
               subtitle: favouriteGameList[index].buildSubtitle(context),
               trailing: HeartButton(mainList, favouriteGameList[index]),
