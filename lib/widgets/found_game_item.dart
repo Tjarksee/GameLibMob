@@ -42,8 +42,7 @@ class _FoundGameItemState extends State<FoundGameItem> {
               trailing: HeartButton(widget.favouriteGameList, widget.item),
               onTap: () =>
                   Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    return GameDetailScreen(
-                        widget.favouriteGameList, widget.item);
+                    return GameDetailScreen();
                   })));
         });
   }

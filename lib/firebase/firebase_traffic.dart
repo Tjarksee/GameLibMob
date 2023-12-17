@@ -23,18 +23,16 @@ class FirebaseTraffic {
           name: result.data()["name"].toString(),
           // Du solltest entscheiden, wie du das Bild darstellen möchtest.
           // Hier wird angenommen, dass es als String (URL) in Firebase gespeichert wurde.
-          cover: Image.network(result.data()["cover"].toString()),
+          cover: result.data()["cover"],
           summary: result.data()["description"].toString(),
-          platforms: result.data()["platform"],
+          platformIds: ['test', 'das'],
+          genreIds: ['test', 'das'],
         );
-
+        print(favGame.name);
         // Füge die Instanz zur Liste hinzu
         favGameList.add(favGame);
       }
-      print(favGameList.length);
-      print("Spiele erfolgreich aus DB geladen");
     });
-
     return favGameList;
   }
 
@@ -54,7 +52,7 @@ class FirebaseTraffic {
       "name": gameToPush.name,
       // Du solltest entscheiden, wie du das Bild in Firebase speichern möchtest.
       // Hier speichere ich den Bild-Asset-Pfad als String.
-      "cover": gameToPush.cover.toString(),
+      "cover": gameToPush.cover,
       "description": gameToPush.summary,
       "platform": gameToPush.platforms,
     });

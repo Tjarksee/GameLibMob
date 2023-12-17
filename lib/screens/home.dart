@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gamelib_mob/list/game_item.dart';
 import 'package:gamelib_mob/list/main_list.dart';
+import 'package:gamelib_mob/main.dart';
 import 'package:gamelib_mob/screens/profile_page.dart';
 import 'package:gamelib_mob/screens/search_game.dart';
 import 'package:gamelib_mob/screens/game_detail.dart';
@@ -36,22 +37,20 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    _getInfoFromDatabase();
+    getInfoFromDatabase();
   }
 
-  void _getInfoFromDatabase() async {
-    FutureBuilder<List<GameItem>>(
-        future: FirebaseTraffic.pullFirebase(),
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            final listOfItems = List<GameItem>.generate(
-                snapshot.data!.length, (i) => snapshot.data![i]);
-            mainList.favouriteGameList = listOfItems;
-          } else if (snapshot.hasError) {}
-          return const Scaffold(
-            body: Center(child: CircularProgressIndicator()),
-          );
-        });
+  Future<void> getInfoFromDatabase() async {
+    try {
+      List<GameItem> data = await FirebaseTraffic.pullFirebase();
+      setState(() {
+        mainList.favouriteGameList = data;
+        favouriteGameList = data;
+      });
+    } catch (error) {
+      // Handle error
+      print("Error fetching data: $error");
+    }
   }
 
   Widget _buildMainList() {
