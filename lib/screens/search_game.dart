@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gamelib_mob/api/get_game_item.dart';
+import 'package:gamelib_mob/api/api_services.dart';
 import 'package:gamelib_mob/list/game_item.dart';
 import 'package:gamelib_mob/list/main_list.dart';
 import 'package:gamelib_mob/screens/search_result.dart';
