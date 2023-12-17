@@ -1,14 +1,14 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gamelib_mob/screens/home.dart';
-import 'package:gamelib_mob/screens/signup.dart';
+import 'package:gamelib_mob/screens/sign_up.dart';
 import '../helpers/helpers.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
 
   @override
-  _SignInScreenState createState() => _SignInScreenState();
+  State<SignInScreen> createState() => _SignInScreenState();
 }
 
 class _SignInScreenState extends State<SignInScreen> {
@@ -32,13 +32,14 @@ class _SignInScreenState extends State<SignInScreen> {
                 padding: EdgeInsets.fromLTRB(
                     20, MediaQuery.of(context).size.height * 0.2, 20, 0),
                 child: Column(children: <Widget>[
-                  reusableTextField("Enter UserName", Icons.person_outline,
-                      false, _emailTextController),
+                  //Text field to enter username
+                  reusableTextField("Enter Email", Icons.person_outline, false,
+                      _emailTextController),
                   const SizedBox(
                     height: 20,
                   ),
-                  reusableTextField("Enterdsa Password", Icons.lock_outline,
-                      true, _passwordTextController),
+                  reusableTextField("Enter Password", Icons.lock_outline, true,
+                      _passwordTextController),
                   const SizedBox(
                     height: 20,
                   ),
@@ -47,7 +48,7 @@ class _SignInScreenState extends State<SignInScreen> {
                   ),
                   Text(
                     showError ? errorMessage : '',
-                    style: TextStyle(color: Colors.red),
+                    style: const TextStyle(color: Colors.red),
                   ),
                   const SizedBox(
                     height: 10,

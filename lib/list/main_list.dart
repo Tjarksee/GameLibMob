@@ -1,34 +1,44 @@
-import 'package:gamelib_mob/list/list_class.dart';
-import 'package:gamelib_mob/firebase_traffic.dart';
+import 'package:gamelib_mob/firebase/firebase_traffic.dart';
+import 'game_item.dart';
 
 class MainList {
-  String userId;
-  List<GameItem> favList = [];
+  List<GameItem> favouriteGameList = [];
 
-  MainList({required this.userId});
-
-  bool contains1(GameItem favGameItem) {
-    final foundGames = favList.where(
-          (element) => element.gameItemInfo.gameID == favGameItem.gameItemInfo.gameID,
-    );
-    return foundGames.isNotEmpty;
+  bool contains(favGameItem) {
+    GameItem fav = favGameItem;
+    final foundGames =
+        favouriteGameList.where((element) => element.gameID == fav.gameID);
+    if (foundGames.isNotEmpty) {
+      return true;
+    }
+    return false;
   }
 
-  void removeFav(GameItem favGameItem) {
-    favList.removeWhere(
-          (element) => element.gameItemInfo.gameID == favGameItem.gameItemInfo.gameID,
-    );
-    // Remove from DB
+  void removeFavourite(favGameItem) {
+    GameItem fav = favGameItem;
+    favouriteGameList.removeWhere((element) => element.gameID == fav.gameID);
     FirebaseTraffic.removeFromFirebase();
   }
 
-  void addFav(GameItem favGameItem) {
-    favList.add(favGameItem);
-    // Push to DB
-    FirebaseTraffic.pushGameListToFirebase(favList, userId);
+  void addFavourite(favGameItem) {
+    GameItem selectedGame = favGameItem;
+
+    favouriteGameList.add(selectedGame);
+    FirebaseTraffic.pushGameToFirebase(selectedGame);
+    print("pushed");
   }
 
-  List<GameItem> getFavList() {
-    return favList;
+  List<GameItem> getFavouriteList() {
+    return favouriteGameList;
+  }
+
+  int getStatusAmount(Status chosenStatus) {
+    int counter = 0;
+    for (final game in favouriteGameList) {
+      if (game.status == chosenStatus) {
+        counter++;
+      }
+    }
+    return counter;
   }
 }

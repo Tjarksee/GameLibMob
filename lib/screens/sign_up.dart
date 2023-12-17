@@ -1,20 +1,17 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gamelib_mob/screens/home.dart';
-import 'package:gamelib_mob/firebase_traffic.dart';
 import '../helpers/helpers.dart';
-import 'package:gamelib_mob/list/main_list.dart';
+import 'package:gamelib_mob/firebase/firebase_traffic.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
 
   @override
-  _SignUpScreenState createState() => _SignUpScreenState();
+  State<SignUpScreen> createState() => _SignUpScreenState();
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
-  MainList mainList = MainList(userId: '');
-
   bool showError = false;
   String errorMessage = '';
   final TextEditingController _passwordTextController = TextEditingController();
@@ -49,12 +46,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 const SizedBox(
                   height: 20,
                 ),
-                reusableTextField("Enter UserName", Icons.person_outline, false,
+                reusableTextField("Enter Username", Icons.person_outline, false,
                     _userNameTextController),
                 const SizedBox(
                   height: 20,
                 ),
-                reusableTextField("Enter Email Id", Icons.person_outline, false,
+                reusableTextField("Enter Email", Icons.person_outline, false,
                     _emailTextController),
                 const SizedBox(
                   height: 20,
@@ -66,17 +63,17 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 ),
                 Text(
                   showError ? errorMessage : '',
-                  style: TextStyle(color: Colors.red),
+                  style: const TextStyle(color: Colors.red),
                 ),
                 firebaseUIButton(context, "Sign Up", () async {
                   try {
-                    String? userId = await FirebaseTraffic.pushUserNameToFirebase(_userNameTextController.text);
-                    mainList = MainList(userId: userId!);
                     await FirebaseAuth.instance
                         .createUserWithEmailAndPassword(
                             email: _emailTextController.text,
                             password: _passwordTextController.text)
                         .then((value) {
+                      FirebaseTraffic.pushUserNameToFirebase(
+                          _userNameTextController.text);
                       Navigator.push(
                           context,
                           MaterialPageRoute(
