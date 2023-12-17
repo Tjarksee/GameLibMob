@@ -148,7 +148,7 @@ Future<List<GameItem>> getGameItem(IGDBToken apiToken, String search) async {
     gamesInfo.urls.add(url);
   }
 
-  List<GameItem> gameInfos = [];
+  List<GameItem> gameItems = [];
   for (int i = 0; i < gamesInfo.gameIds.length; i++) {
     final GameItem gameInfo = GameItem(
       gameID: gamesInfo.gameIds[i],
@@ -162,7 +162,7 @@ Future<List<GameItem>> getGameItem(IGDBToken apiToken, String search) async {
       storyline: gamesInfo.storylines[i],
       url: gamesInfo.urls[i],
     );
-    gameInfos.add(gameInfo);
+    gameItems.add(gameInfo);
   }
-  return gameInfos;
+  return gameItems;
 }
