@@ -187,7 +187,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           favouriteGameList
                               .getStatusAmount(Status.wantToPlayThisFucker)
                               .toString(),
-                          style: TextStyle(color: Colors.white, fontSize: 15),
+                          style: const TextStyle(color: Colors.white, fontSize: 15),
                         ),
                       )
                     ],

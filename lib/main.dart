@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:gamelib_mob/api/igdb_token.dart';
+import 'package:gamelib_mob/screens/home.dart';
 import 'package:provider/provider.dart';
 import 'firebase_options.dart';
-import 'package:gamelib_mob/screens/sign_in.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -11,8 +11,9 @@ Future<void> main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   runApp(
-    Provider(
+    FutureProvider<IGDBToken?>(
       create: (_) => fetchIGDBToken(),
+      initialData: null,
       child: const MyApp(),
     ),
   );
@@ -30,7 +31,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
+        home: const HomeScreen());
         //home: const SignInScreen());
-        home: const SignInScreen());
   }
 }

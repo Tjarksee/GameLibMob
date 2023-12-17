@@ -17,23 +17,24 @@ class SearchGameScreen extends StatefulWidget {
 }
 
 class _SearchGameScreenState extends State<SearchGameScreen> {
-  late Future<IGDBToken> token;
+  late IGDBToken? token;
   @override
   void initState() {
     super.initState();
-    token = fetchIGDBToken();
   }
 
   late MainList favouriteGameList = widget.favouriteGameList;
   @override
   Widget build(BuildContext context) {
+    token = Provider.of<IGDBToken?>(context, listen: true);
     const List<Color> backgroundColors = [
-       Color.fromARGB(249, 50, 48, 50),
-       Color.fromARGB(249, 108, 106, 108),
-       Color.fromARGB(249, 50, 48, 50),
+      Color.fromARGB(249, 50, 48, 50),
+      Color.fromARGB(249, 108, 106, 108),
+      Color.fromARGB(249, 50, 48, 50),
     ];
     TextEditingController searchInfo = TextEditingController();
     Future<List<GameItem>> searchResultList;
+    if(token!=null){
     return Scaffold(
         appBar: AppBar(
           title: const Text('Add a Game'),
@@ -50,7 +51,7 @@ class _SearchGameScreenState extends State<SearchGameScreen> {
               reusableTextField("Game Name", Icons.games, false, searchInfo),
               firebaseUIButton(context, "search", () {
                 searchResultList = getGameItem(
-                  Provider.of<Future<IGDBToken>>(context, listen: false),
+                  token!,
                   searchInfo.text,
                 );
 
@@ -62,5 +63,9 @@ class _SearchGameScreenState extends State<SearchGameScreen> {
                             favouriteGameList: favouriteGameList)));
               })
             ])));
+    } 
+                  return const Scaffold(
+                    body: Center(child: CircularProgressIndicator()),
+                  );
   }
 }

@@ -1,15 +1,28 @@
 import 'dart:collection';
 import 'dart:convert';
-import 'package:flutter/material.dart';
+import 'package:gamelib_mob/api/igdb_token.dart';
 import 'package:gamelib_mob/list/game_item.dart';
 import 'package:http/http.dart' as http;
 
-Future<List<GameItem>> getGameItem(apiToken, search) async {
-  String token = (await apiToken).accessToken;
+class _GamesInfo {
+  List<String> gameIds = [];
+  List<String> coverIds = [];
+  List<String> releaseDates = [];
+  List<List<String>> genreIds = [];
+  List<String> names = [];
+  List<List<String>> platformIds = [];
+  List<double> ratings = [];
+  List<int> ratingCounts = [];
+  List<String> summaries = [];
+  List<String> storylines = [];
+  List<String> urls = [];
+}
+
+Future<List<GameItem>> getGameItem(IGDBToken apiToken, String search) async {
+  String token = apiToken.accessToken;
   String searchInfo = search;
   List<dynamic> ids;
   List<dynamic> dynamicInfos;
-  List<GameItem> gameInfos = [];
 
   final responseIds =
       await http.post(Uri.parse('https://api.igdb.com/v4/games'),
@@ -44,26 +57,15 @@ Future<List<GameItem>> getGameItem(apiToken, search) async {
           ('fields cover,first_release_date,genres,name,platforms,rating,rating_count,summary,storyline,url; where id = ($id);'));
   dynamicInfos = jsonDecode(response.body);
 
-  gameInfos.clear();
+  var gamesInfo = _GamesInfo();
   for (final game in dynamicInfos) {
-    // convert all ids to strings and rest to appropriate type
-    // might need to look for null first and then convert
     final gameId = game["id"].toString();
-    Image cover;
+    gamesInfo.gameIds.add(gameId);
     if (game["cover"] != null) {
       final coverId = game["cover"].toString();
-      final responseCover = await http.post(
-          Uri.parse('https://api.igdb.com/v4/covers'),
-          headers: {
-            "Client-ID": "jatk8moav95uswe6bq3zmcy3fokdnw",
-            "Authorization": "Bearer $token"
-          },
-          body: ('fields url; where id = ($coverId);'));
-      final decodedCover = jsonDecode(responseCover.body);
-      final url = 'https:${decodedCover[0]["url"]}';
-      cover = Image.network(url);
+      gamesInfo.coverIds.add(coverId);
     } else {
-      cover = Image.asset('assets/images/test.png');
+      gamesInfo.coverIds.add("");
     }
 
     String releaseDate = "";
@@ -71,84 +73,114 @@ Future<List<GameItem>> getGameItem(apiToken, search) async {
       int timestamp = game["first_release_date"];
       final date = DateTime.fromMillisecondsSinceEpoch(timestamp * 1000);
       releaseDate = date.toString();
+      gamesInfo.releaseDates.add(releaseDate);
+    } else {
+      gamesInfo.releaseDates.add("");
     }
-    List<String> genres = [];
     if (game["genres"] != null) {
+      List<String> genreIds = [];
       for (final genre in game["genres"]) {
         final genreId = genre.toString();
-        final genreResponse = await http.post(
-            Uri.parse('https://api.igdb.com/v4/genres'),
-            headers: {
-              "Client-ID": "jatk8moav95uswe6bq3zmcy3fokdnw",
-              "Authorization": "Bearer $token"
-            },
-            body: ('fields name; where id = ($genreId);'));
-        final decodedCover = jsonDecode(genreResponse.body);
-        String name = decodedCover[0]['name'];
-        genres.add(name);
+        genreIds.add(genreId);
+        // final genreResponse = await http.post(
+        //     Uri.parse('https://api.igdb.com/v4/genres'),
+        //     headers: {
+        //       "Client-ID": "jatk8moav95uswe6bq3zmcy3fokdnw",
+        //       "Authorization": "Bearer $token"
+        //     },
+        //     body: ('fields name; where id = ($genreId);'));
+        // final decodedCover = jsonDecode(genreResponse.body);
+        // String genreName = decodedCover[0]['name'];
+        // genres.add(genreName);
       }
+      gamesInfo.genreIds.add(genreIds);
+    } else {
+      gamesInfo.genreIds.add(List<String>.empty());
     }
     final name = game["name"];
-    List<String> platforms = [];
+    gamesInfo.names.add(name);
     if (game["platforms"] != null) {
+      List<String> platformIds = [];
       for (final platform in game["platforms"]) {
         final platformId = platform.toString();
-        final platformResponse = await http.post(
-            Uri.parse('https://api.igdb.com/v4/platforms'),
-            headers: {
-              "Client-ID": "jatk8moav95uswe6bq3zmcy3fokdnw",
-              "Authorization": "Bearer $token"
-            },
-            body: ('fields name; where id = ($platformId);'));
-        final decodedCover = jsonDecode(platformResponse.body);
-        String name = decodedCover[0]['name'];
-        platforms.add(name);
+        platformIds.add(platformId);
+        // final platformResponse = await http.post(
+        //     Uri.parse('https://api.igdb.com/v4/platforms'),
+        //     headers: {
+        //       "Client-ID": "jatk8moav95uswe6bq3zmcy3fokdnw",
+        //       "Authorization": "Bearer $token"
+        //     },
+        //     body: ('fields name; where id = ($platformId);'));
+        // final decodedCover = jsonDecode(platformResponse.body);
+        // String name = decodedCover[0]['name'];
+        // platforms.add(name);
       }
+      gamesInfo.platformIds.add(platformIds);
+    } else {
+      gamesInfo.platformIds.add(List<String>.empty());
     }
 
-    var rating = 0.0;
     if (game["rating"] != null) {
-      rating = game["rating"];
+      gamesInfo.ratings.add(game["rating"]);
+    } else {
+      gamesInfo.ratings.add(-1.0);
     }
-    var ratingCount = 0;
+
     if (game["rating_count"] != null) {
-      ratingCount = game["rating_count"];
+      gamesInfo.ratingCounts.add(game["rating_count"]);
+    } else {
+      gamesInfo.ratingCounts.add(-1);
     }
-    final summary = game["summary"];
+
+    if (game["summary"] != null) {
+      gamesInfo.summaries.add(game["summary"]);
+    } else {
+      gamesInfo.summaries.add("");
+    }
+
     var storyline = "";
     if (game["storyline"] != null) {
       storyline = game["storyline"];
     }
+    gamesInfo.storylines.add(storyline);
+
     final url = game["url"];
-    final GameItem gameInfo = GameItem(
-        gameID: gameId,
-        cover: cover,
-        releaseDate: releaseDate,
-        genres: genres,
-        name: name,
-        platforms: platforms,
-        rating: rating,
-        ratingCount: ratingCount,
-        summary: summary,
-        storyline: storyline,
-        url: url);
-    gameInfos.add(gameInfo);
+    gamesInfo.urls.add(url);
   }
 
+  // final responseCover = await http.post(
+  //     Uri.parse('https://api.igdb.com/v4/covers'),
+  //     headers: {
+  //       "Client-ID": "jatk8moav95uswe6bq3zmcy3fokdnw",
+  //       "Authorization": "Bearer $token"
+  //     },
+  //     body: ('fields url; where id = ($coverString);'));
+  // final decodedCovers = jsonDecode(responseCover.body);
+  // List<Image> covers = [];
+  // for (final decodedCover in decodedCovers) {
+  //   if (decodedCover["url"] == null) {
+  //     covers.add(Image.network("https://images.igdb.com/igdb/image/upload/t_cover_big/nocover.png"));
+  //   } else {
+  //     final url = 'https:${decodedCover["url"]}';
+  //     covers.add(Image.network(url));
+  //   }
+  // }
+
+  List<GameItem> gameInfos = [];
+  for (int i = 0; i < gamesInfo.gameIds.length; i++) {
+    final GameItem gameInfo = GameItem(
+      gameID: gamesInfo.gameIds[i],
+      coverId: gamesInfo.coverIds[i],
+      genreIds: gamesInfo.genreIds[i],
+      name: gamesInfo.names[i],
+      platformIds: gamesInfo.platformIds[i],
+      rating: gamesInfo.ratings[i],
+      ratingCount: gamesInfo.ratingCounts[i],
+      summary: gamesInfo.summaries[i],
+      storyline: gamesInfo.storylines[i],
+      url: gamesInfo.urls[i],
+    );
+    gameInfos.add(gameInfo);
+  }
   return gameInfos;
 }
-
-
-// Future<List<ShortInfo>> getShortInfo(apiToken, gameInfos) async {
-//   // für jedes gameInfo, die cover IDs raussuchen und in eine Liste speichern
-//   final responseCover = await http.post(
-//       Uri.parse('https://api.igdb.com/v4/covers'),
-//       headers: {
-//         "Client-ID": "jatk8moav95uswe6bq3zmcy3fokdnw",
-//         "Authorization": "Bearer $token"
-//       },
-//       body: ('fields url; where id = ($cover_id);'));
-//   gameCoverTemp = jsonDecode(responseCover.body);
-//   // für jedes gameInfo, den namen raussuchen und in die selbe liste an shortinfos speichern?
-//   // liste an shortinfos rausgeben
-// }
