@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gamelib_mob/list/game_item.dart';
 import 'package:gamelib_mob/list/main_list.dart';
+import 'package:gamelib_mob/main.dart';
 import 'package:gamelib_mob/screens/profile_page.dart';
 import 'package:gamelib_mob/screens/search_game.dart';
 import 'package:gamelib_mob/screens/game_detail.dart';
@@ -36,12 +37,27 @@ class _HomeScreenState extends State<HomeScreen> {
 
   void initState() {
     super.initState();
-    //Load from DB
-    print("test");
-    //favouriteGameList = FirebaseTraffic.pullFirebase();
+  }
+
+  void _getInfoFromDatabase() async {
+    FutureBuilder<List<GameItem>>(
+        future: FirebaseTraffic.pullFirebase(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            final listOfItems = List<GameItem>.generate(
+                snapshot.data!.length, (i) => snapshot.data![i]);
+            mainList.favouriteGameList = listOfItems;
+          } else if (snapshot.hasError) {}
+          return const Scaffold(
+            body: Center(child: CircularProgressIndicator()),
+          );
+        });
   }
 
   Widget _buildMainList() {
+    if (mainList.favouriteGameList.isEmpty) {
+      _getInfoFromDatabase();
+    }
     favouriteGameList = mainList.favouriteGameList;
     return ListView.builder(
       itemCount: favouriteGameList.length,

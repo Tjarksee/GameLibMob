@@ -19,7 +19,7 @@ class FirebaseTraffic {
       querySnapshot.docs.forEach((result) {
         // Erstelle eine neue Instanz von GameItem
         GameItem favGame = GameItem(
-          gameID: 'test',
+          gameID: result.data()["gameID"].toString(),
           name: result.data()["name"].toString(),
           // Du solltest entscheiden, wie du das Bild darstellen möchtest.
           // Hier wird angenommen, dass es als String (URL) in Firebase gespeichert wurde.
@@ -57,7 +57,7 @@ class FirebaseTraffic {
         // Hier speichere ich den Bild-Asset-Pfad als String.
         "cover": favGame.cover.toString(),
         "description": favGame.summary,
-        "platform": favGame.gameItemInfo.platform,
+        "platform": favGame.platforms,
       });
     }
 
