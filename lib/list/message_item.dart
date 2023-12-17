@@ -15,7 +15,7 @@ class MessageItem implements ListItem {
   Widget buildSubtitle(BuildContext context) => Text(body);
 
   @override
-  Widget buildLeading(BuildContext context) {
+  Widget buildCover(BuildContext context) {
     return const SizedBox.shrink();
   }
 

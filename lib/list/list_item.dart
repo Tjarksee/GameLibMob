@@ -7,7 +7,7 @@ abstract class ListItem {
   /// The subtitle line, if any, to show in a list item.
   Widget buildSubtitle(BuildContext context);
 
-  Widget buildLeading(BuildContext context);
+  Widget buildCover(BuildContext context);
 
   Widget buildTrailing(BuildContext context);
 }
