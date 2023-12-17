@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:gamelib_mob/helpers/game_info.dart';
+import 'package:gamelib_mob/list/game_item.dart';
 import 'package:gamelib_mob/list/main_list.dart';
 import 'package:gamelib_mob/helpers/helpers.dart';
 import 'package:gamelib_mob/screens/sign_in.dart';

@@ -23,7 +23,8 @@ Future<List<GameItem>> getGameItem(apiToken, search) async {
   ids = jsonDecode(responseIds.body);
 
   if (ids.isEmpty) {
-    throw Exception('No Games Found');
+    return Future.error(
+        'Exception: No Games Found', StackTrace.fromString("This is a Test"));
   }
   String id = '';
   for (var i = 0; i < ids.length; i++) {
@@ -34,14 +35,14 @@ Future<List<GameItem>> getGameItem(apiToken, search) async {
   }
   id = id.substring(0, id.length - 1);
 
-  final responseCover = await http.post(
-      Uri.parse('https://api.igdb.com/v4/covers'),
+  final response = await http.post(Uri.parse('https://api.igdb.com/v4/games'),
       headers: {
         "Client-ID": "jatk8moav95uswe6bq3zmcy3fokdnw",
         "Authorization": "Bearer $token"
       },
-      body: ('fields url; where game = ($id);'));
-  gameCoverTemp = jsonDecode(responseCover.body);
+      body:
+          ('fields cover,first_release_date,genres,name,platforms,rating,rating_count,summary,storyline,url; where id = ($id);'));
+  dynamicInfos = jsonDecode(response.body);
 
   gameInfos.clear();
   for (final game in dynamicInfos) {

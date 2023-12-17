@@ -31,7 +31,7 @@ class MainList {
   int getStatusAmount(Status chosenStatus) {
     int counter = 0;
     for (final game in favouriteGameList) {
-      if (game.gameItemInfo.status == chosenStatus) {
+      if (game.status == chosenStatus) {
         counter++;
       }
     }

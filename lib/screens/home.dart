@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:gamelib_mob/list/game_item.dart';
 import 'package:gamelib_mob/list/main_list.dart';
-import 'package:gamelib_mob/screens/add_game.dart';
-import 'package:gamelib_mob/screens/game_page.dart';
 import 'package:gamelib_mob/screens/profile_page.dart';
 import 'package:gamelib_mob/screens/search_game.dart';
 import 'package:gamelib_mob/screens/game_detail.dart';
-import 'package:gamelib_mob/screens/sign_in.dart';
-import 'package:gamelib_mob/helpers/helpers.dart';
 import 'package:gamelib_mob/widgets/heart_button.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -31,7 +27,7 @@ class _HomeScreenState extends State<HomeScreen> {
     widgetOptions = <Widget>[
       _buildMainList(),
       ProfileScreen(
-        favouriteGameList: favouriteGameList,
+        favouriteGameList: mainList,
       ),
     ];
   }
