@@ -148,24 +148,6 @@ Future<List<GameItem>> getGameItem(IGDBToken apiToken, String search) async {
     gamesInfo.urls.add(url);
   }
 
-  // final responseCover = await http.post(
-  //     Uri.parse('https://api.igdb.com/v4/covers'),
-  //     headers: {
-  //       "Client-ID": "jatk8moav95uswe6bq3zmcy3fokdnw",
-  //       "Authorization": "Bearer $token"
-  //     },
-  //     body: ('fields url; where id = ($coverString);'));
-  // final decodedCovers = jsonDecode(responseCover.body);
-  // List<Image> covers = [];
-  // for (final decodedCover in decodedCovers) {
-  //   if (decodedCover["url"] == null) {
-  //     covers.add(Image.network("https://images.igdb.com/igdb/image/upload/t_cover_big/nocover.png"));
-  //   } else {
-  //     final url = 'https:${decodedCover["url"]}';
-  //     covers.add(Image.network(url));
-  //   }
-  // }
-
   List<GameItem> gameInfos = [];
   for (int i = 0; i < gamesInfo.gameIds.length; i++) {
     final GameItem gameInfo = GameItem(
