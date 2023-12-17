@@ -62,7 +62,15 @@ Future<Image> getCover(String token, String coverId) async {
   final decodedCover = jsonDecode(responseCover.body);
   if (decodedCover[0]["url"] == null) {
     return Image.asset("assets/not_found.jpg");
+  } else if (decodedCover[0]["url"] == null) {
+    return Image.asset("assets/not_found.jpg");
   }
   final url = 'https:${decodedCover[0]["url"]}';
+  try {
+  Image image = Image.network(url);
+  return image;
+  } catch (e) {
+    print(e);
+  }
   return Image.network(url);
 }
