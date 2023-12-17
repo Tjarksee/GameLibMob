@@ -38,7 +38,6 @@ class _SignInScreenState extends State<SignInScreen> {
                   const SizedBox(
                     height: 20,
                   ),
-                  //Text field to enter password
                   reusableTextField("Enter Password", Icons.lock_outline, true,
                       _passwordTextController),
                   const SizedBox(
