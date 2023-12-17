@@ -23,8 +23,6 @@ class FirebaseTraffic {
           GameInfo(
             gameID: result.data()["gameID"].toString(),
             name: result.data()["name"].toString(),
-            // Du solltest entscheiden, wie du das Bild darstellen möchtest.
-            // Hier wird angenommen, dass es als String (URL) in Firebase gespeichert wurde.
             cover: Image.network(result.data()["cover"].toString()),
             desrciption: result.data()["description"].toString(),
             platform: result.data()["platform"].toString(),
@@ -41,12 +39,11 @@ class FirebaseTraffic {
   }
 
 
-  static void pushGameListToFirebase(List<GameItem> favGameList) async {
+  /*static void pushGameListToFirebase(List<GameItem> favGameList) async {
     var firebaseUser = FirebaseAuth.instance.currentUser;
     final firestoreInstance = FirebaseFirestore.instance;
 
     for (var favGame in favGameList) {
-      // Verwende eine eindeutige ID für jedes Spiel (z.B., die gameID)
       var docReference = firestoreInstance
           .collection('test')
           .doc(firebaseUser!.uid)
@@ -57,8 +54,6 @@ class FirebaseTraffic {
       await docReference.set({
         "gameID": favGame.gameItemInfo.gameID,
         "name": favGame.gameItemInfo.name,
-        // Du solltest entscheiden, wie du das Bild in Firebase speichern möchtest.
-        // Hier speichere ich den Bild-Asset-Pfad als String.
         "cover": favGame.gameItemInfo.cover.toString(),
         "description": favGame.gameItemInfo.desrciption,
         "platform": favGame.gameItemInfo.platform,
@@ -67,6 +62,7 @@ class FirebaseTraffic {
 
     print("Spiele erfolgreich zur Datenbank hinzugefügt");
   }
+
   static void pushUserNameToFirebase(String name) async{
     final firestoreInstance = FirebaseFirestore.instance;
     firestoreInstance.collection('test').add({
@@ -74,7 +70,7 @@ class FirebaseTraffic {
     }).then((value) {
       print(value.id);
     });
-  }
+  }*/
 
   static void removeFromFirebase() async {
     var firebaseUser = FirebaseAuth.instance.currentUser;
@@ -90,5 +86,49 @@ class FirebaseTraffic {
       print("Game gelöscht");
     }
   }
+
+  static Future<String?> pushUserNameToFirebase(String name) async {
+    final firestoreInstance = FirebaseFirestore.instance;
+
+    try {
+      var docRef = await firestoreInstance.collection('test').add({
+        'userName': name,
+      });
+
+      String userId = docRef.id;
+      print(userId);
+
+      return userId;
+    } catch (e) {
+      print("Error: $e");
+      return null;
+    }
+  }
+
+  static void pushGameListToFirebase(List<GameItem> favGameList, String userId) async {
+    final firestoreInstance = FirebaseFirestore.instance;
+
+    print("Test");
+    print(userId);
+    for (var favGame in favGameList) {
+      var docReference = firestoreInstance
+          .collection('test')
+          .doc(userId)
+          .collection('gamelist')
+          .doc(favGame.gameItemInfo.gameID);
+
+      // Setze die Daten des Spiels im Dokument
+      await docReference.set({
+        "gameID": favGame.gameItemInfo.gameID,
+        "name": favGame.gameItemInfo.name,
+        "cover": favGame.gameItemInfo.cover.toString(),
+        "description": favGame.gameItemInfo.desrciption,
+        "platform": favGame.gameItemInfo.platform,
+      });
+    }
+
+    print("Spiele erfolgreich zur Datenbank hinzugefügt");
+  }
 }
+
 

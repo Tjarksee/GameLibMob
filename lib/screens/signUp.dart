@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:gamelib_mob/screens/home.dart';
 import 'package:gamelib_mob/firebase_traffic.dart';
 import '../helpers/helpers.dart';
+import 'package:gamelib_mob/list/main_list.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -12,6 +13,8 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
+  MainList mainList = MainList(userId: '');
+
   bool showError = false;
   String errorMessage = '';
   final TextEditingController _passwordTextController = TextEditingController();
@@ -67,7 +70,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 ),
                 firebaseUIButton(context, "Sign Up", () async {
                   try {
-                    FirebaseTraffic.pushUserNameToFirebase(_userNameTextController.text);
+                    String? userId = await FirebaseTraffic.pushUserNameToFirebase(_userNameTextController.text);
+                    mainList = MainList(userId: userId!);
                     await FirebaseAuth.instance
                         .createUserWithEmailAndPassword(
                             email: _emailTextController.text,

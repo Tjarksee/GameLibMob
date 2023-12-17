@@ -2,8 +2,10 @@ import 'package:gamelib_mob/list/list_class.dart';
 import 'package:gamelib_mob/firebase_traffic.dart';
 
 class MainList {
+  String userId;
   List<GameItem> favList = [];
 
+  MainList({required this.userId});
 
   bool contains1(GameItem favGameItem) {
     final foundGames = favList.where(
@@ -23,7 +25,7 @@ class MainList {
   void addFav(GameItem favGameItem) {
     favList.add(favGameItem);
     // Push to DB
-    FirebaseTraffic.pushGameListToFirebase(favList);
+    FirebaseTraffic.pushGameListToFirebase(favList, userId);
   }
 
   List<GameItem> getFavList() {
