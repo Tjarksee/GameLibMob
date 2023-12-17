@@ -10,7 +10,7 @@ class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key, required this.favouriteGameList});
 
   @override
-  _ProfileScreenState createState() => _ProfileScreenState();
+  State<ProfileScreen> createState() => _ProfileScreenState();
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
@@ -38,7 +38,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           Color.fromARGB(249, 50, 48, 50)
         ], begin: Alignment.bottomRight, end: Alignment.topLeft)),
         child: Column(children: [
-          Container(
+          SizedBox(
             width: width,
             height: mainContainerHight,
             child: Row(
@@ -50,7 +50,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     width: 5,
                   )),
                   child: Image(
-                    image: AssetImage('assets/profile_pictures/unicorn.png'),
+                    image:
+                        const AssetImage('assets/profile_pictures/unicorn.png'),
                     width: width / 4,
                     height: mainContainerHight / 1.5,
                   ),
@@ -85,7 +86,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ],
             ),
           ),
-          Container(
+          SizedBox(
             width: width,
             height: mainContainerHight,
             child: Row(
@@ -163,7 +164,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ],
                   ),
                 ),
-                Container(
+                SizedBox(
                   height: mainContainerHight,
                   width: width / 3,
                   child: Column(
@@ -197,8 +198,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
           firebaseUIButton(context, "logout", () {
             FirebaseAuth.instance.signOut().then((value) {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => SignInScreen()));
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => const SignInScreen()));
             });
           }),
         ]));
