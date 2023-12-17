@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:gamelib_mob/list/list_class.dart';
+import 'package:gamelib_mob/list/game_item.dart';
 import 'package:gamelib_mob/list/main_list.dart';
 import 'package:gamelib_mob/screens/add_game.dart';
 import 'package:gamelib_mob/screens/game_page.dart';
 import 'package:gamelib_mob/screens/profile_page.dart';
+import 'package:gamelib_mob/screens/search_game.dart';
+import 'package:gamelib_mob/screens/game_detail.dart';
+import 'package:gamelib_mob/screens/sign_in.dart';
+import 'package:gamelib_mob/helpers/helpers.dart';
+import 'package:gamelib_mob/widgets/heart_button.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -14,18 +19,13 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
-  MainList favouriteGameList = MainList();
+  MainList mainList = MainList();
   late List<Widget> widgetOptions;
   void changeIndex(int newIndex) {
     setState(() => _selectedIndex = newIndex);
   }
 
-  List<GameItem> mainLists = [];
-
-  update(favouriteGameList) {
-    MainList items = favouriteGameList;
-    mainLists = items.favouriteGameList;
-  }
+  List<GameItem> favouriteGameList = [];
 
   void createListWidget() {
     widgetOptions = <Widget>[
@@ -37,20 +37,20 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _buildMainList() {
-    update(favouriteGameList);
+    favouriteGameList = mainList.favouriteGameList;
     return ListView.builder(
-      itemCount: mainLists.length,
+      itemCount: favouriteGameList.length,
       itemBuilder: (BuildContext content, int index) {
         return Container(
           color: Colors.grey,
           child: ListTile(
-              leading: mainLists[index].buildLeading(context),
-              title: mainLists[index].buildTitle(context),
-              subtitle: mainLists[index].buildSubtitle(context),
-              trailing: Icon(Icons.chevron_right),
+              leading: favouriteGameList[index].buildLeading(context),
+              title: favouriteGameList[index].buildTitle(context),
+              subtitle: favouriteGameList[index].buildSubtitle(context),
+              trailing: HeartButton(mainList, favouriteGameList[index]),
               onTap: () =>
                   Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    return game_page();
+                    return const GameDetailScreen();
                   }))),
         );
       },
@@ -78,9 +78,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => AddGameScreen(
-                                        favouriteGameList: favouriteGameList,
-                                      ))).then((_) {
+                                  builder: (context) => SearchGameScreen(
+                                      favouriteGameList: mainList))).then((_) {
                             setState(() {});
                           });
                         },
@@ -98,10 +97,11 @@ class _HomeScreenState extends State<HomeScreen> {
 }
 
 class _MyBottomNavigationBar extends StatelessWidget {
+  // ignore: prefer_typing_uninitialized_variables
   final updateIndex;
-  final currentIndex;
+  final int currentIndex;
 
-  const _MyBottomNavigationBar({this.updateIndex, this.currentIndex});
+  const _MyBottomNavigationBar({this.updateIndex, required this.currentIndex});
 
   @override
   Widget build(BuildContext context) {

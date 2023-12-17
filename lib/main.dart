@@ -13,7 +13,7 @@ Future<void> main() async {
   runApp(
     Provider(
       create: (_) => fetchIGDBToken(),
-      child: MyApp(),
+      child: const MyApp(),
     ),
   );
 }
