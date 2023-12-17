@@ -46,7 +46,7 @@ class _HomeScreenState extends State<HomeScreen> {
               trailing: HeartButton(mainList, favouriteGameList[index]),
               onTap: () =>
                   Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    return GameDetailScreen(favouriteGameList[index]);
+                    return GameDetailScreen(mainList, favouriteGameList[index]);
                   }))),
         );
       },

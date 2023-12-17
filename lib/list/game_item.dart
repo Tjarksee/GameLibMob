@@ -65,4 +65,55 @@ class GameItem implements ListItem {
   Widget buildTrailing(BuildContext context) {
     return const SizedBox.shrink();
   }
+
+  Widget buildSummary(BuildContext context) {
+    // TODO
+    // Eine kurze Beschreibung des Spiels
+      return Text(summary);
+  }
+
+  Widget buildUrl(BuildContext context) {
+    // TODO
+    // Eine URL ins schöne
+      return Text("not implemented");
+  }
+
+  Widget buildState(BuildContext context) {
+    // TODO
+    // ein menuknopf, der die drei Optionen von Status.X anzeigt
+    // und diese dann für status auswählt. Startet mit dem jetzigen
+      return const Text("not implemented");
+  }
+
+  Widget buildOwnScore(BuildContext context) {
+    // TODO
+    // Ein Schieberegler, der den eigenen Score anzeigt (startet auf dem eigenen)
+      return const Text("not implemented");
+  }
+
+  Widget buildRating(BuildContext context) {
+    // TODO
+    // Zeigt fett den Score an mit dem ratingcount drunter
+    // muss noch schöner werden
+      return Column(children: [
+        Text(rating.toString()),
+        Text(ratingCount.toString()),
+      ],);
+  }
+
+  Widget buildSpecifics(BuildContext context) {
+    // TODO
+    // Zeigt fett den Score an mit dem ratingcount drunter
+    // muss noch schöner werden
+      return Column(children: [
+        // for each platform -> Text(platforms),
+        // for each genre -> Text(genres),
+      ],);
+  }
+
+  Widget buildReleaseDate(BuildContext context) {
+    // TODO
+    // Ein Schieberegler, der den eigenen Score anzeigt (startet auf dem eigenen)
+      return Text(releaseDate);
+  }
 }
