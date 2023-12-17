@@ -43,7 +43,7 @@ class _FoundGameItemState extends State<FoundGameItem> {
               onTap: () =>
                   Navigator.push(context, MaterialPageRoute(builder: (context) {
                     return GameDetailScreen(
-                        widget.favouriteGameList, widget.item);
+                        widget.item);
                   })));
         });
   }
