@@ -11,8 +11,9 @@ Future<void> main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   runApp(
-    Provider(
+    FutureProvider<IGDBToken?>(
       create: (_) => fetchIGDBToken(),
+      initialData: null,
       child: const MyApp(),
     ),
   );
@@ -30,7 +31,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        //home: const SignInScreen());
         home: const HomeScreen());
+        //home: const SignInScreen());
   }
 }

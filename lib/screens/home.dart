@@ -1,11 +1,9 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gamelib_mob/list/game_item.dart';
 import 'package:gamelib_mob/list/main_list.dart';
+import 'package:gamelib_mob/screens/profile_page.dart';
 import 'package:gamelib_mob/screens/search_game.dart';
 import 'package:gamelib_mob/screens/game_detail.dart';
-import 'package:gamelib_mob/screens/sign_in.dart';
-import 'package:gamelib_mob/helpers/helpers.dart';
 import 'package:gamelib_mob/widgets/heart_button.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -28,7 +26,9 @@ class _HomeScreenState extends State<HomeScreen> {
   void createListWidget() {
     widgetOptions = <Widget>[
       _buildMainList(),
-      profilePage(context, "tefdsf", ['1', '2', '3']),
+      ProfileScreen(
+        favouriteGameList: mainList,
+      ),
     ];
   }
 
@@ -69,60 +69,19 @@ class _HomeScreenState extends State<HomeScreen> {
                 appBar: AppBar(
                   title: const Text('Your Game List'),
                   actions: [
-                    const IconButton(
-                        onPressed: (null),
-                        icon: Icon(Icons.filter_alt_rounded)),
                     IconButton(
                         onPressed: () {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
                                   builder: (context) => SearchGameScreen(
-                                      favouriteGameList:
-                                          mainList))).then((_) {
+                                      favouriteGameList: mainList))).then((_) {
                             setState(() {});
                           });
                         },
                         icon: const Icon(Icons.search)),
-                    const IconButton(
-                        onPressed: (null),
-                        icon: Icon(Icons.format_list_bulleted_sharp))
                   ],
                 ),
-                drawer: Drawer(
-                    child: ListView(
-                  children: [
-                    const SizedBox(
-                      height: 64.0,
-                      child: DrawerHeader(
-                          margin: EdgeInsets.all(0.0),
-                          padding: EdgeInsets.all(0.0),
-                          decoration: BoxDecoration(
-                              color: Color.fromARGB(255, 113, 113, 113)),
-                          child: Center(
-                            child: Text("menu", textAlign: TextAlign.center),
-                          )),
-                    ),
-                    ListTile(
-                      title: const Text(
-                        'Logout',
-                        textAlign: TextAlign.center,
-                      ),
-                      onTap: () {
-                        FirebaseAuth.instance.signOut().then((value) {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const SignInScreen()));
-                        });
-                      },
-                    ),
-                    ListTile(
-                      title: const Text('Item 2', textAlign: TextAlign.center),
-                      onTap: () {},
-                    )
-                  ],
-                )),
                 body: Center(
                   child: widgetOptions.elementAt(_selectedIndex),
                 ),

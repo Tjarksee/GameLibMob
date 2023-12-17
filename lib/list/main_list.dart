@@ -5,8 +5,8 @@ class MainList {
 
   bool contains(favGameItem) {
     GameItem fav = favGameItem;
-    final foundGames = favouriteGameList.where(
-        (element) => element.gameID == fav.gameID);
+    final foundGames =
+        favouriteGameList.where((element) => element.gameID == fav.gameID);
     if (foundGames.isNotEmpty) {
       return true;
     }
@@ -15,8 +15,7 @@ class MainList {
 
   void removeFavourite(favGameItem) {
     GameItem fav = favGameItem;
-    favouriteGameList.removeWhere(
-        (element) => element.gameID == fav.gameID);
+    favouriteGameList.removeWhere((element) => element.gameID == fav.gameID);
   }
 
   void addFavourite(favGameItem) {
@@ -27,5 +26,15 @@ class MainList {
 
   List<GameItem> getFavouriteList() {
     return favouriteGameList;
+  }
+
+  int getStatusAmount(Status chosenStatus) {
+    int counter = 0;
+    for (final game in favouriteGameList) {
+      if (game.status == chosenStatus) {
+        counter++;
+      }
+    }
+    return counter;
   }
 }
