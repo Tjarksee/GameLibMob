@@ -6,7 +6,7 @@ import 'package:gamelib_mob/screens/add_game.dart';
 import 'package:gamelib_mob/screens/game_page.dart';
 import 'package:gamelib_mob/screens/signIn.dart';
 import 'package:gamelib_mob/helpers/helpers.dart';
-import 'package:gamelib_mob/firebase_traffic.dart';
+import 'package:gamelib_mob/firebase/firebase_traffic.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -23,14 +23,14 @@ class _HomeScreenState extends State<HomeScreen> {
     setState(() => _selectedIndex = newIndex);
   }
 
- List<GameItem> mainLists = [];
+  List<GameItem> mainLists = [];
 
   update(favList) {
     MainList items = favList;
     mainLists = items.favList;
   }
-  late Future<List<GameItem>> futureFavGameList;
 
+  late Future<List<GameItem>> futureFavGameList;
 
   void initState() {
     super.initState();
@@ -82,7 +82,6 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _buildMainList() {
-
     update(favedList1);
     return ListView.builder(
       itemCount: mainLists.length,
@@ -125,10 +124,10 @@ class _HomeScreenState extends State<HomeScreen> {
                     IconButton(
                         onPressed: () {
                           Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) =>
-                                      AddGameScreen(favList: favedList1)))
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          AddGameScreen(favList: favedList1)))
                               .then((_) {
                             setState(() {});
                           });
@@ -141,39 +140,39 @@ class _HomeScreenState extends State<HomeScreen> {
                 ),
                 drawer: Drawer(
                     child: ListView(
-                      children: [
-                        const SizedBox(
-                          height: 64.0,
-                          child: DrawerHeader(
-                              margin: EdgeInsets.all(0.0),
-                              padding: EdgeInsets.all(0.0),
-                              decoration: BoxDecoration(
-                                  color: Color.fromARGB(255, 113, 113, 113)),
-                              child: Center(
-                                child: Text("menu", textAlign: TextAlign.center),
-                              )),
-                        ),
-                        ListTile(
-                          title: const Text(
-                            'Logout',
-                            textAlign: TextAlign.center,
-                          ),
-                          onTap: () {
-                            FirebaseAuth.instance.signOut().then((value) {
-                              print("Signed Out");
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => SignInScreen()));
-                            });
-                          },
-                        ),
-                        ListTile(
-                          title: const Text('Item 2', textAlign: TextAlign.center),
-                          onTap: () {},
-                        )
-                      ],
-                    )),
+                  children: [
+                    const SizedBox(
+                      height: 64.0,
+                      child: DrawerHeader(
+                          margin: EdgeInsets.all(0.0),
+                          padding: EdgeInsets.all(0.0),
+                          decoration: BoxDecoration(
+                              color: Color.fromARGB(255, 113, 113, 113)),
+                          child: Center(
+                            child: Text("menu", textAlign: TextAlign.center),
+                          )),
+                    ),
+                    ListTile(
+                      title: const Text(
+                        'Logout',
+                        textAlign: TextAlign.center,
+                      ),
+                      onTap: () {
+                        FirebaseAuth.instance.signOut().then((value) {
+                          print("Signed Out");
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => SignInScreen()));
+                        });
+                      },
+                    ),
+                    ListTile(
+                      title: const Text('Item 2', textAlign: TextAlign.center),
+                      onTap: () {},
+                    )
+                  ],
+                )),
                 body: Center(
                   child: widgetOptions.elementAt(_selectedIndex),
                 ),
