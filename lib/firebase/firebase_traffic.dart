@@ -1,6 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:gamelib_mob/list/game_item.dart';
+import 'package:flutter/material.dart';
+
 
 class FirebaseTraffic {
   static Future<List<GameItem>> pullFirebase() async {
@@ -65,7 +67,25 @@ class FirebaseTraffic {
       // Lösche das Dokument
       await docReference.delete();
     } catch (e) {
-
+      FirebaseAuth.instance.signOut();
+      dynamic errorMessage;
+      showDialog(
+        context: errorMessage,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text("Löschvorgang fehlgeschlagen, sie werden jetzt ausgeloggt!"),
+            content: const Text("Es ist ein Fehler aufgetreten. Änderung erforderlich."),
+            actions: [
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text("OK"),
+              ),
+            ],
+          );
+        },
+      );
     }
   }
 
@@ -79,6 +99,26 @@ class FirebaseTraffic {
 
       return userId;
     } catch (e) {
+      dynamic errorMessage;
+      showDialog(
+        context: errorMessage,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text("Registrierung fehlgeschlagen!"),
+            content: const Text("Es ist ein Fehler bei der Registrierung aufgetreten."),
+            actions: [
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text("OK"),
+              ),
+            ],
+          );
+        },
+      );
+      // Lösche den erstellten Auth-Nutzer
+      FirebaseAuth.instance.currentUser?.delete();
       return null;
     }
   }

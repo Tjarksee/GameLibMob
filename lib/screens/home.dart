@@ -42,14 +42,38 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Future<void> getInfoFromDatabase() async {
     try {
-      List<GameItem> data = await FirebaseTraffic.pullFirebase();
-      setState(() {
-        mainList.favouriteGameList = data;
-        favouriteGameList = data;
-      });
+      final List<GameItem> data = await FirebaseTraffic.pullFirebase();
+      updateFavouriteGameList(data);
     } catch (error) {
-
+      showErrorDialog(context);
     }
+  }
+
+  void updateFavouriteGameList(List<GameItem> data) {
+    setState(() {
+      mainList.favouriteGameList = data;
+      favouriteGameList = data;
+    });
+  }
+
+  void showErrorDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("Liste Laden Fehlgeschlagen oder nicht vorhanden"),
+          content: const Text("Es ist ein Fehler beim Laden der Liste aufgetreten oder die Liste ist nicht vorhanden."),
+          actions: [
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).pop(); // Schließe das Popup-Fenster
+              },
+              child: const Text("OK"),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   Widget _buildMainList() {
