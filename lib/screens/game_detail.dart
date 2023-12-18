@@ -1,34 +1,34 @@
 import 'package:flutter/material.dart';
 
-class game_page extends StatelessWidget {
-  const game_page({super.key});
+class GameDetailScreen extends StatelessWidget {
+  const GameDetailScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('gamepage'),
+          title: const Text('gamepage'),
         ), //AppBar
-        body: Container(
+        body: SizedBox(
             width: double.infinity,
             child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 mainAxisSize: MainAxisSize.max,
                 children: <Widget>[
                   ElevatedButton(
-                    child: Text(
+                    child: const Text(
                       "call gamelist",
                     ), //Text
                     onPressed: () {},
                   ), //RaisedButton
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   ElevatedButton(
-                    child: Text("Name "),
+                    child: const Text("Name "),
                     onPressed: () {},
                   ), //RaisedButton
-                  SizedBox(height: 20),
+                  const SizedBox(height: 20),
                   ElevatedButton(
-                    child: Text(
+                    child: const Text(
                       "Score",
                     ),
                     onPressed: () {},
