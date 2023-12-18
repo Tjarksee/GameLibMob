@@ -54,8 +54,6 @@ class FirebaseTraffic {
       "description": gameToPush.summary,
       "platform": gameToPush.platforms,
     });
-
-    print("Spiele erfolgreich zur Datenbank hinzugefügt");
   }
 
   static void deleteGameFromFirebase(GameItem gameToDelete) async {
@@ -71,11 +69,7 @@ class FirebaseTraffic {
 
       // Lösche das Dokument
       await docReference.delete();
-
-      print('Dokument erfolgreich gelöscht.');
-    } catch (e) {
-      print('Fehler beim Löschen des Dokuments: $e');
-    }
+    } catch (e) {}
   }
 
   static Future<String?> pushUserNameToFirebase(String name) async {
@@ -88,7 +82,6 @@ class FirebaseTraffic {
 
       return userId;
     } catch (e) {
-      print("Error: $e");
       return null;
     }
   }
