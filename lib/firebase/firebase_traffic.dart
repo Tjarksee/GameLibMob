@@ -2,8 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:gamelib_mob/list/game_item.dart';
 
-import 'package:flutter/material.dart';
-
 class FirebaseTraffic {
   static Future<List<GameItem>> pullFirebase() async {
     var firebaseUser = FirebaseAuth.instance.currentUser;
@@ -23,7 +21,7 @@ class FirebaseTraffic {
           name: result.data()["name"].toString(),
           // Du solltest entscheiden, wie du das Bild darstellen möchtest.
           // Hier wird angenommen, dass es als String (URL) in Firebase gespeichert wurde.
-          cover: result.data()["cover"],
+          cover: result.data()["cover"].toString(),
           summary: result.data()["description"].toString(),
           platformIds: ['test', 'das'],
           genreIds: ['test', 'das'],
