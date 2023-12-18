@@ -25,7 +25,6 @@ class MainList {
 
     favouriteGameList.add(selectedGame);
     FirebaseTraffic.pushGameToFirebase(selectedGame);
-    print("pushed");
   }
 
   List<GameItem> getFavouriteList() {

@@ -65,6 +65,7 @@ class FirebaseTraffic {
       // Lösche das Dokument
       await docReference.delete();
     } catch (e) {
+
     }
   }
 

@@ -48,8 +48,7 @@ class _HomeScreenState extends State<HomeScreen> {
         favouriteGameList = data;
       });
     } catch (error) {
-      // Handle error
-      print("Error fetching data: $error");
+
     }
   }
 
