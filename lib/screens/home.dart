@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gamelib_mob/list/game_item.dart';
 import 'package:gamelib_mob/list/main_list.dart';
-import 'package:gamelib_mob/main.dart';
 import 'package:gamelib_mob/screens/profile_page.dart';
 import 'package:gamelib_mob/screens/search_game.dart';
 import 'package:gamelib_mob/screens/game_detail.dart';
@@ -63,7 +62,10 @@ class _HomeScreenState extends State<HomeScreen> {
               leading: favouriteGameList[index].buildCover(context),
               title: favouriteGameList[index].buildTitle(context),
               subtitle: favouriteGameList[index].buildSubtitle(context),
-              trailing: HeartButton(mainList, favouriteGameList[index]),
+              trailing:
+                  HeartButton(mainList, favouriteGameList[index], onUpdate: () {
+                setState(() {});
+              }),
               onTap: () =>
                   Navigator.push(context, MaterialPageRoute(builder: (context) {
                     return const GameDetailScreen();

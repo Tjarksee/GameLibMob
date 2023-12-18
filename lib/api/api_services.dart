@@ -1,6 +1,5 @@
 import 'dart:collection';
 import 'dart:convert';
-import 'package:flutter/material.dart';
 import 'package:gamelib_mob/api/igdb_token.dart';
 import 'package:gamelib_mob/list/game_item.dart';
 import 'package:http/http.dart' as http;
