@@ -6,13 +6,10 @@ enum Status { wantToPlayThisFucker, stillPlaying, completed }
 /// A GameItem that contains data to all the info about a game.
 class GameItem implements ListItem {
   String gameID;
-  String? cover;
-  String coverId;
-  List<String> genreIds;
+  Image cover;
   List<String> genres;
   String name;
   int ourScore;
-  List<String> platformIds;
   List<String> platforms;
   double rating;
   int ratingCount;
@@ -24,14 +21,11 @@ class GameItem implements ListItem {
 
   GameItem(
       {required this.gameID,
-      this.cover,
-      this.coverId = "",
+      required this.cover,
       this.genres = const [],
-      required this.genreIds,
       required this.name,
       this.ourScore = -1,
       this.platforms = const [],
-      required this.platformIds,
       this.rating = -1,
       this.ratingCount = -1,
       this.releaseDate = "",
@@ -52,17 +46,8 @@ class GameItem implements ListItem {
   Widget buildSubtitle(BuildContext context) => const SizedBox.shrink();
 
   @override
-  Widget buildCover(BuildContext context) {
-    if (cover == null) {
-      return const CircularProgressIndicator();
-      //return Image.asset("asset/not_found.jpg");
-    } else {
-      if (cover![0] == 'h') {
-        return Image.network(cover!);
-      } else {
-        return Image.asset("assets/not_found.jpg");
-      }
-    }
+  Widget buildLeading(BuildContext context) {
+    return cover;
   }
 
   @override

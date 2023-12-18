@@ -1,5 +1,4 @@
-import 'package:gamelib_mob/firebase/firebase_traffic.dart';
-import 'game_item.dart';
+import 'package:gamelib_mob/list/game_item.dart';
 
 class MainList {
   List<GameItem> favouriteGameList = [];
@@ -17,15 +16,12 @@ class MainList {
   void removeFavourite(favGameItem) {
     GameItem fav = favGameItem;
     favouriteGameList.removeWhere((element) => element.gameID == fav.gameID);
-    FirebaseTraffic.deleteGameFromFirebase(fav);
   }
 
   void addFavourite(favGameItem) {
     GameItem selectedGame = favGameItem;
 
     favouriteGameList.add(selectedGame);
-    FirebaseTraffic.pushGameToFirebase(selectedGame);
-    print("pushed");
   }
 
   List<GameItem> getFavouriteList() {
