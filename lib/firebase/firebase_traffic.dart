@@ -9,9 +9,9 @@ class FirebaseTraffic {
     List<GameItem> favGameList = [];
 
     await firestoreInstance
-        .collection('test')
+        .collection('User')
         .doc(firebaseUser!.uid)
-        .collection('gamelist')
+        .collection('Gamelist')
         .get()
         .then((querySnapshot) {
       for (var result in querySnapshot.docs) {
@@ -19,14 +19,11 @@ class FirebaseTraffic {
         GameItem favGame = GameItem(
           gameID: result.data()["gameID"].toString(),
           name: result.data()["name"].toString(),
-          // Du solltest entscheiden, wie du das Bild darstellen möchtest.
-          // Hier wird angenommen, dass es als String (URL) in Firebase gespeichert wurde.
           cover: result.data()["cover"].toString(),
           summary: result.data()["description"].toString(),
           platformIds: ['test', 'das'],
           genreIds: ['test', 'das'],
         );
-        print(favGame.name);
         // Füge die Instanz zur Liste hinzu
         favGameList.add(favGame);
       }
@@ -39,23 +36,19 @@ class FirebaseTraffic {
     final firestoreInstance = FirebaseFirestore.instance;
 
     var docReference = firestoreInstance
-        .collection('test')
+        .collection('User')
         .doc(firebaseUser!.uid)
-        .collection('gamelist')
+        .collection('Gamelist')
         .doc(gameToPush.gameID);
 
-    // Setze die Daten des Spiels im Dokument
+    // Setze die Daten des Spiels ins Dokument
     await docReference.set({
       "gameID": gameToPush.gameID,
       "name": gameToPush.name,
-      // Du solltest entscheiden, wie du das Bild in Firebase speichern möchtest.
-      // Hier speichere ich den Bild-Asset-Pfad als String.
       "cover": gameToPush.cover,
       "description": gameToPush.summary,
       "platform": gameToPush.platforms,
     });
-
-    print("Spiele erfolgreich zur Datenbank hinzugefügt");
   }
 
   static void deleteGameFromFirebase(GameItem gameToDelete) async {
@@ -64,17 +57,14 @@ class FirebaseTraffic {
       final firestoreInstance = FirebaseFirestore.instance;
 
       var docReference = firestoreInstance
-          .collection('test')
+          .collection('User')
           .doc(firebaseUser!.uid)
-          .collection('gamelist')
+          .collection('Gamelist')
           .doc(gameToDelete.gameID);
 
       // Lösche das Dokument
       await docReference.delete();
-
-      print('Dokument erfolgreich gelöscht.');
     } catch (e) {
-      print('Fehler beim Löschen des Dokuments: $e');
     }
   }
 
@@ -82,13 +72,12 @@ class FirebaseTraffic {
     final firestoreInstance = FirebaseFirestore.instance;
 
     try {
-      var docRef = firestoreInstance.collection('test');
+      var docRef = firestoreInstance.collection('User');
       docRef.doc(FirebaseAuth.instance.currentUser!.uid).set({'name': name});
       String userId = docRef.id;
 
       return userId;
     } catch (e) {
-      print("Error: $e");
       return null;
     }
   }
