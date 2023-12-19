@@ -178,7 +178,7 @@ class _GameDetailScreenState extends State<GameDetailScreen> {
           widget.item.buildUrl(context),
         ]));
 
-    final token = Provider.of<IGDBToken?>(context, listen: false);
+    final token = Provider.of<IGDBToken?>(context, listen: true);
     Future<String>? coverFuture;
     Future<List<String>>? genresFuture;
     Future<List<String>>? platformsFuture;
