@@ -1,12 +1,12 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+
 class AuthToken {
   final String token;
 
   AuthToken(this.token);
 }
-
 
 class IGDBToken {
   final String accessToken;
