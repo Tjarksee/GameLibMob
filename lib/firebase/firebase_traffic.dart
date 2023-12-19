@@ -26,7 +26,6 @@ class FirebaseTraffic {
           platformIds: ['test', 'das'],
           genreIds: ['test', 'das'],
         );
-        print(favGame.name);
         // Füge die Instanz zur Liste hinzu
         favGameList.add(favGame);
       }

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gamelib_mob/list/list_item.dart';
 import 'package:expandable_text/expandable_text.dart';
-import 'package:gamelib_mob/widgets/button_with_menu_state.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 enum Status { wantToPlayThisFucker, stillPlaying, completed }
@@ -75,7 +74,7 @@ class GameItem implements ListItem {
   }
 
   Widget buildSummary(BuildContext context, double width) {
-    return Container(
+    return SizedBox(
       width: width / 1.7,
       child: Wrap(
         children: [
@@ -127,7 +126,7 @@ class GameItem implements ListItem {
   }
 
   Widget buildSpecifics(BuildContext context) {
-    return Column(
+    return const Column(
       children: [
         // for each platform -> Text(platforms),
         // for each genre -> Text(genres),

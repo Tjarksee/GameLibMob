@@ -2,14 +2,12 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:gamelib_mob/list/game_item.dart';
-import 'package:gamelib_mob/list/main_list.dart';
 import 'package:gamelib_mob/widgets/found_game_item.dart';
 
 class SearchResultScreen extends StatefulWidget {
   final Future<List<GameItem>> gameList;
-  final MainList favouriteGameList;
   const SearchResultScreen(
-      {Key? key, required this.gameList, required this.favouriteGameList})
+      {Key? key, required this.gameList})
       : super(key: key);
 
   @override
@@ -18,7 +16,6 @@ class SearchResultScreen extends StatefulWidget {
 
 class _SearchResultScreenState extends State<SearchResultScreen> {
   late Future<List<GameItem>> gameList = widget.gameList;
-  late MainList favouriteGameList = widget.favouriteGameList;
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +35,7 @@ class _SearchResultScreenState extends State<SearchResultScreen> {
                   itemBuilder: (context, int index) {
                     final GameItem item = listOfItems[index];
 
-                    return FoundGameItem(favouriteGameList, item);
+                    return FoundGameItem(item);
                   },
                 );
               } else if (snapshot.hasError) {

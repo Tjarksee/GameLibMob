@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:gamelib_mob/api/igdb_token.dart';
+import 'package:gamelib_mob/list/main_list.dart';
 
 import 'package:provider/provider.dart';
 import 'package:gamelib_mob/screens/sign_in.dart';
@@ -11,12 +12,15 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(
+  runApp( MultiProvider(providers: [
     FutureProvider<IGDBToken?>(
       create: (_) => fetchIGDBToken(),
       initialData: null,
-      child: const MyApp(),
     ),
+    ChangeNotifierProvider(create: (context) => MainList())
+  ], 
+      child: const MyApp(),
+  )
   );
 }
 

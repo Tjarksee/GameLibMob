@@ -2,15 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:gamelib_mob/api/api_services.dart';
 import 'package:gamelib_mob/api/igdb_token.dart';
 import 'package:gamelib_mob/list/game_item.dart';
-import 'package:gamelib_mob/list/main_list.dart';
 import 'package:gamelib_mob/screens/game_detail.dart';
 import 'package:gamelib_mob/widgets/heart_button.dart';
 import 'package:provider/provider.dart';
 
 class FoundGameItem extends StatefulWidget {
   final GameItem item;
-  final MainList favouriteGameList;
-  const FoundGameItem(this.favouriteGameList, this.item, {super.key});
+  const FoundGameItem(this.item, {super.key});
 
   @override
   State<FoundGameItem> createState() => _FoundGameItemState();
@@ -39,16 +37,15 @@ class _FoundGameItemState extends State<FoundGameItem> {
               leading: widget.item.buildCover(context),
               title: widget.item.buildTitle(context),
               subtitle: widget.item.buildSubtitle(context),
-              trailing: HeartButton(widget.favouriteGameList, widget.item,
+              trailing: HeartButton(widget.item,
                   onUpdate: () {
                 setState(() {
-                  print("test");
                 });
               }),
               onTap: () =>
                   Navigator.push(context, MaterialPageRoute(builder: (context) {
                     return GameDetailScreen(
-                        widget.favouriteGameList, widget.item);
+                        item: widget.item);
                   })));
         });
   }

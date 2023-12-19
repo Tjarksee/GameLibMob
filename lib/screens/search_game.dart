@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:gamelib_mob/api/api_services.dart';
 import 'package:gamelib_mob/list/game_item.dart';
-import 'package:gamelib_mob/list/main_list.dart';
 import 'package:gamelib_mob/screens/search_result.dart';
 import 'package:gamelib_mob/helpers/helpers.dart';
 import 'package:gamelib_mob/api/igdb_token.dart';
 import 'package:provider/provider.dart';
 
 class SearchGameScreen extends StatefulWidget {
-  final MainList favouriteGameList;
 
-  const SearchGameScreen({super.key, required this.favouriteGameList});
+  const SearchGameScreen({super.key});
 
   @override
   State<SearchGameScreen> createState() => _SearchGameScreenState();
@@ -23,7 +21,6 @@ class _SearchGameScreenState extends State<SearchGameScreen> {
     super.initState();
   }
 
-  late MainList favouriteGameList = widget.favouriteGameList;
   @override
   Widget build(BuildContext context) {
     token = Provider.of<IGDBToken?>(context, listen: true);
@@ -59,8 +56,8 @@ class _SearchGameScreenState extends State<SearchGameScreen> {
                     context,
                     MaterialPageRoute(
                         builder: (context) => SearchResultScreen(
-                            gameList: searchResultList,
-                            favouriteGameList: favouriteGameList)));
+                            gameList: searchResultList
+                            )));
               })
             ])));
     } 
