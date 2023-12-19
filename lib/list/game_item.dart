@@ -47,7 +47,8 @@ class GameItem implements ListItem {
   Widget buildTitle(BuildContext context) {
     return Text(
       name,
-      style: Theme.of(context).textTheme.headlineSmall,
+      style: const TextStyle(
+          color: Color.fromARGB(255, 255, 243, 243), fontSize: 20),
     );
   }
 
@@ -80,6 +81,8 @@ class GameItem implements ListItem {
             collapseText: 'show less',
             maxLines: 3,
             linkColor: Colors.amber,
+            style: const TextStyle(
+                color: Color.fromARGB(255, 255, 243, 243), fontSize: 17),
           )
         ],
       ),
@@ -88,7 +91,11 @@ class GameItem implements ListItem {
 
   Widget buildUrl(BuildContext context) {
     return InkWell(
-        child: Text("Url to Homepage:\n $url"),
+        child: Text(
+          "Url to Homepage:\n $url",
+          style: const TextStyle(
+              color: Color.fromARGB(255, 255, 243, 243), fontSize: 17),
+        ),
         onTap: () async => {await launchUrl(Uri.parse(url))});
   }
 

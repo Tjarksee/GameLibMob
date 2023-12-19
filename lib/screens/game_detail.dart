@@ -46,7 +46,7 @@ class _GameDetailScreenState extends State<GameDetailScreen> {
         child: Center(
             child: Text(widget.item.name,
                 style: const TextStyle(
-                    fontWeight: FontWeight.bold, fontSize: 20))));
+                    color: Color.fromARGB(255, 255, 243, 243), fontSize: 25))));
 
     Widget divider = const Divider(
       height: 20,
@@ -163,7 +163,9 @@ class _GameDetailScreenState extends State<GameDetailScreen> {
                   expandText: 'show more',
                   collapseText: 'show less',
                   maxLines: 3,
-                  linkColor: Colors.amber,
+                  linkColor: Color.fromARGB(255, 102, 153, 234),
+                  style: const TextStyle(
+                      color: Color.fromARGB(255, 255, 243, 243), fontSize: 17),
                 ) // Allow the text to wrap
               ],
             ),
@@ -216,19 +218,21 @@ class _GameDetailScreenState extends State<GameDetailScreen> {
             return Text('${snapshot.error}');
           }
           return Scaffold(
-              appBar: AppBar(title: const Text('Game Details')),
-              body: SingleChildScrollView(
-                child: Column(children: [
-                  titleSection,
-                  divider,
-                  ownScore,
-                  divider,
-                  igdbStats,
-                  widget.item.buildReleaseDate(context),
-                  divider,
-                  details,
-                ]),
-              ));
+            backgroundColor: Color.fromARGB(84, 87, 85, 99),
+            appBar: AppBar(title: const Text('Game Details')),
+            body: SingleChildScrollView(
+              child: Column(children: [
+                titleSection,
+                divider,
+                ownScore,
+                divider,
+                igdbStats,
+                widget.item.buildReleaseDate(context),
+                divider,
+                details,
+              ]),
+            ),
+          );
         });
   }
 }
