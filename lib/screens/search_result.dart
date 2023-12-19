@@ -23,6 +23,7 @@ class _SearchResultScreenState extends State<SearchResultScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: const Color.fromARGB(255, 54, 51, 51),
         appBar: AppBar(
           title: const Text('Add a Game'),
         ),
