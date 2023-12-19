@@ -25,8 +25,9 @@ class FirebaseTraffic {
           summary: result.data()["description"].toString(),
           platformIds: ['test', 'das'],
           genreIds: ['test', 'das'],
+          url: result.data()["url"].toString(),
+          storyline: result.data()["storyline"].toString(),
         );
-        print(favGame.name);
         // Füge die Instanz zur Liste hinzu
         favGameList.add(favGame);
       }
@@ -52,7 +53,9 @@ class FirebaseTraffic {
       // Hier speichere ich den Bild-Asset-Pfad als String.
       "cover": gameToPush.cover,
       "description": gameToPush.summary,
-      "platform": gameToPush.platforms,
+      "platform": gameToPush.platformIds,
+      "url": gameToPush.url,
+      "storyline": gameToPush.storyline
     });
   }
 
