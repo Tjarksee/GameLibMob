@@ -1,3 +1,5 @@
+import 'package:expandable_text/expandable_text.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:gamelib_mob/api/api_services.dart';
 import 'package:gamelib_mob/api/igdb_token.dart';
@@ -10,6 +12,7 @@ import 'package:provider/provider.dart';
 class GameDetailScreen extends StatefulWidget {
   final GameItem item;
   MainList favouriteGameList;
+
   Color completed = Colors.grey;
   Color planned = Colors.grey;
   Color inProgress = Colors.grey;
@@ -22,6 +25,22 @@ class GameDetailScreen extends StatefulWidget {
 class _GameDetailScreenState extends State<GameDetailScreen> {
   @override
   Widget build(BuildContext context) {
+    double width;
+    double height;
+    if (MediaQuery.of(context).orientation == Orientation.portrait) {
+      width = MediaQuery.of(context).size.width;
+      height = MediaQuery.of(context).size.height - 193;
+    } else {
+      width = MediaQuery.of(context).size.width;
+      height = MediaQuery.of(context).size.height - 133;
+    }
+    if (widget.item.status == Status.completed) {
+      widget.completed = Colors.red;
+    } else if (widget.item.status == Status.stillPlaying) {
+      widget.inProgress = Colors.red;
+    } else {
+      widget.planned = Colors.red;
+    }
     Widget titleSection = Container(
         padding: const EdgeInsets.all(32),
         child: Center(
@@ -39,58 +58,117 @@ class _GameDetailScreenState extends State<GameDetailScreen> {
 
     Widget stateButton = Row(
       children: <Widget>[
-        ElevatedButton(
-          onPressed: () {
-            widget.completed = Colors.red;
-            setState(() {
-              widget.planned = Colors.grey;
-              widget.inProgress = Colors.grey;
-              widget.item.status = Status.completed;
-            });
-          },
-          child: const Text('completedsss'),
-          style: ElevatedButton.styleFrom(backgroundColor: widget.completed),
-        )
+        SizedBox(
+          width: (width / 3),
+          child: ElevatedButton(
+            onPressed: () {
+              widget.planned = Colors.red;
+              setState(() {
+                widget.completed = Colors.grey;
+                widget.inProgress = Colors.grey;
+                widget.item.status = Status.wantToPlayThisFucker;
+              });
+            },
+            child: const Text('want to play'),
+            style: ElevatedButton.styleFrom(backgroundColor: widget.planned),
+          ),
+        ),
+        SizedBox(
+            width: width / 3,
+            child: ElevatedButton(
+              onPressed: () {
+                widget.inProgress = Colors.red;
+                setState(() {
+                  widget.planned = Colors.grey;
+                  widget.completed = Colors.grey;
+                  widget.item.status = Status.stillPlaying;
+                });
+              },
+              child: const Text('In Progress'),
+              style:
+                  ElevatedButton.styleFrom(backgroundColor: widget.inProgress),
+            )),
+        SizedBox(
+            width: width / 3,
+            child: ElevatedButton(
+              onPressed: () {
+                widget.completed = Colors.red;
+                setState(() {
+                  widget.planned = Colors.grey;
+                  widget.inProgress = Colors.grey;
+                  widget.item.status = Status.completed;
+                });
+              },
+              child: const Text('Completed'),
+              style:
+                  ElevatedButton.styleFrom(backgroundColor: widget.completed),
+            ))
       ],
     );
 
-    Widget slider = Slider(
-      value: widget.item.ourScore.toDouble(),
-      max: 100,
-      divisions: 5,
-      label: widget.item.ourScore.toString(),
-      onChanged: (double value) {
-        setState(() {
-          widget.item.ourScore = value.toInt();
-        });
-      },
+    Widget slider = SizedBox(
+        width: (width / 1.5),
+        child: Slider(
+          value: widget.item.ourScore.toDouble(),
+          max: 100,
+          divisions: 5,
+          label: widget.item.ourScore.toString(),
+          onChanged: (double value) {
+            setState(() {
+              widget.item.ourScore = value.toInt();
+            });
+          },
+        ));
+
+    Widget ownScore = Column(
+      children: [
+        Row(children: [
+          SizedBox(
+            width: width / 3,
+            child: widget.item.buildCover(context),
+          ),
+          SizedBox(
+              width: (width / 1.5),
+              child: Column(
+                children: [
+                  widget.item.buildSummary(context, width),
+                  slider,
+                  HeartButton(widget.favouriteGameList, widget.item),
+                ],
+              ))
+        ]),
+        stateButton,
+      ],
     );
 
-    Widget ownScore = Container(
-      padding: const EdgeInsets.all(10),
-      child: Row(children: [
-        widget.item.buildCover(context),
-        Column(children: [
-          widget.item.buildSummary(context),
-          stateButton,
-          slider,
-          HeartButton(widget.favouriteGameList, widget.item),
-        ])
-      ]),
-    );
-
-    Widget igdbStats = Container(
-        padding: const EdgeInsets.all(10),
-        child: Row(children: [
-          widget.item.buildRating(context),
-          widget.item.buildSpecifics(context),
-        ]));
+    Widget igdbStats = Row(children: [
+      widget.item.buildRating(context, width),
+      widget.item.buildSpecifics(context),
+    ]);
 
     Widget details = Container(
         padding: const EdgeInsets.all(10),
-        child: Row(children: [
-          //TODO
-          Text(widget.item.storyline),
+        child: Column(children: [
+          const Text(
+            "Story of the Game: ",
+            style: TextStyle(
+                color: Color.fromARGB(255, 255, 243, 243), fontSize: 20),
+          ),
+          SizedBox(
+            width: width, // Set the desired width of the box
+            child: Wrap(
+              children: [
+                ExpandableText(
+                  widget.item.storyline,
+                  expandText: 'show more',
+                  collapseText: 'show less',
+                  maxLines: 3,
+                  linkColor: Colors.amber,
+                ) // Allow the text to wrap
+              ],
+            ),
+          ),
+          divider,
           widget.item.buildUrl(context),
         ]));
 

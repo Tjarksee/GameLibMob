@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gamelib_mob/list/list_item.dart';
 import 'package:expandable_text/expandable_text.dart';
 import 'package:gamelib_mob/widgets/button_with_menu_state.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 enum Status { wantToPlayThisFucker, stillPlaying, completed }
 
@@ -31,7 +32,7 @@ class GameItem implements ListItem {
       this.genres = const [],
       required this.genreIds,
       required this.name,
-      this.ourScore = -1,
+      this.ourScore = 0,
       this.platforms = const [],
       required this.platformIds,
       this.rating = -1,
@@ -68,11 +69,9 @@ class GameItem implements ListItem {
     return const SizedBox.shrink();
   }
 
-  Widget buildSummary(BuildContext context) {
-    // TODO
-    // Eine kurze Beschreibung des Spiels
+  Widget buildSummary(BuildContext context, double width) {
     return Container(
-      width: 200, // Set the desired width of the box
+      width: width / 1.7,
       child: Wrap(
         children: [
           ExpandableText(
@@ -81,56 +80,42 @@ class GameItem implements ListItem {
             collapseText: 'show less',
             maxLines: 3,
             linkColor: Colors.amber,
-          ) // Allow the text to wrap
+          )
         ],
       ),
     );
   }
 
   Widget buildUrl(BuildContext context) {
-    // TODO
-    // Eine URL ins schöne
-    return Text("not implementssed");
+    return InkWell(
+        child: Text("Url to Homepage:\n $url"),
+        onTap: () async => {await launchUrl(Uri.parse(url))});
   }
 
-  Widget buildState(BuildContext context) {
-    // TODO
-    // ein menuknopf, der die drei Optionen von Status.X anzeigt
-    // und diese dann für status auswählt. Startet mit dem jetzigen
-    return ButtonWithMenu();
-  }
-
-  Widget buildOwnScore(BuildContext context, double currentSliderValue,
-      Function setStateCallback) {
-    // TODO
-    // Ein Schieberegler, der den eigenen Score anzeigt (startet auf dem eigenen)
-    return Text('data');
-  }
-
-  Widget buildRating(BuildContext context) {
+  Widget buildRating(BuildContext context, double width) {
     // TODO
     // Zeigt fett den Score an mit dem ratingcount drunter
     // muss noch schöner werden
-    return Column(
-      children: [
-        Text(
-          rating.toString(),
-          style: const TextStyle(
-              color: Color.fromARGB(255, 0, 0, 0), fontSize: 15),
-        ),
-        Text(
-          ratingCount.toString(),
-          style: const TextStyle(
-              color: Color.fromARGB(255, 9, 9, 9), fontSize: 15),
-        ),
-      ],
-    );
+    return SizedBox(
+        width: width,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text(
+              "Igdb raiting: ${rating.toStringAsFixed(2)}%",
+              style: const TextStyle(
+                  color: Color.fromARGB(255, 255, 243, 243), fontSize: 20),
+            ),
+            Text(
+              "Number of raitings: ${ratingCount.toString()}",
+              style: const TextStyle(
+                  color: Color.fromARGB(255, 255, 239, 239), fontSize: 15),
+            ),
+          ],
+        ));
   }
 
   Widget buildSpecifics(BuildContext context) {
-    // TODO
-    // Zeigt fett den Score an mit dem ratingcount drunter
-    // muss noch schöner werden
     return Column(
       children: [
         // for each platform -> Text(platforms),
@@ -140,8 +125,6 @@ class GameItem implements ListItem {
   }
 
   Widget buildReleaseDate(BuildContext context) {
-    // TODO
-    // Ein Schieberegler, der den eigenen Score anzeigt (startet auf dem eigenen)
     return Text(releaseDate);
   }
 }
