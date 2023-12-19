@@ -27,7 +27,6 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    getInfoFromDatabase();
   }
 
   Future<void> getInfoFromDatabase() async {
@@ -75,6 +74,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    getInfoFromDatabase();
     createListWidget();
     return GestureDetector(
         onTap: () {
