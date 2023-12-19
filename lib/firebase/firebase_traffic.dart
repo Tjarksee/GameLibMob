@@ -17,16 +17,18 @@ class FirebaseTraffic {
       for (var result in querySnapshot.docs) {
         // Erstelle eine neue Instanz von GameItem
         GameItem favGame = GameItem(
-          gameID: result.data()["gameID"].toString(),
-          name: result.data()["name"].toString(),
-          // Du solltest entscheiden, wie du das Bild darstellen möchtest.
-          // Hier wird angenommen, dass es als String (URL) in Firebase gespeichert wurde.
           cover: result.data()["cover"].toString(),
-          summary: result.data()["description"].toString(),
-          platformIds: ['test', 'das'],
-          genreIds: ['test', 'das'],
-          url: result.data()["url"].toString(),
+          gameID: result.data()["gameId"].toString(),
+          coverId: result.data()["coverId"].toString(),
+          name: result.data()["name"].toString(),
+          ourScore: result.data()["ourScore"],
+          rating: result.data()["rating"],
+          ratingCount: result.data()["ratingCount"],
+          releaseDate: result.data()["releaseDate"],
+          //status: result.data()["status"],
           storyline: result.data()["storyline"].toString(),
+          summary: result.data()["summary"].toString(),
+          url: result.data()["url"].toString(),
         );
         // Füge die Instanz zur Liste hinzu
         favGameList.add(favGame);
@@ -47,15 +49,18 @@ class FirebaseTraffic {
 
     // Setze die Daten des Spiels im Dokument
     await docReference.set({
-      "gameID": gameToPush.gameID,
-      "name": gameToPush.name,
-      // Du solltest entscheiden, wie du das Bild in Firebase speichern möchtest.
-      // Hier speichere ich den Bild-Asset-Pfad als String.
+      "gameId": gameToPush.gameID,
       "cover": gameToPush.cover,
-      "description": gameToPush.summary,
-      "platform": gameToPush.platformIds,
+      "coverId": gameToPush.coverId,
+      "name": gameToPush.name,
+      "ourScore": gameToPush.ourScore,
+      "rating": gameToPush.rating,
+      "ratingCount": gameToPush.ratingCount,
+      "releaseDate": gameToPush.releaseDate,
+      //"status": gameToPush.status.toString(),
+      "storyline": gameToPush.storyline,
+      "summary": gameToPush.summary,
       "url": gameToPush.url,
-      "storyline": gameToPush.storyline
     });
   }
 
