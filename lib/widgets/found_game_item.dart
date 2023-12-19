@@ -37,15 +37,12 @@ class _FoundGameItemState extends State<FoundGameItem> {
               leading: widget.item.buildCover(context),
               title: widget.item.buildTitle(context),
               subtitle: widget.item.buildSubtitle(context),
-              trailing: HeartButton(widget.item,
-                  onUpdate: () {
-                setState(() {
-                });
-              }),
+              trailing: HeartButton(
+                widget.item,
+              ),
               onTap: () =>
                   Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    return GameDetailScreen(
-                        item: widget.item);
+                    return GameDetailScreen(item: widget.item);
                   })));
         });
   }

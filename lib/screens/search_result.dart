@@ -6,8 +6,7 @@ import 'package:gamelib_mob/widgets/found_game_item.dart';
 
 class SearchResultScreen extends StatefulWidget {
   final Future<List<GameItem>> gameList;
-  const SearchResultScreen(
-      {Key? key, required this.gameList})
+  const SearchResultScreen({Key? key, required this.gameList})
       : super(key: key);
 
   @override

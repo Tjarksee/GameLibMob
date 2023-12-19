@@ -9,8 +9,7 @@ import 'package:provider/provider.dart';
 class GameDetailScreen extends StatefulWidget {
   final GameItem item;
 
-  const GameDetailScreen({Key? key, required this.item})
-      : super(key: key); 
+  const GameDetailScreen({Key? key, required this.item}) : super(key: key);
 
   @override
   State<GameDetailScreen> createState() => _GameDetailScreenState();
@@ -78,8 +77,7 @@ class _GameDetailScreenState extends State<GameDetailScreen> {
                   widget.item.status = Status.stillPlaying;
                 });
               },
-              style:
-                  ElevatedButton.styleFrom(backgroundColor: inProgress),
+              style: ElevatedButton.styleFrom(backgroundColor: inProgress),
               child: const Text('In Progress'),
             )),
         SizedBox(
@@ -93,8 +91,7 @@ class _GameDetailScreenState extends State<GameDetailScreen> {
                   widget.item.status = Status.completed;
                 });
               },
-              style:
-                  ElevatedButton.styleFrom(backgroundColor: completed),
+              style: ElevatedButton.styleFrom(backgroundColor: completed),
               child: const Text('Completed'),
             ))
       ],
@@ -129,7 +126,6 @@ class _GameDetailScreenState extends State<GameDetailScreen> {
                   slider,
                   HeartButton(
                     widget.item,
-                    onUpdate: () => {},
                   ),
                 ],
               ))

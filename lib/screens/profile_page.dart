@@ -118,9 +118,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         height: mainContainerHight / 2,
                         width: width / 3,
                         child: Text(
-                          mainList
-                              .getStatusAmount(Status.completed)
-                              .toString(),
+                          mainList.getStatusAmount(Status.completed).toString(),
                           style: const TextStyle(
                               color: Colors.white, fontSize: 15),
                         ),
@@ -154,9 +152,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         height: mainContainerHight / 2,
                         width: width / 3,
                         child: Text(
-                          mainList
-                              .getStatusAmount(Status.completed)
-                              .toString(),
+                          mainList.getStatusAmount(Status.completed).toString(),
                           style: const TextStyle(
                               color: Colors.white, fontSize: 15),
                         ),

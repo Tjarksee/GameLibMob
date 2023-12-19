@@ -19,7 +19,6 @@ class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
   late List<Widget> widgetOptions;
 
-
   void changeIndex(int newIndex) {
     setState(() => _selectedIndex = newIndex);
   }
@@ -36,15 +35,13 @@ class _HomeScreenState extends State<HomeScreen> {
       setState(() {
         mainList.gameItems = data;
       });
-    } catch (error) {
-    }
+    } catch (error) {}
   }
 
   void createListWidget() {
     widgetOptions = <Widget>[
       _buildMainList(),
-      const ProfileScreen(
-      ),
+      const ProfileScreen(),
     ];
   }
 
@@ -59,10 +56,9 @@ class _HomeScreenState extends State<HomeScreen> {
               leading: mainList.gameItems[index].buildCover(context),
               title: mainList.gameItems[index].buildTitle(context),
               subtitle: mainList.gameItems[index].buildSubtitle(context),
-              trailing:
-                  HeartButton(mainList.gameItems[index], onUpdate: () {
-                setState(() {});
-              }),
+              trailing: HeartButton(
+                mainList.gameItems[index],
+              ),
               onTap: () =>
                   Navigator.push(context, MaterialPageRoute(builder: (context) {
                     return GameDetailScreen(item: mainList.gameItems[index]);
@@ -94,8 +90,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => const SearchGameScreen(
-                                      ))).then((_) {
+                                  builder: (context) =>
+                                      const SearchGameScreen())).then((_) {
                             setState(() {});
                           });
                         },
