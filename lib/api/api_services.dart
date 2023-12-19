@@ -1,6 +1,5 @@
 import 'dart:collection';
 import 'dart:convert';
-import 'package:flutter/material.dart';
 import 'package:gamelib_mob/api/igdb_token.dart';
 import 'package:gamelib_mob/list/game_item.dart';
 import 'package:http/http.dart' as http;
@@ -148,37 +147,36 @@ Future<List<GameItem>> getGameItem(IGDBToken apiToken, String search) async {
   return gameItems;
 }
 
-Future<Image> getCover(String token, String coverId) async {
+Future<String> getCover(String token, String coverId) async {
   dynamic decodedCover;
   bool tooManyRequests = false;
   do {
-  final coverResponse = await http.post(
-      Uri.parse('https://api.igdb.com/v4/covers'),
-      headers: {
-        "Client-ID": "jatk8moav95uswe6bq3zmcy3fokdnw",
-        "Authorization": "Bearer $token"
-      },
-      body: ('fields url; where id = $coverId;'));
-      if (coverResponse.body == '{"message":"Too Many Requests"}') {
-        tooManyRequests = true;
-      } else {
-        tooManyRequests = false;
-      }
-  decodedCover = jsonDecode(coverResponse.body);
+    final coverResponse = await http.post(
+        Uri.parse('https://api.igdb.com/v4/covers'),
+        headers: {
+          "Client-ID": "jatk8moav95uswe6bq3zmcy3fokdnw",
+          "Authorization": "Bearer $token"
+        },
+        body: ('fields url; where id = $coverId;'));
+    if (coverResponse.body == '{"message":"Too Many Requests"}') {
+      tooManyRequests = true;
+    } else {
+      tooManyRequests = false;
+    }
+    decodedCover = jsonDecode(coverResponse.body);
   } while (tooManyRequests);
   if (decodedCover[0]["url"] == null) {
-    return Image.asset("assets/not_found.jpg");
+    return "assets/not_found.jpg";
   } else if (decodedCover[0]["url"] == null) {
-    return Image.asset("assets/not_found.jpg");
+    return "assets/not_found.jpg";
   }
   final url = 'https:${decodedCover[0]["url"]}';
   try {
-    Image image = Image.network(url);
-    return image;
+    return url;
   } catch (e) {
     print(e);
   }
-  return Image.network(url);
+  return url;
 }
 
 Future<List<String>> getPlatforms(String token, List<String> platformId) async {
@@ -187,13 +185,13 @@ Future<List<String>> getPlatforms(String token, List<String> platformId) async {
     bool tooManyRequests = false;
     dynamic decodedPlatform;
     do {
-    final platformResponse = await http.post(
-        Uri.parse('https://api.igdb.com/v4/platforms'),
-        headers: {
-          "Client-ID": "jatk8moav95uswe6bq3zmcy3fokdnw",
-          "Authorization": "Bearer $token"
-        },
-        body: ('fields name; where id = ($platformId);'));
+      final platformResponse = await http.post(
+          Uri.parse('https://api.igdb.com/v4/platforms'),
+          headers: {
+            "Client-ID": "jatk8moav95uswe6bq3zmcy3fokdnw",
+            "Authorization": "Bearer $token"
+          },
+          body: ('fields name; where id = ($platformId);'));
       if (platformResponse.body == '{"message":"Too Many Requests"}') {
         tooManyRequests = true;
       } else {
@@ -212,7 +210,7 @@ Future<List<String>> getGenres(String token, List<String> genreId) async {
   for (String genreId in genreId) {
     bool tooManyRequests = false;
     dynamic decodedGenre;
-    do  {
+    do {
       final genreResponse = await http.post(
           Uri.parse('https://api.igdb.com/v4/genres'),
           headers: {
@@ -226,7 +224,7 @@ Future<List<String>> getGenres(String token, List<String> genreId) async {
         tooManyRequests = false;
       }
       decodedGenre = jsonDecode(genreResponse.body);
-    } while(tooManyRequests);
+    } while (tooManyRequests);
     String name = decodedGenre[0]['name'];
     genres.add(name);
   }

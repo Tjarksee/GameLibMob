@@ -133,7 +133,11 @@ class _GameDetailScreenState extends State<GameDetailScreen> {
                 children: [
                   widget.item.buildSummary(context, width),
                   slider,
-                  HeartButton(widget.favouriteGameList, widget.item),
+                  HeartButton(
+                    widget.favouriteGameList,
+                    widget.item,
+                    onUpdate: () => {},
+                  ),
                 ],
               ))
         ]),
@@ -175,7 +179,7 @@ class _GameDetailScreenState extends State<GameDetailScreen> {
         ]));
 
     final token = Provider.of<IGDBToken>(context, listen: false);
-    Future<Image>? coverFuture;
+    Future<String>? coverFuture;
     Future<List<String>>? genresFuture;
     Future<List<String>>? platformsFuture;
     if (widget.item.cover == null) {

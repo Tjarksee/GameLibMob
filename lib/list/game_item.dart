@@ -9,7 +9,7 @@ enum Status { wantToPlayThisFucker, stillPlaying, completed }
 /// A GameItem that contains data to all the info about a game.
 class GameItem implements ListItem {
   String gameID;
-  Image? cover;
+  String? cover;
   String coverId;
   List<String> genreIds;
   List<String> genres;
@@ -61,7 +61,11 @@ class GameItem implements ListItem {
       return const CircularProgressIndicator();
       //return Image.asset("asset/not_found.jpg");
     } else {
-      return cover!;
+      if (cover![0] == 'h') {
+        return Image.network(cover!);
+      } else {
+        return Image.asset("assets/not_found.jpg");
+      }
     }
   }
 

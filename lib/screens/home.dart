@@ -5,6 +5,7 @@ import 'package:gamelib_mob/screens/profile_page.dart';
 import 'package:gamelib_mob/screens/search_game.dart';
 import 'package:gamelib_mob/screens/game_detail.dart';
 import 'package:gamelib_mob/widgets/heart_button.dart';
+import 'package:gamelib_mob/firebase/firebase_traffic.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -32,6 +33,25 @@ class _HomeScreenState extends State<HomeScreen> {
     ];
   }
 
+  @override
+  void initState() {
+    super.initState();
+    getInfoFromDatabase();
+  }
+
+  Future<void> getInfoFromDatabase() async {
+    try {
+      List<GameItem> data = await FirebaseTraffic.pullFirebase();
+      setState(() {
+        mainList.favouriteGameList = data;
+        favouriteGameList = data;
+      });
+    } catch (error) {
+      // Handle error
+      print("Error fetching data: $error");
+    }
+  }
+
   Widget _buildMainList() {
     favouriteGameList = mainList.favouriteGameList;
     return ListView.builder(
@@ -43,7 +63,10 @@ class _HomeScreenState extends State<HomeScreen> {
               leading: favouriteGameList[index].buildCover(context),
               title: favouriteGameList[index].buildTitle(context),
               subtitle: favouriteGameList[index].buildSubtitle(context),
-              trailing: HeartButton(mainList, favouriteGameList[index]),
+              trailing:
+                  HeartButton(mainList, favouriteGameList[index], onUpdate: () {
+                setState(() {});
+              }),
               onTap: () =>
                   Navigator.push(context, MaterialPageRoute(builder: (context) {
                     return GameDetailScreen(mainList, favouriteGameList[index]);

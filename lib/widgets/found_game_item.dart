@@ -20,16 +20,16 @@ class _FoundGameItemState extends State<FoundGameItem> {
   @override
   Widget build(BuildContext context) {
     final token = Provider.of<IGDBToken>(context, listen: false);
-    Future<Image>? coverFuture;
+    Future<String>? coverFuture;
     if (widget.item.cover == null) {
       coverFuture = getCover(token.accessToken, widget.item.coverId);
     } else {
-      coverFuture = Future.value(widget.item.cover);
+      coverFuture = Future.value(widget.item.cover!);
     }
 
     return FutureBuilder(
         future: coverFuture,
-        builder: (context, AsyncSnapshot<Image> snapshot) {
+        builder: (context, AsyncSnapshot<String> snapshot) {
           if (snapshot.hasData) {
             widget.item.cover = snapshot.data;
           } else if (snapshot.hasError) {
@@ -39,11 +39,16 @@ class _FoundGameItemState extends State<FoundGameItem> {
               leading: widget.item.buildCover(context),
               title: widget.item.buildTitle(context),
               subtitle: widget.item.buildSubtitle(context),
-              trailing: HeartButton(widget.favouriteGameList, widget.item),
+              trailing: HeartButton(widget.favouriteGameList, widget.item,
+                  onUpdate: () {
+                setState(() {
+                  print("test");
+                });
+              }),
               onTap: () =>
                   Navigator.push(context, MaterialPageRoute(builder: (context) {
                     return GameDetailScreen(
-                        widget.favouriteGameList,widget.item);
+                        widget.favouriteGameList, widget.item);
                   })));
         });
   }

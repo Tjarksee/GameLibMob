@@ -5,7 +5,9 @@ import 'package:gamelib_mob/list/main_list.dart';
 class HeartButton extends StatefulWidget {
   final GameItem item;
   final MainList favouriteGameList;
-  const HeartButton(this.favouriteGameList, this.item, {super.key});
+  final VoidCallback onUpdate;
+  const HeartButton(this.favouriteGameList, this.item,
+      {required this.onUpdate, super.key});
 
   @override
   State<HeartButton> createState() => _HeartButtonState();
@@ -20,6 +22,9 @@ class _HeartButtonState extends State<HeartButton> {
         setState(() {
           if (alreadyInList) {
             widget.favouriteGameList.removeFavourite(widget.item);
+            Future.delayed(const Duration(milliseconds: 200), () {
+              widget.onUpdate();
+            });
           } else {
             widget.favouriteGameList.addFavourite(widget.item);
           }

@@ -119,7 +119,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         width: width / 3,
                         child: Text(
                           favouriteGameList
-                              .getStatusAmount(Status.stillPlaying)
+                              .getStatusAmount(Status.completed)
                               .toString(),
                           style: const TextStyle(
                               color: Colors.white, fontSize: 15),
@@ -187,7 +187,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           favouriteGameList
                               .getStatusAmount(Status.wantToPlayThisFucker)
                               .toString(),
-                          style: const TextStyle(color: Colors.white, fontSize: 15),
+                          style: const TextStyle(
+                              color: Colors.white, fontSize: 15),
                         ),
                       )
                     ],
