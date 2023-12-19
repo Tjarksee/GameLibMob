@@ -195,6 +195,7 @@ Future<List<String>> getPlatforms(String token, List<String> platformId) async {
       }
       decodedPlatform = jsonDecode(platformResponse.body);
     } while (tooManyRequests);
+    // TODO das hier wird aus gamedetail anscheinend mit "test" als request aufgerufen
     String name = decodedPlatform[0]['name'];
     platforms.add(name);
   }
