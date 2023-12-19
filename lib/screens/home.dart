@@ -32,6 +32,22 @@ class _HomeScreenState extends State<HomeScreen> {
     ];
   }
 
+  @override
+  void initState() {
+    super.initState();
+    getInfoFromDatabase();
+  }
+
+  Future<void> getInfoFromDatabase() async {
+    try {
+      List<GameItem> data = await FirebaseTraffic.pullFirebase();
+      setState(() {
+        mainList.favouriteGameList = data;
+        favouriteGameList = data;
+      });
+    } catch (error) {}
+  }
+
   Widget _buildMainList() {
     favouriteGameList = mainList.favouriteGameList;
     return ListView.builder(
