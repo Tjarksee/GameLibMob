@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 
 class ButtonWithMenu extends StatefulWidget {
+  const ButtonWithMenu({super.key});
+
   @override
-  _ButtonWithMenuState createState() => _ButtonWithMenuState();
+  State<ButtonWithMenu> createState() => _ButtonWithMenuState();
 }
 
 class _ButtonWithMenuState extends State<ButtonWithMenu> {
@@ -18,15 +20,15 @@ class _ButtonWithMenuState extends State<ButtonWithMenu> {
       },
       itemBuilder: (BuildContext context) {
         return [
-          PopupMenuItem<String>(
+          const PopupMenuItem<String>(
             value: 'completed',
             child: Text('Completed'),
           ),
-          PopupMenuItem<String>(
+          const PopupMenuItem<String>(
             value: 'in_progress',
             child: Text('In Progress'),
           ),
-          PopupMenuItem<String>(
+          const PopupMenuItem<String>(
             value: 'pending',
             child: Text('Pending'),
           ),

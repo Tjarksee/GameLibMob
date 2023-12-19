@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:gamelib_mob/list/game_item.dart';
 import 'package:gamelib_mob/list/main_list.dart';
+import 'package:provider/provider.dart';
 
 class HeartButton extends StatefulWidget {
   final GameItem item;
-  final MainList favouriteGameList;
-  final VoidCallback onUpdate;
-  const HeartButton(this.favouriteGameList, this.item,
-      {required this.onUpdate, super.key});
+  const HeartButton(this.item, {super.key});
 
   @override
   State<HeartButton> createState() => _HeartButtonState();
@@ -16,17 +14,15 @@ class HeartButton extends StatefulWidget {
 class _HeartButtonState extends State<HeartButton> {
   @override
   Widget build(BuildContext context) {
-    final bool alreadyInList = widget.favouriteGameList.contains(widget.item);
+    MainList mainList = context.watch<MainList>();
+    final bool alreadyInList = mainList.contains(widget.item);
     return IconButton(
       onPressed: () {
         setState(() {
           if (alreadyInList) {
-            widget.favouriteGameList.removeFavourite(widget.item);
-            Future.delayed(const Duration(milliseconds: 200), () {
-              widget.onUpdate();
-            });
+            mainList.removeFavourite(widget.item);
           } else {
-            widget.favouriteGameList.addFavourite(widget.item);
+            mainList.addFavourite(widget.item);
           }
         });
       },

@@ -1,45 +1,38 @@
 import 'package:expandable_text/expandable_text.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:gamelib_mob/api/api_services.dart';
 import 'package:gamelib_mob/api/igdb_token.dart';
 import 'package:gamelib_mob/list/game_item.dart';
-import 'package:gamelib_mob/list/main_list.dart';
-import 'package:gamelib_mob/screens/game_detail.dart';
 import 'package:gamelib_mob/widgets/heart_button.dart';
 import 'package:provider/provider.dart';
 
 class GameDetailScreen extends StatefulWidget {
   final GameItem item;
-  MainList favouriteGameList;
 
-  Color completed = Colors.grey;
-  Color planned = Colors.grey;
-  Color inProgress = Colors.grey;
-  GameDetailScreen(this.favouriteGameList, this.item, {super.key});
+  const GameDetailScreen({Key? key, required this.item}) : super(key: key);
 
   @override
   State<GameDetailScreen> createState() => _GameDetailScreenState();
 }
 
 class _GameDetailScreenState extends State<GameDetailScreen> {
+  Color completed = Colors.grey;
+  Color planned = Colors.grey;
+  Color inProgress = Colors.grey;
   @override
   Widget build(BuildContext context) {
     double width;
-    double height;
     if (MediaQuery.of(context).orientation == Orientation.portrait) {
       width = MediaQuery.of(context).size.width;
-      height = MediaQuery.of(context).size.height - 193;
     } else {
       width = MediaQuery.of(context).size.width;
-      height = MediaQuery.of(context).size.height - 133;
     }
     if (widget.item.status == Status.completed) {
-      widget.completed = Colors.red;
+      completed = Colors.red;
     } else if (widget.item.status == Status.stillPlaying) {
-      widget.inProgress = Colors.red;
+      inProgress = Colors.red;
     } else {
-      widget.planned = Colors.red;
+      planned = Colors.red;
     }
     Widget titleSection = Container(
         padding: const EdgeInsets.all(32),
@@ -62,46 +55,44 @@ class _GameDetailScreenState extends State<GameDetailScreen> {
           width: (width / 3),
           child: ElevatedButton(
             onPressed: () {
-              widget.planned = Colors.red;
+              planned = Colors.red;
               setState(() {
-                widget.completed = Colors.grey;
-                widget.inProgress = Colors.grey;
+                completed = Colors.grey;
+                inProgress = Colors.grey;
                 widget.item.status = Status.wantToPlayThisFucker;
               });
             },
+            style: ElevatedButton.styleFrom(backgroundColor: planned),
             child: const Text('want to play'),
-            style: ElevatedButton.styleFrom(backgroundColor: widget.planned),
           ),
         ),
         SizedBox(
             width: width / 3,
             child: ElevatedButton(
               onPressed: () {
-                widget.inProgress = Colors.red;
+                inProgress = Colors.red;
                 setState(() {
-                  widget.planned = Colors.grey;
-                  widget.completed = Colors.grey;
+                  planned = Colors.grey;
+                  completed = Colors.grey;
                   widget.item.status = Status.stillPlaying;
                 });
               },
+              style: ElevatedButton.styleFrom(backgroundColor: inProgress),
               child: const Text('In Progress'),
-              style:
-                  ElevatedButton.styleFrom(backgroundColor: widget.inProgress),
             )),
         SizedBox(
             width: width / 3,
             child: ElevatedButton(
               onPressed: () {
-                widget.completed = Colors.red;
+                completed = Colors.red;
                 setState(() {
-                  widget.planned = Colors.grey;
-                  widget.inProgress = Colors.grey;
+                  planned = Colors.grey;
+                  inProgress = Colors.grey;
                   widget.item.status = Status.completed;
                 });
               },
+              style: ElevatedButton.styleFrom(backgroundColor: completed),
               child: const Text('Completed'),
-              style:
-                  ElevatedButton.styleFrom(backgroundColor: widget.completed),
             ))
       ],
     );
@@ -134,9 +125,7 @@ class _GameDetailScreenState extends State<GameDetailScreen> {
                   widget.item.buildSummary(context, width),
                   slider,
                   HeartButton(
-                    widget.favouriteGameList,
                     widget.item,
-                    onUpdate: () => {},
                   ),
                 ],
               ))
@@ -167,7 +156,7 @@ class _GameDetailScreenState extends State<GameDetailScreen> {
                   expandText: 'show more',
                   collapseText: 'show less',
                   maxLines: 3,
-                  linkColor: Color.fromARGB(255, 102, 153, 234),
+                  linkColor: const Color.fromARGB(255, 102, 153, 234),
                   style: const TextStyle(
                       color: Color.fromARGB(255, 255, 243, 243), fontSize: 17),
                 ) // Allow the text to wrap
@@ -223,7 +212,7 @@ class _GameDetailScreenState extends State<GameDetailScreen> {
               return Text('${snapshot.error}');
             }
             return Scaffold(
-              backgroundColor: Color.fromARGB(84, 87, 85, 99),
+              backgroundColor: const Color.fromARGB(84, 87, 85, 99),
               appBar: AppBar(title: const Text('Game Details')),
               body: SingleChildScrollView(
                 child: Column(children: [

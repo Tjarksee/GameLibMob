@@ -6,6 +6,7 @@ import 'package:gamelib_mob/screens/search_game.dart';
 import 'package:gamelib_mob/screens/game_detail.dart';
 import 'package:gamelib_mob/widgets/heart_button.dart';
 import 'package:gamelib_mob/firebase/firebase_traffic.dart';
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -16,60 +17,51 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
-  MainList mainList = MainList();
   late List<Widget> widgetOptions;
+
   void changeIndex(int newIndex) {
     setState(() => _selectedIndex = newIndex);
-  }
-
-  List<GameItem> favouriteGameList = [];
-
-  void createListWidget() {
-    widgetOptions = <Widget>[
-      _buildMainList(),
-      ProfileScreen(
-        favouriteGameList: mainList,
-      ),
-    ];
   }
 
   @override
   void initState() {
     super.initState();
-    getInfoFromDatabase();
   }
 
   Future<void> getInfoFromDatabase() async {
+    MainList mainList = context.watch<MainList>();
     try {
       List<GameItem> data = await FirebaseTraffic.pullFirebase();
       setState(() {
-        mainList.favouriteGameList = data;
-        favouriteGameList = data;
+        mainList.gameItems = data;
       });
-    } catch (error) {
-      // Handle error
-      print("Error fetching data: $error");
-    }
+    } catch (error) {}
+  }
+
+  void createListWidget() {
+    widgetOptions = <Widget>[
+      _buildMainList(),
+      const ProfileScreen(),
+    ];
   }
 
   Widget _buildMainList() {
-    favouriteGameList = mainList.favouriteGameList;
+    MainList mainList = context.watch<MainList>();
     return ListView.builder(
-      itemCount: favouriteGameList.length,
+      itemCount: mainList.gameItems.length,
       itemBuilder: (BuildContext content, int index) {
         return Container(
           color: Colors.grey,
           child: ListTile(
-              leading: favouriteGameList[index].buildCover(context),
-              title: favouriteGameList[index].buildTitle(context),
-              subtitle: favouriteGameList[index].buildSubtitle(context),
-              trailing:
-                  HeartButton(mainList, favouriteGameList[index], onUpdate: () {
-                setState(() {});
-              }),
+              leading: mainList.gameItems[index].buildCover(context),
+              title: mainList.gameItems[index].buildTitle(context),
+              subtitle: mainList.gameItems[index].buildSubtitle(context),
+              trailing: HeartButton(
+                mainList.gameItems[index],
+              ),
               onTap: () =>
                   Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    return GameDetailScreen(mainList, favouriteGameList[index]);
+                    return GameDetailScreen(item: mainList.gameItems[index]);
                   }))),
         );
       },
@@ -78,6 +70,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    getInfoFromDatabase();
     createListWidget();
     return GestureDetector(
         onTap: () {
@@ -97,8 +90,8 @@ class _HomeScreenState extends State<HomeScreen> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => SearchGameScreen(
-                                      favouriteGameList: mainList))).then((_) {
+                                  builder: (context) =>
+                                      const SearchGameScreen())).then((_) {
                             setState(() {});
                           });
                         },

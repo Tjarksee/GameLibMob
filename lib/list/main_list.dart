@@ -1,13 +1,14 @@
+import 'package:flutter/material.dart';
 import 'package:gamelib_mob/firebase/firebase_traffic.dart';
 import 'game_item.dart';
 
-class MainList {
-  List<GameItem> favouriteGameList = [];
+class MainList extends ChangeNotifier {
+  List<GameItem> gameItems = [];
 
   bool contains(favGameItem) {
     GameItem fav = favGameItem;
     final foundGames =
-        favouriteGameList.where((element) => element.gameID == fav.gameID);
+        gameItems.where((element) => element.gameID == fav.gameID);
     if (foundGames.isNotEmpty) {
       return true;
     }
@@ -16,25 +17,26 @@ class MainList {
 
   void removeFavourite(favGameItem) {
     GameItem fav = favGameItem;
-    favouriteGameList.removeWhere((element) => element.gameID == fav.gameID);
+    gameItems.removeWhere((element) => element.gameID == fav.gameID);
     FirebaseTraffic.deleteGameFromFirebase(fav);
+    notifyListeners();
   }
 
   void addFavourite(favGameItem) {
     GameItem selectedGame = favGameItem;
 
-    favouriteGameList.add(selectedGame);
+    gameItems.add(selectedGame);
     FirebaseTraffic.pushGameToFirebase(selectedGame);
-    print("pushed");
+    notifyListeners();
   }
 
   List<GameItem> getFavouriteList() {
-    return favouriteGameList;
+    return gameItems;
   }
 
   int getStatusAmount(Status chosenStatus) {
     int counter = 0;
-    for (final game in favouriteGameList) {
+    for (final game in gameItems) {
       if (game.status == chosenStatus) {
         counter++;
       }
