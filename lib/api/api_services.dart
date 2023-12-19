@@ -171,11 +171,7 @@ Future<String> getCover(String token, String coverId) async {
     return "assets/not_found.jpg";
   }
   final url = 'https:${decodedCover[0]["url"]}';
-  try {
-    return url;
-  } catch (e) {
-    print(e);
-  }
+
   return url;
 }
 
