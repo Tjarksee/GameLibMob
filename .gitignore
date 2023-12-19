@@ -1,6 +1,8 @@
 # Miscellaneous
 pubspec.lock
+*.java
 *.class
+*generated*
 *.log
 *.pyc
 *.swp
