@@ -178,65 +178,70 @@ class _GameDetailScreenState extends State<GameDetailScreen> {
           widget.item.buildUrl(context),
         ]));
 
-    final token = Provider.of<IGDBToken>(context, listen: false);
+    final token = Provider.of<IGDBToken?>(context, listen: false);
     Future<String>? coverFuture;
     Future<List<String>>? genresFuture;
     Future<List<String>>? platformsFuture;
-    if (widget.item.cover == null) {
-      coverFuture = getCover(token.accessToken, widget.item.coverId);
-    } else {
-      coverFuture = Future.value(widget.item.cover);
-    }
+    if (token != null) {
+      if (widget.item.cover == null) {
+        coverFuture = getCover(token.accessToken, widget.item.coverId);
+      } else {
+        coverFuture = Future.value(widget.item.cover);
+      }
 
-    if (widget.item.genres.isEmpty) {
-      genresFuture = getGenres(token.accessToken, widget.item.genreIds);
-    } else {
-      genresFuture = Future.value(widget.item.genres);
-    }
+      if (widget.item.genres.isEmpty) {
+        genresFuture = getGenres(token.accessToken, widget.item.genreIds);
+      } else {
+        genresFuture = Future.value(widget.item.genres);
+      }
 
-    if (widget.item.platforms.isEmpty) {
-      platformsFuture =
-          getPlatforms(token.accessToken, widget.item.platformIds);
-    } else {
-      platformsFuture = Future.value(widget.item.platforms);
-    }
+      if (widget.item.platforms.isEmpty) {
+        platformsFuture =
+            getPlatforms(token.accessToken, widget.item.platformIds);
+      } else {
+        platformsFuture = Future.value(widget.item.platforms);
+      }
 
-    return FutureBuilder(
-        future: Future.wait([coverFuture, genresFuture, platformsFuture]),
-        builder: (context, AsyncSnapshot<List<dynamic>> snapshot) {
-          if (snapshot.hasData) {
-            bool allesFeddich = false;
-            while (!allesFeddich) {
-              if (snapshot.data?[3 - 2] != null &&
-                  snapshot.data?[0] != null &&
-                  snapshot.data?[2] != null) {
-                widget.item.cover = snapshot.data![0];
+      return FutureBuilder(
+          future: Future.wait([coverFuture, genresFuture, platformsFuture]),
+          builder: (context, AsyncSnapshot<List<dynamic>> snapshot) {
+            if (snapshot.hasData) {
+              bool allesFeddich = false;
+              while (!allesFeddich) {
+                if (snapshot.data?[3 - 2] != null &&
+                    snapshot.data?[0] != null &&
+                    snapshot.data?[2] != null) {
+                  widget.item.cover = snapshot.data![0];
 
-                widget.item.genres = snapshot.data![1];
+                  widget.item.genres = snapshot.data![1];
 
-                widget.item.platforms = snapshot.data![2];
-                allesFeddich = true;
+                  widget.item.platforms = snapshot.data![2];
+                  allesFeddich = true;
+                }
               }
+            } else if (snapshot.hasError) {
+              return Text('${snapshot.error}');
             }
-          } else if (snapshot.hasError) {
-            return Text('${snapshot.error}');
-          }
-          return Scaffold(
-            backgroundColor: Color.fromARGB(84, 87, 85, 99),
-            appBar: AppBar(title: const Text('Game Details')),
-            body: SingleChildScrollView(
-              child: Column(children: [
-                titleSection,
-                divider,
-                ownScore,
-                divider,
-                igdbStats,
-                widget.item.buildReleaseDate(context),
-                divider,
-                details,
-              ]),
-            ),
-          );
-        });
+            return Scaffold(
+              backgroundColor: Color.fromARGB(84, 87, 85, 99),
+              appBar: AppBar(title: const Text('Game Details')),
+              body: SingleChildScrollView(
+                child: Column(children: [
+                  titleSection,
+                  divider,
+                  ownScore,
+                  divider,
+                  igdbStats,
+                  widget.item.buildReleaseDate(context),
+                  divider,
+                  details,
+                ]),
+              ),
+            );
+          });
+    }
+    return const Scaffold(
+      body: Center(child: CircularProgressIndicator()),
+    );
   }
 }
