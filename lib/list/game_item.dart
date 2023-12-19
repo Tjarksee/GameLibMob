@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gamelib_mob/list/list_item.dart';
+import 'package:expandable_text/expandable_text.dart';
+import 'package:gamelib_mob/widgets/button_with_menu_state.dart';
 
 enum Status { wantToPlayThisFucker, stillPlaying, completed }
 
@@ -69,51 +71,77 @@ class GameItem implements ListItem {
   Widget buildSummary(BuildContext context) {
     // TODO
     // Eine kurze Beschreibung des Spiels
-      return Text(summary);
+    return Container(
+      width: 200, // Set the desired width of the box
+      child: Wrap(
+        children: [
+          ExpandableText(
+            summary,
+            expandText: 'show more',
+            collapseText: 'show less',
+            maxLines: 3,
+            linkColor: Colors.amber,
+          ) // Allow the text to wrap
+        ],
+      ),
+    );
   }
 
   Widget buildUrl(BuildContext context) {
     // TODO
     // Eine URL ins schöne
-      return Text("not implemented");
+    return Text("not implementssed");
   }
 
   Widget buildState(BuildContext context) {
     // TODO
     // ein menuknopf, der die drei Optionen von Status.X anzeigt
     // und diese dann für status auswählt. Startet mit dem jetzigen
-      return const Text("not implemented");
+    return ButtonWithMenu();
   }
 
-  Widget buildOwnScore(BuildContext context) {
+  Widget buildOwnScore(BuildContext context, double currentSliderValue,
+      Function setStateCallback) {
     // TODO
     // Ein Schieberegler, der den eigenen Score anzeigt (startet auf dem eigenen)
-      return const Text("not implemented");
+    return Text('data');
   }
 
   Widget buildRating(BuildContext context) {
     // TODO
     // Zeigt fett den Score an mit dem ratingcount drunter
     // muss noch schöner werden
-      return Column(children: [
-        Text(rating.toString()),
-        Text(ratingCount.toString()),
-      ],);
+    return Column(
+      children: [
+        Text(
+          rating.toString(),
+          style: const TextStyle(
+              color: Color.fromARGB(255, 0, 0, 0), fontSize: 15),
+        ),
+        Text(
+          ratingCount.toString(),
+          style: const TextStyle(
+              color: Color.fromARGB(255, 9, 9, 9), fontSize: 15),
+        ),
+      ],
+    );
   }
 
   Widget buildSpecifics(BuildContext context) {
     // TODO
     // Zeigt fett den Score an mit dem ratingcount drunter
     // muss noch schöner werden
-      return Column(children: [
+    return Column(
+      children: [
         // for each platform -> Text(platforms),
         // for each genre -> Text(genres),
-      ],);
+      ],
+    );
   }
 
   Widget buildReleaseDate(BuildContext context) {
     // TODO
     // Ein Schieberegler, der den eigenen Score anzeigt (startet auf dem eigenen)
-      return Text(releaseDate);
+    return Text(releaseDate);
   }
 }

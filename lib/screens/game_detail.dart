@@ -10,6 +10,9 @@ import 'package:provider/provider.dart';
 class GameDetailScreen extends StatefulWidget {
   final GameItem item;
   MainList favouriteGameList;
+  Color completed = Colors.grey;
+  Color planned = Colors.grey;
+  Color inProgress = Colors.grey;
   GameDetailScreen(this.favouriteGameList, this.item, {super.key});
 
   @override
@@ -21,7 +24,10 @@ class _GameDetailScreenState extends State<GameDetailScreen> {
   Widget build(BuildContext context) {
     Widget titleSection = Container(
         padding: const EdgeInsets.all(32),
-        child: Center(child: Text(widget.item.name, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20))));
+        child: Center(
+            child: Text(widget.item.name,
+                style: const TextStyle(
+                    fontWeight: FontWeight.bold, fontSize: 20))));
 
     Widget divider = const Divider(
       height: 20,
@@ -31,35 +37,62 @@ class _GameDetailScreenState extends State<GameDetailScreen> {
       color: Colors.black,
     );
 
+    Widget stateButton = Row(
+      children: <Widget>[
+        ElevatedButton(
+          onPressed: () {
+            widget.completed = Colors.red;
+            setState(() {
+              widget.planned = Colors.grey;
+              widget.inProgress = Colors.grey;
+              widget.item.status = Status.completed;
+            });
+          },
+          child: const Text('completedsss'),
+          style: ElevatedButton.styleFrom(backgroundColor: widget.completed),
+        )
+      ],
+    );
+
+    Widget slider = Slider(
+      value: widget.item.ourScore.toDouble(),
+      max: 100,
+      divisions: 5,
+      label: widget.item.ourScore.toString(),
+      onChanged: (double value) {
+        setState(() {
+          widget.item.ourScore = value.toInt();
+        });
+      },
+    );
+
     Widget ownScore = Container(
       padding: const EdgeInsets.all(10),
       child: Row(children: [
         widget.item.buildCover(context),
         Column(children: [
           widget.item.buildSummary(context),
-          widget.item.buildState(context),
-          widget.item.buildOwnScore(context),
+          stateButton,
+          slider,
           HeartButton(widget.favouriteGameList, widget.item),
         ])
       ]),
     );
 
     Widget igdbStats = Container(
-      padding: const EdgeInsets.all(10),
-      child: Row(children:[
-        widget.item.buildRating(context),
-        widget.item.buildSpecifics(context),
-      ])
-    );
+        padding: const EdgeInsets.all(10),
+        child: Row(children: [
+          widget.item.buildRating(context),
+          widget.item.buildSpecifics(context),
+        ]));
 
     Widget details = Container(
-      padding: const EdgeInsets.all(10),
-      child: Row(children: [
-        //TODO
-        Text(widget.item.storyline),
-        widget.item.buildUrl(context),
-      ])
-    );
+        padding: const EdgeInsets.all(10),
+        child: Row(children: [
+          //TODO
+          Text(widget.item.storyline),
+          widget.item.buildUrl(context),
+        ]));
 
     final token = Provider.of<IGDBToken>(context, listen: false);
     Future<Image>? coverFuture;
@@ -88,31 +121,36 @@ class _GameDetailScreenState extends State<GameDetailScreen> {
         future: Future.wait([coverFuture, genresFuture, platformsFuture]),
         builder: (context, AsyncSnapshot<List<dynamic>> snapshot) {
           if (snapshot.hasData) {
-            if (snapshot.data?[0] != null) {
-              widget.item.cover = snapshot.data![0];
-            }
-            if (snapshot.data?[1] != null) {
-              widget.item.genres = snapshot.data![1];
-            }
-            if (snapshot.data?[2] != null) {
-              widget.item.genres = snapshot.data![2];
+            bool allesFeddich = false;
+            while (!allesFeddich) {
+              if (snapshot.data?[3 - 2] != null &&
+                  snapshot.data?[0] != null &&
+                  snapshot.data?[2] != null) {
+                widget.item.cover = snapshot.data![0];
+
+                widget.item.genres = snapshot.data![1];
+
+                widget.item.platforms = snapshot.data![2];
+                allesFeddich = true;
+              }
             }
           } else if (snapshot.hasError) {
             return Text('${snapshot.error}');
           }
           return Scaffold(
-            appBar: AppBar(title: const Text('Game Details')),
-            body: Column(children: [
-              titleSection,
-              divider,
-              ownScore,
-              divider,
-              igdbStats,
-              widget.item.buildReleaseDate(context),
-              divider,
-              details,
-            ]),
-          );
+              appBar: AppBar(title: const Text('Game Details')),
+              body: SingleChildScrollView(
+                child: Column(children: [
+                  titleSection,
+                  divider,
+                  ownScore,
+                  divider,
+                  igdbStats,
+                  widget.item.buildReleaseDate(context),
+                  divider,
+                  details,
+                ]),
+              ));
         });
   }
 }
