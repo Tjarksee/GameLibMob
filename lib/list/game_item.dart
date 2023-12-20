@@ -103,9 +103,6 @@ class GameItem implements ListItem {
   }
 
   Widget buildRating(BuildContext context, double width) {
-    // TODO
-    // Zeigt fett den Score an mit dem ratingcount drunter
-    // muss noch schöner werden
     return SizedBox(
         width: width,
         child: Column(

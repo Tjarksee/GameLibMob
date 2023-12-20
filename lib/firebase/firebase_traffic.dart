@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:gamelib_mob/list/game_item.dart';
 
 class FirebaseTraffic {
@@ -9,7 +10,7 @@ class FirebaseTraffic {
     List<GameItem> favGameList = [];
 
     await firestoreInstance
-        .collection('test')
+        .collection('gameLib')
         .doc(firebaseUser!.uid)
         .collection('gamelist')
         .get()
@@ -42,7 +43,7 @@ class FirebaseTraffic {
     final firestoreInstance = FirebaseFirestore.instance;
 
     var docReference = firestoreInstance
-        .collection('test')
+        .collection('gameLib')
         .doc(firebaseUser!.uid)
         .collection('gamelist')
         .doc(gameToPush.gameID);
@@ -70,12 +71,11 @@ class FirebaseTraffic {
       final firestoreInstance = FirebaseFirestore.instance;
 
       var docReference = firestoreInstance
-          .collection('test')
+          .collection('gameLib')
           .doc(firebaseUser!.uid)
           .collection('gamelist')
           .doc(gameToDelete.gameID);
 
-      // Lösche das Dokument
       await docReference.delete();
     } catch (e) {}
   }
@@ -84,13 +84,49 @@ class FirebaseTraffic {
     final firestoreInstance = FirebaseFirestore.instance;
 
     try {
-      var docRef = firestoreInstance.collection('test');
+      var docRef = firestoreInstance.collection('gameLib');
       docRef.doc(FirebaseAuth.instance.currentUser!.uid).set({'name': name});
       String userId = docRef.id;
 
       return userId;
     } catch (e) {
+      dynamic errorMessage;
+      showDialog(
+        context: errorMessage,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text("Registrierung fehlgeschlagen!"),
+            content: const Text(
+                "Es ist ein Fehler bei der Registrierung aufgetreten."),
+            actions: [
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text("OK"),
+              ),
+            ],
+          );
+        },
+      );
+      // Lösche den erstellten Auth-Nutzer
+      FirebaseAuth.instance.currentUser?.delete();
       return null;
     }
+  }
+
+  static Future<String> getNameFromFirebase() async {
+    String username = "";
+    var firebaseUser = FirebaseAuth.instance.currentUser;
+    final firestoreInstance = FirebaseFirestore.instance;
+
+    await firestoreInstance
+        .collection('gameLib')
+        .doc(firebaseUser!.uid)
+        .get()
+        .then((querySnapshot) {
+      username = querySnapshot.data()?['name'];
+    });
+    return username;
   }
 }

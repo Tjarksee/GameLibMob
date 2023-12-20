@@ -17,6 +17,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0;
+  String userName = "test";
   late List<Widget> widgetOptions;
 
   void changeIndex(int newIndex) {
@@ -30,10 +31,15 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Future<void> getInfoFromDatabase() async {
     MainList mainList = context.watch<MainList>();
+
     try {
       List<GameItem> data = await FirebaseTraffic.pullFirebase();
+      String name = await FirebaseTraffic.getNameFromFirebase();
+
       setState(() {
+        userName = name;
         mainList.gameItems = data;
+        mainList.username = name;
       });
     } catch (error) {}
   }
@@ -61,7 +67,9 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
               onTap: () =>
                   Navigator.push(context, MaterialPageRoute(builder: (context) {
-                    return GameDetailScreen(item: mainList.gameItems[index]);
+                    return GameDetailScreen(
+                      item: mainList.gameItems[index],
+                    );
                   }))),
         );
       },
@@ -71,6 +79,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     getInfoFromDatabase();
+
     createListWidget();
     return GestureDetector(
         onTap: () {

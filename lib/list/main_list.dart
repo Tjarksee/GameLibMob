@@ -4,6 +4,7 @@ import 'game_item.dart';
 
 class MainList extends ChangeNotifier {
   List<GameItem> gameItems = [];
+  String username = '';
 
   bool contains(favGameItem) {
     GameItem fav = favGameItem;
@@ -42,5 +43,9 @@ class MainList extends ChangeNotifier {
       }
     }
     return counter;
+  }
+
+  void changeStatus(int index, Status chosenStatus) {
+    gameItems[index].status = chosenStatus;
   }
 }

@@ -64,10 +64,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       'Profile Name:',
                       style: TextStyle(color: Colors.white, fontSize: 15),
                     ),
-                    // TODO get the profile name here
-                    const Text(
-                      "Profile name from db",
-                      style: TextStyle(color: Colors.white, fontSize: 20),
+                    Text(
+                      mainList.username,
+                      style: const TextStyle(color: Colors.white, fontSize: 20),
                       textAlign: TextAlign.center,
                     ),
                     const Text(
@@ -75,7 +74,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       style: TextStyle(color: Colors.white, fontSize: 20),
                       textAlign: TextAlign.center,
                     ),
-
                     Text(
                       getEmail(),
                       style: const TextStyle(color: Colors.white, fontSize: 20),

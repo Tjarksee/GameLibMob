@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:gamelib_mob/api/api_services.dart';
 import 'package:gamelib_mob/api/igdb_token.dart';
 import 'package:gamelib_mob/list/game_item.dart';
+
 import 'package:gamelib_mob/widgets/heart_button.dart';
 import 'package:provider/provider.dart';
 
 class GameDetailScreen extends StatefulWidget {
   final GameItem item;
-
   const GameDetailScreen({Key? key, required this.item}) : super(key: key);
 
   @override
@@ -27,6 +27,7 @@ class _GameDetailScreenState extends State<GameDetailScreen> {
     } else {
       width = MediaQuery.of(context).size.width;
     }
+
     if (widget.item.status == Status.completed) {
       completed = Colors.red;
     } else if (widget.item.status == Status.stillPlaying) {
