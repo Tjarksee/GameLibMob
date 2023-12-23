@@ -183,8 +183,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           mainList
                               .getStatusAmount(Status.wantToPlayThisFucker)
                               .toString(),
-                          style: const TextStyle(
-                              color: Colors.white, fontSize: 15),
+                          style: TextStyle(color: Colors.white, fontSize: 15),
                         ),
                       )
                     ],

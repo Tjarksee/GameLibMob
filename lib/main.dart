@@ -4,8 +4,8 @@ import 'package:gamelib_mob/api/igdb_token.dart';
 import 'package:gamelib_mob/list/main_list.dart';
 
 import 'package:provider/provider.dart';
+import 'firebase_options.dart';
 import 'package:gamelib_mob/screens/sign_in.dart';
-import 'firebase/firebase_options.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

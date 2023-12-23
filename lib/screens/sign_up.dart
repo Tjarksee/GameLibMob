@@ -2,7 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:gamelib_mob/screens/home.dart';
 import '../helpers/helpers.dart';
-import 'package:gamelib_mob/firebase/firebase_traffic.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -38,8 +37,41 @@ class _SignUpScreenState extends State<SignUpScreen> {
             Color.fromARGB(249, 108, 106, 108),
             Color.fromARGB(249, 50, 48, 50)
           ], begin: Alignment.bottomRight, end: Alignment.topLeft)),
+            Color.fromARGB(249, 50, 48, 50),
+            Color.fromARGB(249, 108, 106, 108),
+            Color.fromARGB(249, 50, 48, 50)
+          ], begin: Alignment.bottomRight, end: Alignment.topLeft)),
           child: SingleChildScrollView(
               child: Padding(
+            padding: const EdgeInsets.fromLTRB(20, 120, 20, 0),
+            child: Column(
+              children: <Widget>[
+                const SizedBox(
+                  height: 20,
+                ),
+                reusableTextField("Enter Username", Icons.person_outline, false,
+                    _userNameTextController),
+                const SizedBox(
+                  height: 20,
+                ),
+                reusableTextField("Enter Email", Icons.person_outline, false,
+                    _emailTextController),
+                const SizedBox(
+                  height: 20,
+                ),
+                reusableTextField("Enter Password", Icons.lock_outlined, true,
+                    _passwordTextController),
+                const SizedBox(
+                  height: 20,
+                ),
+                Text(
+                  showError ? errorMessage : '',
+                  style: const TextStyle(color: Colors.red),
+                ),
+                firebaseUIButton(context, "Sign Up", () async {
+                  try {
+                    await FirebaseAuth.instance
+                        .createUserWithEmailAndPassword(
             padding: const EdgeInsets.fromLTRB(20, 120, 20, 0),
             child: Column(
               children: <Widget>[

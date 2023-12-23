@@ -24,15 +24,16 @@ class _SearchResultScreenState extends State<SearchResultScreen> {
           title: const Text('Add a Game'),
         ),
         body: FutureBuilder<List<GameItem>>(
-            future: gameList,
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                final listOfItems = List<GameItem>.generate(
-                    snapshot.data!.length, (i) => snapshot.data![i]);
-                return ListView.builder(
-                  itemCount: snapshot.data!.length,
-                  itemBuilder: (context, int index) {
-                    final GameItem item = listOfItems[index];
+                future: gameList,
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    final listOfItems = List<GameItem>.generate(
+                        snapshot.data!.length,
+                        (i) => snapshot.data![i]);
+                    return ListView.builder(
+                        itemCount: snapshot.data!.length,
+                        itemBuilder: (context, int index) {
+                          final GameItem item = listOfItems[index];
 
                     return FoundGameItem(item);
                   },
