@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gamelib_mob/list/list_item.dart';
+import 'package:expandable_text/expandable_text.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 enum Status { wantToPlayThisFucker, stillPlaying, completed }
 
@@ -24,7 +26,7 @@ class GameItem implements ListItem {
       required this.cover,
       this.genres = const [],
       required this.name,
-      this.ourScore = -1,
+      this.ourScore = 0,
       this.platforms = const [],
       this.rating = -1,
       this.ratingCount = -1,
@@ -38,7 +40,8 @@ class GameItem implements ListItem {
   Widget buildTitle(BuildContext context) {
     return Text(
       name,
-      style: Theme.of(context).textTheme.headlineSmall,
+      style: const TextStyle(
+          color: Color.fromARGB(255, 255, 243, 243), fontSize: 20),
     );
   }
 
@@ -53,5 +56,70 @@ class GameItem implements ListItem {
   @override
   Widget buildTrailing(BuildContext context) {
     return const SizedBox.shrink();
+  }
+
+  Widget buildSummary(BuildContext context, double width) {
+    return SizedBox(
+      width: width / 1.7,
+      child: Wrap(
+        children: [
+          ExpandableText(
+            summary,
+            expandText: 'show more',
+            collapseText: 'show less',
+            maxLines: 3,
+            linkColor: Colors.amber,
+            style: const TextStyle(
+                color: Color.fromARGB(255, 255, 243, 243), fontSize: 17),
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget buildUrl(BuildContext context) {
+    return InkWell(
+        child: Text(
+          "Url to Homepage:\n $url",
+          style: const TextStyle(
+              color: Color.fromARGB(255, 255, 243, 243), fontSize: 17),
+        ),
+        onTap: () async => {await launchUrl(Uri.parse(url))});
+  }
+
+  Widget buildRating(BuildContext context, double width) {
+    // TODO
+    // Zeigt fett den Score an mit dem ratingcount drunter
+    // muss noch schöner werden
+    return SizedBox(
+        width: width,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Text(
+              "Igdb raiting: ${rating.toStringAsFixed(2)}%",
+              style: const TextStyle(
+                  color: Color.fromARGB(255, 255, 243, 243), fontSize: 20),
+            ),
+            Text(
+              "Number of raitings: ${ratingCount.toString()}",
+              style: const TextStyle(
+                  color: Color.fromARGB(255, 255, 239, 239), fontSize: 15),
+            ),
+          ],
+        ));
+  }
+
+  Widget buildSpecifics(BuildContext context) {
+    return const Column(
+      children: [
+        // for each platform -> Text(platforms),
+        // for each genre -> Text(genres),
+      ],
+    );
+  }
+
+  Widget buildReleaseDate(BuildContext context) {
+    return Text(releaseDate);
   }
 }

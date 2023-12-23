@@ -4,17 +4,16 @@ import 'package:gamelib_mob/list/game_item.dart';
 import 'package:gamelib_mob/list/main_list.dart';
 import 'package:gamelib_mob/helpers/helpers.dart';
 import 'package:gamelib_mob/screens/sign_in.dart';
+import 'package:provider/provider.dart';
 
 class ProfileScreen extends StatefulWidget {
-  final MainList favouriteGameList;
-  const ProfileScreen({super.key, required this.favouriteGameList});
+  const ProfileScreen({super.key});
 
   @override
   State<ProfileScreen> createState() => _ProfileScreenState();
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
-  late MainList favouriteGameList = widget.favouriteGameList;
   @override
   Widget build(BuildContext context) {
     double width;
@@ -27,6 +26,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       height = MediaQuery.of(context).size.height - 133;
     }
     double mainContainerHight = height * 1 / 3;
+    MainList mainList = context.watch<MainList>();
 
     return Container(
         width: width,
@@ -118,9 +118,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         height: mainContainerHight / 2,
                         width: width / 3,
                         child: Text(
-                          favouriteGameList
-                              .getStatusAmount(Status.stillPlaying)
-                              .toString(),
+                          mainList.getStatusAmount(Status.completed).toString(),
                           style: const TextStyle(
                               color: Colors.white, fontSize: 15),
                         ),
@@ -154,9 +152,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         height: mainContainerHight / 2,
                         width: width / 3,
                         child: Text(
-                          favouriteGameList
-                              .getStatusAmount(Status.completed)
-                              .toString(),
+                          mainList.getStatusAmount(Status.completed).toString(),
                           style: const TextStyle(
                               color: Colors.white, fontSize: 15),
                         ),
@@ -184,7 +180,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         height: mainContainerHight / 2,
                         width: width / 3,
                         child: Text(
-                          favouriteGameList
+                          mainList
                               .getStatusAmount(Status.wantToPlayThisFucker)
                               .toString(),
                           style: TextStyle(color: Colors.white, fontSize: 15),
