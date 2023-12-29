@@ -27,6 +27,7 @@ class _HeartButtonState extends State<HeartButton> {
           }
         });
       },
+      //TODO does not always rerender on click??
       icon: Icon(
         alreadyInList ? Icons.favorite : Icons.favorite_border,
         color: alreadyInList ? Colors.red : Colors.grey,
