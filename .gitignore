@@ -1,5 +1,4 @@
 # Miscellaneous
-pubspec.lock
 *.java
 *.class
 *.log
@@ -78,3 +77,4 @@ app.*.map.json
 macos/Flutter/GeneratedPluginRegistrant.swift
 windows/flutter/generated_plugin_registrant.cc
 windows/flutter/generated_plugins.cmake
+pubspec.lock
