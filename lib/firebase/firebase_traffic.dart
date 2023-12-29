@@ -79,7 +79,25 @@ class FirebaseTraffic {
 
       await docReference.delete();
     } catch (e) {
-
+      dynamic errorMessage;
+      showDialog(
+        context: errorMessage,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text("Konnte spiel nicht löschen"),
+            content: const Text(
+                "Es ist ein Fehler beim Löschen des Spiels aufgetreten."),
+            actions: [
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text("OK"),
+              ),
+            ],
+          );
+        },
+      );
     }
   }
 
