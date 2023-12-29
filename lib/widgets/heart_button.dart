@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:gamelib_mob/list/game_item.dart';
 import 'package:gamelib_mob/list/main_list.dart';
@@ -19,13 +18,12 @@ class _HeartButtonState extends State<HeartButton> {
     final bool alreadyInList = mainList.contains(widget.item);
     return IconButton(
       onPressed: () {
-        setState(() {
-          if (alreadyInList) {
-            mainList.removeFavourite(widget.item);
-          } else {
-            mainList.addFavourite(widget.item);
-          }
-        });
+        // does this need a setstate, since it rerenders because of the watch anyway?
+        if (alreadyInList) {
+          mainList.removeFavourite(widget.item);
+        } else {
+          mainList.addFavourite(widget.item);
+        }
       },
       //TODO does not always rerender on click??
       icon: Icon(
