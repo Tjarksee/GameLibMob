@@ -1,5 +1,5 @@
 # Miscellaneous
-pubspec.lock
+*pubspec.lock
 *.java
 *.class
 *generated*

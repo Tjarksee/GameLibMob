@@ -10,14 +10,16 @@ class FirebaseTraffic {
     List<GameItem> favGameList = [];
 
     await firestoreInstance
-        .collection('gameLib')
+        .collection('User')
         .doc(firebaseUser!.uid)
-        .collection('gamelist')
+        .collection('Gamelist')
         .get()
         .then((querySnapshot) {
       for (var result in querySnapshot.docs) {
         // Erstelle eine neue Instanz von GameItem
         GameItem favGame = GameItem(
+          gameID: result.data()["gameID"].toString(),
+          name: result.data()["name"].toString(),
           cover: result.data()["cover"].toString(),
           gameID: result.data()["gameId"].toString(),
           coverId: result.data()["coverId"].toString(),
@@ -43,14 +45,15 @@ class FirebaseTraffic {
     final firestoreInstance = FirebaseFirestore.instance;
 
     var docReference = firestoreInstance
-        .collection('gameLib')
+        .collection('User')
         .doc(firebaseUser!.uid)
-        .collection('gamelist')
+        .collection('Gamelist')
         .doc(gameToPush.gameID);
 
-    // Setze die Daten des Spiels im Dokument
+    // Setze die Daten des Spiels ins Dokument
     await docReference.set({
-      "gameId": gameToPush.gameID,
+      "gameID": gameToPush.gameID,
+      "name": gameToPush.name,
       "cover": gameToPush.cover,
       "coverId": gameToPush.coverId,
       "name": gameToPush.name,
@@ -71,20 +74,22 @@ class FirebaseTraffic {
       final firestoreInstance = FirebaseFirestore.instance;
 
       var docReference = firestoreInstance
-          .collection('gameLib')
+          .collection('User')
           .doc(firebaseUser!.uid)
-          .collection('gamelist')
+          .collection('Gamelist')
           .doc(gameToDelete.gameID);
 
       await docReference.delete();
-    } catch (e) {}
+    } catch (e) {
+
+    }
   }
 
   static Future<String?> pushUserNameToFirebase(String name) async {
     final firestoreInstance = FirebaseFirestore.instance;
 
     try {
-      var docRef = firestoreInstance.collection('gameLib');
+      var docRef = firestoreInstance.collection('User');
       docRef.doc(FirebaseAuth.instance.currentUser!.uid).set({'name': name});
       String userId = docRef.id;
 
