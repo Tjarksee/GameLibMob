@@ -1,8 +1,7 @@
 # Miscellaneous
-*pubspec.lock
+pubspec.lock
 *.java
 *.class
-*generated*
 *.log
 *.pyc
 *.swp
@@ -12,7 +11,8 @@
 .history
 .svn/
 migrate_working_dir/
-*generated*
+windows/
+macos/
 
 # IntelliJ related
 *.iml
