@@ -31,6 +31,7 @@ class MainList extends ChangeNotifier {
     FirebaseTraffic.pushGameToFirebase(selectedGame);
   }
 
+
   List<GameItem> getFavouriteList() {
     return gameItems;
   }

@@ -41,7 +41,9 @@ class _HomeScreenState extends State<HomeScreen> {
         mainList.gameItems = data;
         mainList.username = name;
       });
-    } catch (error) {}
+    } catch (error) {
+      print(error);
+    }
   }
 
   void createListWidget() {

@@ -73,6 +73,14 @@ class GameItem implements ListItem {
     return const SizedBox.shrink();
   }
 
+  void changeStatus(Status status){
+    // this should change the status and change the item in firebase too
+  }
+
+  void changeScore(Status status){
+    // this should change ourScore and change the item in firebase too
+  }
+
   Widget buildSummary(BuildContext context, double width) {
     return SizedBox(
       width: width / 1.7,

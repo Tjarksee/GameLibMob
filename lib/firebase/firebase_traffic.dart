@@ -26,7 +26,7 @@ class FirebaseTraffic {
           rating: result.data()["rating"],
           ratingCount: result.data()["ratingCount"],
           releaseDate: result.data()["releaseDate"],
-          //status: result.data()["status"],
+          status: Status.values[result.data()["status"]],
           storyline: result.data()["storyline"].toString(),
           summary: result.data()["summary"].toString(),
           url: result.data()["url"].toString(),
@@ -54,12 +54,11 @@ class FirebaseTraffic {
       "name": gameToPush.name,
       "cover": gameToPush.cover,
       "coverId": gameToPush.coverId,
-      "name": gameToPush.name,
       "ourScore": gameToPush.ourScore,
       "rating": gameToPush.rating,
       "ratingCount": gameToPush.ratingCount,
       "releaseDate": gameToPush.releaseDate,
-      //"status": gameToPush.status.toString(),
+      "status": gameToPush.status.index,
       "storyline": gameToPush.storyline,
       "summary": gameToPush.summary,
       "url": gameToPush.url,
@@ -84,9 +83,9 @@ class FirebaseTraffic {
         context: errorMessage,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: const Text("Konnte spiel nicht löschen"),
+            title: const Text("Löschen Fehlgeschlagen"),
             content: const Text(
-                "Es ist ein Fehler beim Löschen des Spiels aufgetreten."),
+                "Es ist ein Fehler beim Löschen eines Spiels aus der Favoritenliste aufgetreten."),
             actions: [
               ElevatedButton(
                 onPressed: () {
@@ -98,6 +97,60 @@ class FirebaseTraffic {
           );
         },
       );
+      // Lösche den erstellten Auth-Nutzer
+      FirebaseAuth.instance.currentUser?.delete();
+      return null;
+    }
+  }
+
+  static void changeGameInFirebase(GameItem gameToChange) async {
+    try {
+      var firebaseUser = FirebaseAuth.instance.currentUser;
+      final firestoreInstance = FirebaseFirestore.instance;
+
+      await firestoreInstance
+          .collection('User')
+          .doc(firebaseUser!.uid)
+          .collection('Gamelist')
+          .doc(gameToChange.gameID)
+          .update({
+        "gameID": gameToChange.gameID,
+        "name": gameToChange.name,
+        "cover": gameToChange.cover,
+        "coverId": gameToChange.coverId,
+        "ourScore": gameToChange.ourScore,
+        "rating": gameToChange.rating,
+        "ratingCount": gameToChange.ratingCount,
+        "releaseDate": gameToChange.releaseDate,
+        "status": gameToChange.status.index,
+        "storyline": gameToChange.storyline,
+        "summary": gameToChange.summary,
+        "url": gameToChange.url,
+      });
+
+    } catch (e) {
+      dynamic errorMessage;
+      showDialog(
+        context: errorMessage,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text("Konnte Spiel in der Datenbank nicht ändern"),
+            content: const Text(
+                "Es ist ein Fehler bei der Änderung des Spiels aufgetreten."),
+            actions: [
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: const Text("OK"),
+              ),
+            ],
+          );
+        },
+      );
+      // Lösche den erstellten Auth-Nutzer
+      FirebaseAuth.instance.currentUser?.delete();
+      return null;
     }
   }
 
@@ -146,6 +199,7 @@ class FirebaseTraffic {
         .doc(firebaseUser!.uid)
         .get()
         .then((querySnapshot) {
+          // TODO this name is null when adding favourites in search_result
       username = querySnapshot.data()?['name'];
     });
     return username;
