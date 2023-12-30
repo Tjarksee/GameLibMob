@@ -195,7 +195,7 @@ class FirebaseTraffic {
     final firestoreInstance = FirebaseFirestore.instance;
 
     await firestoreInstance
-        .collection('gameLib')
+        .collection('User')
         .doc(firebaseUser!.uid)
         .get()
         .then((querySnapshot) {
