@@ -60,7 +60,7 @@ class _GameDetailScreenState extends State<GameDetailScreen> {
               setState(() {
                 completed = Colors.grey;
                 inProgress = Colors.grey;
-                widget.item.status = Status.wantToPlayThisFucker;
+                widget.item.changeStatus(Status.wantToPlayThisFucker);
               });
             },
             style: ElevatedButton.styleFrom(backgroundColor: planned),
@@ -75,7 +75,7 @@ class _GameDetailScreenState extends State<GameDetailScreen> {
                 setState(() {
                   planned = Colors.grey;
                   completed = Colors.grey;
-                  widget.item.status = Status.stillPlaying;
+                  widget.item.changeStatus(Status.stillPlaying);
                 });
               },
               style: ElevatedButton.styleFrom(backgroundColor: inProgress),
@@ -89,7 +89,7 @@ class _GameDetailScreenState extends State<GameDetailScreen> {
                 setState(() {
                   planned = Colors.grey;
                   inProgress = Colors.grey;
-                  widget.item.status = Status.completed;
+                  widget.item.changeStatus(Status.completed);
                 });
               },
               style: ElevatedButton.styleFrom(backgroundColor: completed),
@@ -107,7 +107,7 @@ class _GameDetailScreenState extends State<GameDetailScreen> {
           label: widget.item.ourScore.toString(),
           onChanged: (double value) {
             setState(() {
-              widget.item.ourScore = value.toInt();
+              widget.item.changeScore(value.toInt());
             });
           },
         ));

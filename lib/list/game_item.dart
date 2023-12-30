@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gamelib_mob/firebase/firebase_traffic.dart';
 import 'package:gamelib_mob/list/list_item.dart';
 import 'package:expandable_text/expandable_text.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -75,10 +76,14 @@ class GameItem implements ListItem {
 
   void changeStatus(Status status){
     // this should change the status and change the item in firebase too
+    this.status = status;
+    FirebaseTraffic.changeGameInFirebase(this);
   }
 
-  void changeScore(Status status){
+  void changeScore(int score){
     // this should change ourScore and change the item in firebase too
+    ourScore = score;
+    FirebaseTraffic.changeGameInFirebase(this);
   }
 
   Widget buildSummary(BuildContext context, double width) {
