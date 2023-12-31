@@ -1,8 +1,6 @@
 # Miscellaneous
-pubspec.lock
 *.java
 *.class
-*generated*
 *.log
 *.pyc
 *.swp
@@ -12,7 +10,8 @@ pubspec.lock
 .history
 .svn/
 migrate_working_dir/
-*generated*
+windows/
+macos/
 
 # IntelliJ related
 *.iml
@@ -75,3 +74,7 @@ app.*.map.json
 **/ios/Flutter/flutter_export_environment.sh
 **/ios/ServiceDefinitions.json
 **/ios/Runner/GeneratedPluginRegistrant.*
+macos/Flutter/GeneratedPluginRegistrant.swift
+windows/flutter/generated_plugin_registrant.cc
+windows/flutter/generated_plugins.cmake
+pubspec.lock

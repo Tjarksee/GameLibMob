@@ -4,6 +4,7 @@ import 'game_item.dart';
 
 class MainList extends ChangeNotifier {
   List<GameItem> gameItems = [];
+  String username = '';
 
   bool contains(favGameItem) {
     GameItem fav = favGameItem;
@@ -18,17 +19,18 @@ class MainList extends ChangeNotifier {
   void removeFavourite(favGameItem) {
     GameItem fav = favGameItem;
     gameItems.removeWhere((element) => element.gameID == fav.gameID);
-    FirebaseTraffic.deleteGameFromFirebase(fav);
     notifyListeners();
+    FirebaseTraffic.deleteGameFromFirebase(fav);
   }
 
   void addFavourite(favGameItem) {
     GameItem selectedGame = favGameItem;
 
     gameItems.add(selectedGame);
-    FirebaseTraffic.pushGameToFirebase(selectedGame);
     notifyListeners();
+    FirebaseTraffic.pushGameToFirebase(selectedGame);
   }
+
 
   List<GameItem> getFavouriteList() {
     return gameItems;
@@ -42,5 +44,9 @@ class MainList extends ChangeNotifier {
       }
     }
     return counter;
+  }
+
+  void changeStatus(int index, Status chosenStatus) {
+    gameItems[index].status = chosenStatus;
   }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:gamelib_mob/firebase/firebase_traffic.dart';
 import 'package:gamelib_mob/list/list_item.dart';
 import 'package:expandable_text/expandable_text.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -8,10 +9,13 @@ enum Status { wantToPlayThisFucker, stillPlaying, completed }
 /// A GameItem that contains data to all the info about a game.
 class GameItem implements ListItem {
   String gameID;
-  Image cover;
+  String? cover;
+  String coverId;
+  List<String> genreIds;
   List<String> genres;
   String name;
   int ourScore;
+  List<String> platformIds;
   List<String> platforms;
   double rating;
   int ratingCount;
@@ -23,11 +27,14 @@ class GameItem implements ListItem {
 
   GameItem(
       {required this.gameID,
-      required this.cover,
+      this.cover,
+      this.coverId = "",
       this.genres = const [],
+      this.genreIds = const [],
       required this.name,
       this.ourScore = 0,
       this.platforms = const [],
+      this.platformIds = const [],
       this.rating = -1,
       this.ratingCount = -1,
       this.releaseDate = "",
@@ -49,13 +56,34 @@ class GameItem implements ListItem {
   Widget buildSubtitle(BuildContext context) => const SizedBox.shrink();
 
   @override
-  Widget buildLeading(BuildContext context) {
-    return cover;
+  Widget buildCover(BuildContext context) {
+    if (cover == null) {
+      return const CircularProgressIndicator();
+      //return Image.asset("asset/not_found.jpg");
+    } else {
+      if (cover![0] == 'h') {
+        return Image.network(cover!);
+      } else {
+        return Image.asset("assets/not_found.jpg");
+      }
+    }
   }
 
   @override
   Widget buildTrailing(BuildContext context) {
     return const SizedBox.shrink();
+  }
+
+  void changeStatus(Status status){
+    // this should change the status and change the item in firebase too
+    this.status = status;
+    FirebaseTraffic.changeGameInFirebase(this);
+  }
+
+  void changeScore(int score){
+    // this should change ourScore and change the item in firebase too
+    ourScore = score;
+    FirebaseTraffic.changeGameInFirebase(this);
   }
 
   Widget buildSummary(BuildContext context, double width) {
@@ -88,9 +116,6 @@ class GameItem implements ListItem {
   }
 
   Widget buildRating(BuildContext context, double width) {
-    // TODO
-    // Zeigt fett den Score an mit dem ratingcount drunter
-    // muss noch schöner werden
     return SizedBox(
         width: width,
         child: Column(

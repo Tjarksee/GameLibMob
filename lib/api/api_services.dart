@@ -24,15 +24,13 @@ Future<List<GameItem>> getGameItem(IGDBToken apiToken, String search) async {
   List<dynamic> ids;
   List<dynamic> dynamicInfos;
 
-  final responseIds =
-      await http.post(Uri.parse('https://api.igdb.com/v4/games'),
-          headers: {
-            // TODO
-            // SICHERHEITSLÜCKE git secrets benutzen
-            "Client-ID": "jatk8moav95uswe6bq3zmcy3fokdnw",
-            "Authorization": "Bearer $token"
-          },
-          body: ('search "$searchInfo"; limit 10;'));
+  final responseIds = await http.post(
+      Uri.parse('https://api.igdb.com/v4/games'),
+      headers: {
+        "Client-ID": "jatk8moav95uswe6bq3zmcy3fokdnw",
+        "Authorization": "Bearer $token"
+      },
+      body: ('search "$searchInfo"; limit 10;'));
   ids = jsonDecode(responseIds.body);
 
   if (ids.isEmpty) {
@@ -195,7 +193,6 @@ Future<List<String>> getPlatforms(String token, List<String> platformId) async {
       }
       decodedPlatform = jsonDecode(platformResponse.body);
     } while (tooManyRequests);
-    // TODO das hier wird aus gamedetail anscheinend mit "test" als request aufgerufen
     String name = decodedPlatform[0]['name'];
     platforms.add(name);
   }

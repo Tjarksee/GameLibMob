@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gamelib_mob/api/post_request.dart';
+import 'package:gamelib_mob/api/api_services.dart';
 import 'package:gamelib_mob/list/game_item.dart';
 import 'package:gamelib_mob/screens/search_result.dart';
 import 'package:gamelib_mob/helpers/helpers.dart';
@@ -14,19 +14,19 @@ class SearchGameScreen extends StatefulWidget {
 }
 
 class _SearchGameScreenState extends State<SearchGameScreen> {
-  late Future<IGDBToken> token;
+  late IGDBToken? token;
   @override
   void initState() {
     super.initState();
-    token = fetchIGDBToken();
   }
 
   @override
   Widget build(BuildContext context) {
+    token = Provider.of<IGDBToken?>(context, listen: true);
     const List<Color> backgroundColors = [
-       Color.fromARGB(249, 50, 48, 50),
-       Color.fromARGB(249, 108, 106, 108),
-       Color.fromARGB(249, 50, 48, 50),
+      Color.fromARGB(249, 50, 48, 50),
+      Color.fromARGB(249, 108, 106, 108),
+      Color.fromARGB(249, 50, 48, 50),
     ];
     TextEditingController searchInfo = TextEditingController();
     Future<List<GameItem>> searchResultList;
